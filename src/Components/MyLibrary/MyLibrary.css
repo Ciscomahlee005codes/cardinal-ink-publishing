@@ -1,0 +1,66 @@
+.my-library {
+  padding: 50px 8%;
+  font-family: "Segoe UI", sans-serif;
+  background: #f9f9f9;
+  min-height: 100vh;
+}
+
+.my-library h1 {
+  text-align: center;
+  margin-bottom: 50px;
+  color: #00bf63;
+  font-size: 2rem;
+}
+
+.library-section {
+  margin-bottom: 60px;
+}
+
+.library-section h2 {
+  margin-bottom: 25px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #222;
+  border-left: 5px solid #00bf63;
+  padding-left: 10px;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 25px;
+}
+
+.book-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+  padding: 20px 15px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.book-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.book-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.book-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.book-card p {
+  font-size: 0.95rem;
+  color: #666;
+}

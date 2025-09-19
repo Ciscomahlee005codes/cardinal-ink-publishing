@@ -1,0 +1,112 @@
+.about-section {
+  padding: 60px 40px;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+}
+
+/* Hero Section */
+.about-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 70px;
+}
+
+.about-text {
+  flex: 1;
+}
+
+.about-text h1 {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+}
+
+.about-text h1 span {
+  color: #00bf63;
+}
+
+.about-text p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 25px;
+  color: #555;
+}
+
+.about-image img {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 15px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+  background: #00bf63;
+  color: white;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background: #009f53;
+}
+
+/* Values Section */
+.about-values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.value-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.value-icon {
+  font-size: 2.5rem;
+  color: #00bf63;
+  margin-bottom: 15px;
+}
+
+.value-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: #222;
+}
+
+.value-card p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about-text h1 {
+    font-size: 2rem;
+  }
+
+  .about-image img {
+    max-width: 350px;
+  }
+}

@@ -1,0 +1,192 @@
+/* Header wrapper */
+.header {
+  width: 100%;
+  background: white;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Top nav row */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 40px;
+}
+
+/* Logo */
+.logo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #00bf63;
+  cursor: pointer;
+}
+
+/* Search box */
+.search-box {
+  display: flex;
+  width: 50%;
+  max-width: 500px;
+  border: 2px solid #00bf63;
+  border-radius: 30px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 10px 15px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.search-box button {
+  background: #00bf63;
+  color: white;
+  border: none;
+  padding: 0 18px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background 0.3s;
+}
+
+.search-box button:hover {
+  background: #009f53;
+}
+
+/* Icons */
+.icons {
+  display: flex;
+  align-items: center;
+}
+
+.icons a {
+  margin-left: 20px;
+  font-size: 1.4rem;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.icons a:hover {
+  color: #00bf63;
+}
+
+/* Hamburger button */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  margin-left: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Bottom nav row */
+.bottom-nav {
+  background: #079b31;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.bottom-nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 12px 0;
+  margin: 0;
+}
+
+.bottom-nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.bottom-nav ul li a:hover {
+  color: #f0f0f0;
+  border-bottom: 2px solid white;
+  padding-bottom: 3px;
+}
+/* Auth buttons wrapper */
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  gap: 12px;
+}
+
+/* Sign Up button (primary) */
+.btn-signup {
+  background: #00bf63;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+}
+
+.btn-signup:hover {
+  background: #009f53;
+}
+
+/* Login button (outline style) */
+.btn-login {
+  border: 2px solid #00bf63;
+  color: #00bf63;
+  padding: 7px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.btn-login:hover {
+  background: #00bf63;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .search-box {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .top-nav {
+    padding: 12px 20px;
+  }
+
+  .bottom-nav {
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  .bottom-nav.open {
+    max-height: 400px; 
+  }
+
+  .bottom-nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}

@@ -1,0 +1,86 @@
+.footer {
+  background: #f9f9f9;
+  padding: 60px 10% 30px;
+  color: #333;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+/* Columns */
+.footer-col h3 {
+  color: #00bf63;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.footer-col ul li a {
+  color: #555;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-col ul li a:hover {
+  color: #00bf63;
+  text-decoration: underline;
+}
+
+/* Social Icons */
+.footer-social {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.footer-social a {
+  display: inline-block;
+  margin: 0 8px;
+  color: white;
+  background: #00bf63;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.footer-social a:hover {
+  background: #009f53;
+}
+
+/* Bottom */
+.footer-bottom {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.footer-bottom span {
+  color: #00bf63;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 5% 20px;
+  }
+}

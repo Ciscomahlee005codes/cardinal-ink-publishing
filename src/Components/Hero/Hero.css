@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+.hero {
+  width: 100%;
+  padding: 80px 40px;
+  background: url(./Hero-img.jpg) no-repeat center center/cover;
+  position: relative;
+  color: white;
+   font-family: "Merriweather Sans", sans-serif;
+}
+
+/* Overlay to make text readable */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45); 
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* Update text colors */
+.hero-text h1 {
+  color: #fff;
+   font-size: 2.8rem;
+    margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+
+
+/* Left text side */
+.hero-text {
+  flex: 1;
+}
+
+
+.hero-text p {
+  font-size: 1.1rem;
+   color: #f0f0f0;
+  margin-bottom: 30px;
+  max-width: 500px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-primary1 {
+  background: #00bf63;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background: #009f53;
+}
+
+.btn-secondary {
+  background: white;
+  border: 2px solid #00bf63;
+  color: #00bf63;
+  padding: 12px 25px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-secondary:hover {
+  background: #00bf63;
+  color: white;
+}
+
+/* Right image side */
+.hero-image img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Floating animation for hero image */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+}
