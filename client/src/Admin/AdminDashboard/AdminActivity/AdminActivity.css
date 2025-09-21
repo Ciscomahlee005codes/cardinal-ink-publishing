@@ -1,0 +1,51 @@
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  padding: 20px;
+}
+
+.activity h2 {
+  position: relative;
+  left: 2rem;
+  margin-top: 0.5rem;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.activity-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease;
+}
+
+.activity-card:hover {
+  transform: translateY(-4px);
+}
+
+.activity-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon-box {
+  font-size: 1.8rem;
+ position: relative;
+ left: 2rem;
+}
+
+.activity-info h4 {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 0.2rem;
+}
+
+.activity-info p {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #222;
+}

@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import './Auth.css';
 
-
 const Auth = () => {
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [formData, setFormData] = useState({
-    fullName: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -19,7 +19,8 @@ const Auth = () => {
 
   const handleToggleForm = () => {
     setFormData({
-      fullName: '',
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -33,7 +34,7 @@ const Auth = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Placeholder signup (backend guy will connect later)
+  // Placeholder signup
   const handleSignUp = async () => {
     const { password, confirmPassword } = formData;
     if (password !== confirmPassword) {
@@ -129,13 +130,22 @@ const Auth = () => {
               className="form-box"
             >
               <h2>Create Your E-Library Account</h2>
-              <input
-                name="fullName"
-                type="text"
-                placeholder="Full Name"
-                value={formData.fullName}
-                onChange={handleInputChange}
-              />
+              
+                <input
+                  name="firstName"
+                  type="text"
+                  placeholder="First Name"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                />
+                <input
+                  name="lastName"
+                  type="text"
+                  placeholder="Last Name"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                />
+            
               <input
                 name="email"
                 type="email"

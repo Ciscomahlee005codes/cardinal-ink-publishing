@@ -1,43 +1,44 @@
 import React from "react";
-import { FaHome, FaUsers, FaCheckCircle, FaHourglassHalf } from "react-icons/fa";
-import { FaBook, FaHeart, FaBookReader } from "react-icons/fa";
-import "./UserActivity.css";
+import { FaHome, FaUsers, FaCheckCircle, FaHourglassHalf} from "react-icons/fa";
+import { FaBook, FaHeart, FaBookReader, FaDollarSign } from "react-icons/fa";
+import "./AdminActivity.css";
 
-const UserActivity = () => {
+const AdminActivity = () => {
   
-   const activities = [
+  const activities = [
   {
     id: 1,
-    title: "Purchased Books",
+    title: "Total Books",
     count: 128,
     icon: <FaBook />,
     color: "#4e73df", 
   },
   {
     id: 2,
-    title: "Favorite Books",
+    title: "Total Sales",
     count: 54,
-    icon: <FaHeart />,
+    icon: <FaDollarSign />,
     color: "#1cc88a",
   },
   {
     id: 3,
-    title: "Pending Requests",
+    title: "Total Users",
     count: 12,
-    icon: <FaHourglassHalf />,
+    icon: <FaUsers />,
     color: "#f6c23e", 
   },
   {
     id: 4,
-    title: "Downloaded Books",
-    count: 26,
-    icon: <FaBookReader />,
+    title: "Pending Requests",
+    count: 9,
+    icon: <FaHourglassHalf />,
     color: "#e74a3b", 
   },
 ];
+
   return (
     <div className="activity">
-      <h2>Hi, Agent Tony</h2>
+      <h2>Hi, Paschal Elechi</h2>
       <div className="activity-grid">
         {activities.map((item) => (
           <div
@@ -61,4 +62,4 @@ const UserActivity = () => {
   );
 };
 
-export default UserActivity;
+export default AdminActivity;

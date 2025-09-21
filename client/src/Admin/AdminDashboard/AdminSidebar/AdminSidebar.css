@@ -1,0 +1,166 @@
+.admin-sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 260px;
+  height: 100%;
+  background: #01661d; 
+  color: white;
+  padding: 15px;
+  transition: left 0.3s ease-in-out;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sidebar.open {
+  left: 0;
+}
+
+.admin-sidebar.desktop {
+  left: 0;
+}
+
+/* Admin Info */
+.admin-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 20px;
+}
+
+.admin-avatar {
+  font-size: 3rem;
+  color: #ecf7f0;
+}
+
+.admin-name {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.admin-role {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+/* Links */
+.admin-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.admin-sidebar ul li {
+  margin-bottom: 12px;
+}
+
+.admin-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+}
+
+.admin-link:hover {
+  background: #0db95b;
+}
+
+.admin-link.active {
+  background: white;
+  color: #056430;
+  font-weight: bold;
+}
+
+/* Close button */
+.admin-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.4rem;
+  color: white;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1102;
+}
+
+.admin-close-btn:hover {
+  color: #f87171;
+}
+
+/* Logout */
+.admin-logout {
+  margin-top: auto;
+}
+
+.admin-logout button {
+  width: 100%;
+  padding: 10px;
+  background: #e53935;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.admin-logout button:hover {
+  background: #c62828;
+}
+
+/* Hamburger */
+.admin-hamburger {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  font-size: 1.6rem;
+  color: #0f172a;
+  border: none;
+  outline: none;
+  padding: 8px;
+  background: #ffffff;
+  cursor: pointer;
+  z-index: 1102;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  display: none;
+}
+
+/* Overlay */
+.admin-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+/* Responsive */
+@media (max-width: 830px) {
+  .admin-hamburger {
+    display: block;
+  }
+}
+
+@media (min-width: 829px) {
+  .admin-sidebar {
+    left: 0;
+  }
+}

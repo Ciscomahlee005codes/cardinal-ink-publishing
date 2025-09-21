@@ -1,0 +1,105 @@
+/* UserOTP.css */
+.otp-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #079b31, #141414);
+  padding: 20px;
+}
+
+.otp-card {
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.8s ease;
+}
+
+.otp-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.otp-subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.otp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.otp-inputs {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.otp-inputs input {
+  width: 50px;
+  height: 55px;
+  font-size: 20px;
+  text-align: center;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.otp-inputs input:focus {
+  border-color: #079b31;
+  outline: none;
+  box-shadow: 0px 0px 6px #079b31;
+}
+
+.otp-btn {
+  background: #079b31;
+  color: #fff;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.otp-btn:hover {
+  background: #037c25;
+}
+
+.otp-footer {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.resend {
+  color: #079b31;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.resend:hover {
+  color: #017723;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

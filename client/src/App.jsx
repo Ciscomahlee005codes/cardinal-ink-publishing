@@ -16,6 +16,8 @@ import UserSubPage from "./User/UserDashboardPages/UserSubPage/UserSubPage"
 import UserProfilePage from "./User/UserDashboardPages/UserProfilePage/UserProfilePage"
 import UserNotificationPage from "./User/UserDashboardPages/UserNotificationPage/UserNotificationPage"
 import UserHelpPage from "./User/UserDashboardPages/UserHelpPage/UserHelpPage"
+import UserOTP from "./User/UserDashboard/UserOTP/UserOTP"
+import AdminHomePage from "./Admin/AdminDashboardPages/AdminHomePage/AdminHomePage"
 
 function App() {
   const location = useLocation();
@@ -25,7 +27,7 @@ function App() {
     ,"/userdashboard/mylibrary", "/userdashboard/trendingbooks",
   "/userdashboard/purchasehistory", "/userdashboard/subscription",
   "/userdashboard/profilesettings", "/userdashboard/notification",
-  "/userdashboard/helpsupport"
+  "/userdashboard/helpsupport", "/user/OTP", "/admindashboard/home"
 ];
   const hideLayout = hiddenRoutes.includes(location.pathname);
 
@@ -50,6 +52,10 @@ function App() {
         <Route path="/userdashboard/profilesettings" element={<UserProfilePage />} />
         <Route path="/userdashboard/notification" element={<UserNotificationPage />} />
         <Route path="/userdashboard/helpsupport" element={<UserHelpPage />} />
+        <Route path="/user/OTP" element={<UserOTP />} />
+
+        {/* Admin Dashboard Routes */}
+        <Route path="/admindashboard/home" element={<AdminHomePage />} />
       </Routes>
       {!hideLayout && <Footer />}
     </>
