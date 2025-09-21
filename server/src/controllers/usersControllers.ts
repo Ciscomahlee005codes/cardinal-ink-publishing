@@ -107,7 +107,7 @@ exports.loginUser = async (req: any, res: any) => {
       });
     }
 
-    const generateOtpToken = generateOtp(8);
+    const generateOtpToken = generateOtp(6);
     const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
 
     await Users.update(
@@ -147,7 +147,7 @@ exports.ResendOTP = async (req: any, res: any) => {
       });
     }
 
-    const generateOtpToken = generateOtp(8);
+    const generateOtpToken = generateOtp(6);
     const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
 
     const updated = await Users.update(
@@ -169,11 +169,28 @@ exports.ResendOTP = async (req: any, res: any) => {
 
     //logic to send otp to email
 
-    return res?.json({
-      status: true,
-      message: "authentication successful. OTP sent to your email",
-      data: { email: email, otpType: "auth", time: otpExpiry },
-    });
+    if (otpType == "verifyEmail") {
+      return res?.json({
+        status: true,
+        message: " OTP sent to your email",
+        data: { email: email, otpType: "verifyEmail", time: otpExpiry },
+      });
+    }
+
+    if (otpType == "auth") {
+      return res?.json({
+        status: true,
+        message: " OTP sent to your email",
+        data: { email: email, otpType: "auth", time: otpExpiry },
+      });
+    }
+    if (otpType == "passwordReset") {
+      return res?.json({
+        status: true,
+        message: "OTP sent to your email",
+        data: { email: email, otpType: "passwordReset", time: otpExpiry },
+      });
+    }
   } catch (error) {
     console.log(error);
     return res?.json({
@@ -194,7 +211,11 @@ exports.verifyOtp = async (req: any, res: any) => {
       });
     }
 
-    if (otpType != "auth" || otpType != "verifyEmail") {
+    if (
+      otpType != "auth" ||
+      otpType != "verifyEmail" ||
+      otpType != "passwordReset"
+    ) {
       return res?.json({
         status: false,
         message: "invalid arguments",
@@ -252,6 +273,114 @@ exports.verifyOtp = async (req: any, res: any) => {
         role: checkIfEmailExists.role,
       });
     }
+
+    if (otpType == "passwordReset") {
+      const generatePasswordResetToken = jwt.sign(
+        { id: checkIfEmailExists.id, email: email, tokenType: "passwordReset" },
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: "1h" }
+      );
+
+      return res?.json({
+        status: true,
+        message: "verification successful",
+        passwordResetToken: generatePasswordResetToken,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res?.json({
+      status: false,
+      message: "internal server error",
+    });
+  }
+};
+
+exports.forgottonPassword = async (req: any, res: any) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res?.json({
+        status: false,
+        message: "request can't be processed. some fields ae missing",
+      });
+    }
+
+    const checkIfEmailExists = await Users.findOne({ where: { email: email } });
+    if (!checkIfEmailExists) {
+      return res?.json({
+        status: false,
+        message: "request could not be completed",
+      });
+    }
+    const generateOtpToken = generateOtp(6);
+    const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
+
+    await Users.update(
+      {
+        otp: generateOtpToken,
+        otpExpiry: otpExpiry,
+      },
+      {
+        where: { id: checkIfEmailExists.id },
+      }
+    );
+
+    //email logic
+
+    return res?.json({
+      status: true,
+      message: "if the email exists you will receive an otp on the email",
+      data: { email: email, otpType: "passwordReset", time: otpExpiry },
+    });
+  } catch (error) {
+    console.log(error);
+    return res?.json({
+      status: false,
+      message: "internal server error",
+    });
+  }
+};
+
+exports.resetPassword = async (req: any, res: any) => {
+  try {
+    const { password, confirmPassword } = req.body;
+    const { tokenType, id } = req.user;
+
+    if (
+      !password ||
+      !confirmPassword ||
+      !tokenType ||
+      !id ||
+      tokenType !== "passwordReset"
+    ) {
+      return res?.json({
+        status: false,
+        message: "can't complete request. missing argurments or fields",
+      });
+    }
+
+    if (password !== confirmPassword) {
+      return res?.json({
+        status: false,
+        message: "password mismatch",
+      });
+    }
+
+    const hashPassword = await bcrypt.hash(password, 15);
+
+    await Users.update(
+      {
+        password: hashPassword,
+      },
+      { where: { id: id } }
+    );
+
+    return res?.json({
+      status: true,
+      message: "password reset successful",
+    });
   } catch (error) {
     console.log(error);
     return res?.json({
