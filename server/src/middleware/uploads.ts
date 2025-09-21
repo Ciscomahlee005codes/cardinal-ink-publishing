@@ -1,6 +1,5 @@
 const multer = require("multer");
 const path = require("path");
-let savedName;
 
 // Define storage
 const storage = multer.diskStorage({
