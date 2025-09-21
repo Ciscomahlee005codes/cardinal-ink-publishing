@@ -1,0 +1,86 @@
+.admin-transaction {
+  padding: 20px;
+  background: #f8f9fc;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.admin-transaction h1 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+th {
+  background: #f1f1f1;
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #555;
+}
+
+/* Status tags */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.failed {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.status.refunded {
+  background: #e0f3ff;
+  color: #007bff;
+}
+
+/* Action Button */
+.view-btn {
+  border: none;
+  background: #0db95b;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.2s ease;
+}
+
+.view-btn:hover {
+  background: #099d4a;
+}

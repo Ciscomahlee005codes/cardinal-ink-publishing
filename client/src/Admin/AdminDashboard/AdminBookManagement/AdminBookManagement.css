@@ -1,11 +1,11 @@
-.user-management {
+.book-management {
   padding: 20px;
   background: #f8f9fc;
   min-height: 100vh;
   font-family: Arial, sans-serif;
 }
 
-.user-management h1 {
+.book-management h1 {
   margin-bottom: 20px;
   color: #333;
 }
@@ -33,7 +33,7 @@
   font-size: 14px;
 }
 
-/* Table styles */
+/* Table */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -63,42 +63,19 @@ th {
   text-transform: capitalize;
 }
 
-.status.active {
+.status.available {
   background: #d4edda;
   color: #155724;
 }
 
-.status.suspended {
-  background: #f8d7da;
-  color: #721c24;
-}
-
-.status.pending {
-  background: #fff3cd;
-  color: #856404;
-}
-
-/* Role tags */
-.role {
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  text-transform: capitalize;
-}
-
-.role.admin {
+.status.featured {
   background: #e0f3ff;
-  color: #0069d9;
+  color: #007bff;
 }
 
-.role.user {
-  background: #e2e3e5;
-  color: #495057;
-}
-
-.role.moderator {
-  background: #e6ffe6;
-  color: #28a745;
+.status.out-of-stock {
+  background: #fdecea;
+  color: #dc3545;
 }
 
 /* Actions */
@@ -123,14 +100,14 @@ th {
   color: #dc3545;
 }
 
-.actions .suspend {
+.actions .feature {
   background: #fff3cd;
   color: #856404;
 }
 
-.actions .role-btn {
-  background: #e2f0d9;
-  color: #28a745;
+.actions .outofstock {
+  background: #f8d7da;
+  color: #721c24;
 }
 
 .actions button:hover {

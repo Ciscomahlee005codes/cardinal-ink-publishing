@@ -1,0 +1,18 @@
+.adminProfile-layout {
+  display: flex;
+}
+
+.adminProfile-content {
+  margin-left: 250px; /* same as sidebar width */
+  width: calc(100% - 250px);
+  padding: 0;
+  overflow-x: hidden;
+  background-color: rgb(236, 234, 234);
+}
+
+@media screen and (max-width: 820px) {
+  .adminProfile-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}

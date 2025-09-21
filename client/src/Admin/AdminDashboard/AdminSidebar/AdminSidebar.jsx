@@ -14,6 +14,7 @@ import {
   FaUserShield,
   FaShoppingCart,
 } from "react-icons/fa";
+import { GrTransaction } from "react-icons/gr";
 import "./AdminSidebar.css";
 
 const AdminSidebar = () => {
@@ -73,13 +74,18 @@ const AdminSidebar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admindashboard/users" className="admin-link">
+            <NavLink to="/admindashboard/usermanagement" className="admin-link">
               <FaUsers /> User Management
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admindashboard/books" className="admin-link">
+            <NavLink to="/admindashboard/bookmanagement" className="admin-link">
               <FaBook /> Book Management
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/admindashboard/transactionhistory" className="admin-link">
+              <GrTransaction/> Transaction History
             </NavLink>
           </li>
           <li>
@@ -88,18 +94,13 @@ const AdminSidebar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admindashboard/subscriptions" className="admin-link">
-              <FaClipboardList /> Subscriptions
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/admindashboard/notifications" className="admin-link">
+            <NavLink to="/admindashboard/notification" className="admin-link">
               <FaBell /> Notifications
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admindashboard/settings" className="admin-link">
-              <FaCogs /> Settings
+            <NavLink to="/admindashboard/profilesettings" className="admin-link">
+              <FaCogs />Profile Settings
             </NavLink>
           </li>
         </ul>

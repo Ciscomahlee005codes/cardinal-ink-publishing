@@ -18,6 +18,11 @@ import UserNotificationPage from "./User/UserDashboardPages/UserNotificationPage
 import UserHelpPage from "./User/UserDashboardPages/UserHelpPage/UserHelpPage"
 import UserOTP from "./User/UserDashboard/UserOTP/UserOTP"
 import AdminHomePage from "./Admin/AdminDashboardPages/AdminHomePage/AdminHomePage"
+import AdminUserPage from "./Admin/AdminDashboardPages/AdminUserPage/AdminUserPage"
+import AdminBookPage from "./Admin/AdminDashboardPages/AdminBookPage/AdminBookPage"
+import AdminTransactionPage from "./Admin/AdminDashboardPages/AdminTransactionPage/AdminTransactionPage"
+import AdminNotificationPage from "./Admin/AdminDashboardPages/AdminNotificationPage/AdminNotificationPage"
+import AdminProfilePage from "./Admin/AdminDashboardPages/AdminProfilePage/AdminProfilePage"
 
 function App() {
   const location = useLocation();
@@ -27,7 +32,10 @@ function App() {
     ,"/userdashboard/mylibrary", "/userdashboard/trendingbooks",
   "/userdashboard/purchasehistory", "/userdashboard/subscription",
   "/userdashboard/profilesettings", "/userdashboard/notification",
-  "/userdashboard/helpsupport", "/user/OTP", "/admindashboard/home"
+  "/userdashboard/helpsupport", "/user/OTP", "/admindashboard/home",
+  "/admindashboard/usermanagement", "/admindashboard/bookmanagement",
+  "/admindashboard/transactionhistory", "/admindashboard/notification",
+  "/admindashboard/profilesettings"
 ];
   const hideLayout = hiddenRoutes.includes(location.pathname);
 
@@ -56,6 +64,11 @@ function App() {
 
         {/* Admin Dashboard Routes */}
         <Route path="/admindashboard/home" element={<AdminHomePage />} />
+        <Route path="/admindashboard/usermanagement" element={<AdminUserPage />} />
+        <Route path="/admindashboard/bookmanagement" element={<AdminBookPage />} />
+        <Route path="/admindashboard/transactionhistory" element={<AdminTransactionPage />} />
+        <Route path="/admindashboard/notification" element={<AdminNotificationPage />} />
+        <Route path="/admindashboard/profilesettings" element={<AdminProfilePage />} />
       </Routes>
       {!hideLayout && <Footer />}
     </>
