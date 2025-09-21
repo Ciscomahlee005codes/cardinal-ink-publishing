@@ -1,0 +1,96 @@
+.activity-container {
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.activity-title {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+  color: #0f172a;
+}
+
+.activity-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: relative;
+  padding-left: 1rem;
+  border-left: 3px solid #2563eb20;
+}
+
+.activity-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  position: relative;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.activity-dot {
+  width: 12px;
+  height: 12px;
+  background: #2563eb;
+  border-radius: 50%;
+  position: absolute;
+  left: -1.4rem;
+  top: 1.5rem;
+}
+
+.activity-cover {
+  width: 60px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.activity-details {
+  flex: 1;
+}
+
+.activity-action {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1d4ed8;
+  margin: 0 0 0.3rem;
+}
+
+.activity-book {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.activity-note {
+  font-size: 0.85rem;
+  color: #475569;
+  margin: 0.3rem 0;
+}
+
+.activity-date {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .activity-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .activity-cover {
+    width: 100%;
+    height: 150px;
+  }
+
+  .activity-details {
+    margin-top: 0.5rem;
+  }
+}

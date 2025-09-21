@@ -1,0 +1,93 @@
+.purchase-history {
+  padding: 2rem;
+}
+
+.purchase-history h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #333;
+  position: relative;
+}
+
+.purchase-history h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: #4e73df;
+  margin-top: 6px;
+  border-radius: 2px;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.history-table th,
+.history-table td {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.history-table th {
+  background: #f8f9fc;
+  font-weight: 600;
+  color: #444;
+}
+
+.history-table tbody tr {
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s ease;
+}
+
+.history-table tbody tr:hover {
+  background: #f4f7ff;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.status-icon {
+  margin-right: 6px;
+  font-size: 1rem;
+}
+
+.status.completed {
+  color: #1cc88a;
+}
+
+.status.pending {
+  color: #f6c23e;
+}
+
+.status.cancelled {
+  color: #e74a3b;
+}
+
+.download-btn {
+  background: #4e73df;
+  border: none;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s ease;
+}
+
+.download-btn:hover {
+  background: #2e59d9;
+}

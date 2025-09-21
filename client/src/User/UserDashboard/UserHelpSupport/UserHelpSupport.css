@@ -1,0 +1,111 @@
+.help-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.help-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2d2d2d;
+  margin-bottom: 15px;
+}
+
+.help-intro {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+/* FAQ Box */
+.faq-box {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e1e1e1;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.accordion-item {
+  border-bottom: 1px solid #eaeaea;
+}
+
+.accordion-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 16px 20px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordion-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-question {
+  color: #0da146;
+  font-size: 1.2rem;
+}
+
+.accordion-arrow {
+  color: #555;
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.accordion-content {
+  padding: 0 20px 16px 40px;
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Contact Box */
+.contact-box {
+  margin-top: 40px;
+  padding: 30px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0da146, #4f46e5);
+  color: #fff;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.contact-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #e1e1e1;
+  margin-bottom: 15px;
+}
+
+.contact-text {
+  margin-bottom: 20px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.contact-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+}
+
+.contact-icon {
+  font-size: 1.3rem;
+}

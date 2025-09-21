@@ -1,0 +1,95 @@
+.new-arrival {
+  padding: 2rem;
+}
+
+.new-arrival h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #222;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.arrival-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.arrival-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.arrival-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.arrival-cover {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+
+.arrival-info {
+  padding: 1rem;
+}
+
+.arrival-info h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+.author {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 0.5rem;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  color: #f6c23e;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.star {
+  margin-right: 4px;
+}
+
+.description {
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 0.6rem;
+  line-height: 1.3rem;
+}
+
+.release {
+  font-size: 0.85rem;
+  color: #007bff;
+  margin-bottom: 0.8rem;
+}
+
+.btn-view {
+  background: #4e73df;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-view:hover {
+  background: #375acb;
+}
