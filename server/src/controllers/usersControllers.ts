@@ -48,7 +48,7 @@ exports.createNewUser = async (req: any, res: any) => {
       });
     }
 
-    const generateOtpToken = generateOtp(8);
+    const generateOtpToken = generateOtp(6);
     const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
 
     await Users.update(
@@ -79,22 +79,12 @@ exports.createNewUser = async (req: any, res: any) => {
 
 exports.loginUser = async (req: any, res: any) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password } = req.body;
 
-    if (!email || !password || !role) {
+    if (!email || !password) {
       return res?.json({
         status: false,
         message: "request can't be processed. some fields ae missing",
-      });
-    }
-
-    if (
-      role.toLowerCase().trim() !== "reader" ||
-      role.toLowerCase().trim() !== "admin"
-    ) {
-      return res?.json({
-        status: false,
-        message: "invalid role",
       });
     }
 
