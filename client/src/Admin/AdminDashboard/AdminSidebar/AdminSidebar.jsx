@@ -89,11 +89,6 @@ const AdminSidebar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admindashboard/orders" className="admin-link">
-              <FaShoppingCart /> Orders
-            </NavLink>
-          </li>
-          <li>
             <NavLink to="/admindashboard/notification" className="admin-link">
               <FaBell /> Notifications
             </NavLink>

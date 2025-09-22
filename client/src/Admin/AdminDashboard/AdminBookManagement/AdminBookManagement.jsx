@@ -1,15 +1,65 @@
 import React, { useState } from "react";
 import "./AdminBookManagement.css";
-import { FaSearch, FaEdit, FaTrash, FaStar, FaTimesCircle } from "react-icons/fa";
+import { FaSearch, FaEdit, FaTrash, FaStar, FaTimesCircle, FaPlus } from "react-icons/fa";
 
 const AdminBookManagement = () => {
   const [search, setSearch] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [newBook, setNewBook] = useState({
+    title: "",
+    author: "",
+    genre: "",
+    price: "",
+    cover: null,
+    pdf: null,
+  });
 
   const books = [
-    { id: 1, title: "Rich Dad Poor Dad", author: "Robert Kiyosaki", genre: "Finance", price: "$10", status: "Available", date: "Sept 15, 2025" },
-    { id: 2, title: "Atomic Habits", author: "James Clear", genre: "Self-help", price: "$12", status: "Featured", date: "Sept 18, 2025" },
-    { id: 3, title: "Deep Work", author: "Cal Newport", genre: "Productivity", price: "$15", status: "Out of Stock", date: "Sept 10, 2025" },
-    { id: 4, title: "The Lean Startup", author: "Eric Ries", genre: "Business", price: "$20", status: "Available", date: "Sept 8, 2025" },
+    { 
+      id: 1, 
+      title: "Rich Dad Poor Dad", 
+      author: "Robert Kiyosaki", 
+      genre: "Finance", 
+      price: "$10", 
+      cover: "https://m.media-amazon.com/images/I/81bsw6fnUiL.jpg", 
+      date: "Sept 15, 2025" 
+    },
+    { 
+      id: 2, 
+      title: "Atomic Habits", 
+      author: "James Clear", 
+      genre: "Self-help", 
+      price: "$12", 
+      cover: "https://m.media-amazon.com/images/I/91bYsX41DVL.jpg", 
+      date: "Sept 18, 2025" 
+    },
+    { 
+      id: 3, 
+      title: "The Lean Startup", 
+      author: "Eric Ries", 
+      genre: "Business", 
+      price: "$15", 
+      cover: "https://m.media-amazon.com/images/I/81-QB7nDh4L.jpg", 
+      date: "Sept 19, 2025" 
+    },
+    { 
+      id: 4, 
+      title: "Think and Grow Rich", 
+      author: "Napoleon Hill", 
+      genre: "Motivation", 
+      price: "$9", 
+      cover: "https://m.media-amazon.com/images/I/81dQwQlmAXL.jpg", 
+      date: "Sept 20, 2025" 
+    },
+    { 
+      id: 5, 
+      title: "Deep Work", 
+      author: "Cal Newport", 
+      genre: "Productivity", 
+      price: "$14", 
+      cover: "https://m.media-amazon.com/images/I/81n2a2-mSIL.jpg", 
+      date: "Sept 21, 2025" 
+    }
   ];
 
   const filteredBooks = books.filter(
@@ -17,6 +67,25 @@ const AdminBookManagement = () => {
       book.title.toLowerCase().includes(search.toLowerCase()) ||
       book.author.toLowerCase().includes(search.toLowerCase())
   );
+
+  // Handle file inputs
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    setNewBook({ ...newBook, [name]: files[0] });
+  };
+
+  // Handle text inputs
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewBook({ ...newBook, [name]: value });
+  };
+
+  const handleAddBook = (e) => {
+    e.preventDefault();
+    console.log("New Book Added:", newBook);
+    setShowModal(false);
+    setNewBook({ title: "", author: "", genre: "", price: "", cover: null, pdf: null });
+  };
 
   return (
     <div className="book-management">
@@ -33,16 +102,23 @@ const AdminBookManagement = () => {
         />
       </div>
 
+      {/* Add New Book Button */}
+      <div className="add-btn-container">
+        <button className="add-btn" onClick={() => setShowModal(true)}>
+          <FaPlus /> Add New Book
+        </button>
+      </div>
+
       {/* Books Table */}
       <table>
         <thead>
           <tr>
             <th>#</th>
+            <th>Cover</th>
             <th>Title</th>
             <th>Author</th>
             <th>Genre</th>
             <th>Price</th>
-            <th>Status</th>
             <th>Date Added</th>
             <th>Actions</th>
           </tr>
@@ -51,15 +127,13 @@ const AdminBookManagement = () => {
           {filteredBooks.map((book, index) => (
             <tr key={book.id}>
               <td>{index + 1}</td>
+              <td>
+                <img src={book.cover} alt={book.title} className="book-cover" />
+              </td>
               <td>{book.title}</td>
               <td>{book.author}</td>
               <td>{book.genre}</td>
               <td>{book.price}</td>
-              <td>
-                <span className={`status ${book.status.toLowerCase().replace(/\s/g, "-")}`}>
-                  {book.status}
-                </span>
-              </td>
               <td>{book.date}</td>
               <td className="actions">
                 <button className="edit"><FaEdit /></button>
@@ -71,6 +145,69 @@ const AdminBookManagement = () => {
           ))}
         </tbody>
       </table>
+
+      {/* Modal Popup */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Add New Book</h2>
+            <form onSubmit={handleAddBook}>
+              <input 
+                type="text" 
+                name="title" 
+                placeholder="Book Title" 
+                value={newBook.title} 
+                onChange={handleChange} 
+                required 
+              />
+              <input 
+                type="text" 
+                name="author" 
+                placeholder="Author" 
+                value={newBook.author} 
+                onChange={handleChange} 
+                required 
+              />
+              <input 
+                type="text" 
+                name="genre" 
+                placeholder="Genre" 
+                value={newBook.genre} 
+                onChange={handleChange} 
+                required 
+              />
+              <input 
+                type="text" 
+                name="price" 
+                placeholder="Price (e.g. $15)" 
+                value={newBook.price} 
+                onChange={handleChange} 
+                required 
+              />
+              <label>Upload Cover Image</label>
+              <input 
+                type="file" 
+                name="cover" 
+                accept="image/*" 
+                onChange={handleFileChange} 
+                required 
+              />
+              <label>Upload Book PDF</label>
+              <input 
+                type="file" 
+                name="pdf" 
+                accept="application/pdf" 
+                onChange={handleFileChange} 
+                required 
+              />
+              <div className="modal-actions">
+                <button type="submit" className="save-btn">Save</button>
+                <button type="button" className="cancel-btn" onClick={() => setShowModal(false)}>Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

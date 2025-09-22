@@ -13,7 +13,7 @@ const AdminDashboardTop = () => {
         {/* Left Side - Search */}
         <div className="search-bar">
           <FiSearch className="icon" />
-          <input type="text" placeholder="Search listings, tenants..." />
+          <input type="text" placeholder="Search Books, Recent Activities..." />
           <button className="filter-btn">
             <FaSliders />
           </button>
@@ -21,10 +21,6 @@ const AdminDashboardTop = () => {
 
         {/* Right Side - Actions */}
         <div className="top-actions">
-          <div className="t-icons">
-            <MdMessage className="top-icon" />
-            <IoMdNotifications className="top-icon" />
-          </div>
           <div className="user-data">
             <FaUser className="user-icon" />
             <div className="user-info">
