@@ -34,6 +34,10 @@ Book.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    category_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     price: {
       type: DataTypes.DECIMAL(0, 2),
       allowNull: false,
