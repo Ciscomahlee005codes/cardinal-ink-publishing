@@ -6,8 +6,15 @@ exports.createNewBook = [
   upload.array("fileContent", 2),
   async (req: any, res: any) => {
     try {
-      const { title, author, description, price, cover_url, content_url } =
-        req?.body;
+      const {
+        title,
+        author,
+        description,
+        price,
+        category_id,
+        cover_url,
+        content_url,
+      } = req?.body;
       const file = req?.file;
 
       if (!Array.isArray(file)) {
@@ -24,7 +31,8 @@ exports.createNewBook = [
         !description ||
         !price ||
         !cover_url ||
-        !content_url
+        !content_url ||
+        !category_id
       ) {
         return res?.json({
           status: false,
@@ -37,6 +45,7 @@ exports.createNewBook = [
         author,
         description,
         price,
+        category_id,
         cover_url: file[0].path,
         content_url: file[1].path,
       });
@@ -61,7 +70,7 @@ exports.createNewBook = [
 
 exports.allBooks = async (req: any, res: any) => {
   try {
-    const getAllBooks = await books.findAll();
+    const getAllBooks = await books.findAll({ include: "category" });
 
     return res?.json({
       status: true,
@@ -97,8 +106,15 @@ exports.editBook = [
   async (req: any, res: any) => {
     try {
       const { bookid } = req.query;
-      const { title, author, description, price, cover_url, content_url } =
-        req?.body;
+      const {
+        title,
+        author,
+        description,
+        price,
+        cover_url,
+        category_id,
+        content_url,
+      } = req?.body;
       const file = req?.files;
 
       if (!bookid) {
@@ -119,7 +135,8 @@ exports.editBook = [
           !description ||
           !price ||
           !cover_url ||
-          !content_url) &&
+          !content_url ||
+          !category_id) &&
         (!file || file.length == 0)
       ) {
         return res?.json({
@@ -143,6 +160,7 @@ exports.editBook = [
         author,
         description,
         price,
+        category_id,
         cover_url,
         content_url,
       });
