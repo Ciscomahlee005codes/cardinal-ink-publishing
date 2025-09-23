@@ -59,10 +59,10 @@ const Auth = () => {
     setIsLoading(true);
     try {
       console.log("Login request:", formData);
-      if (formData.role === "admin") {
-        navigate("/admin/dashboard");
+      if (formData.role === "reader") {
+        navigate("/userdashboard/home");
       } else {
-        navigate("/"); // Reader goes to homepage
+        navigate("/userdashboard/home"); // Reader goes to homepage
       }
     } catch (error) {
       alert("Login failed");
@@ -107,7 +107,6 @@ const Auth = () => {
                 className="role-select"
               >
                 <option value="reader">Reader</option>
-                <option value="admin">Admin</option>
               </select>
               <button
                 className="primary-btn"
@@ -174,7 +173,6 @@ const Auth = () => {
                 className="role-select"
               >
                 <option value="reader">Reader</option>
-                <option value="admin">Admin</option>
               </select>
               <button
                 className="primary-btn"

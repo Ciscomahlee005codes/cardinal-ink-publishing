@@ -49,3 +49,10 @@
   font-weight: bold;
   color: #222;
 }
+@media (max-width: 1280px ) {
+  .icon-box {
+  font-size: 1.8rem;
+ position: relative;
+ left: 1rem;
+}
+}

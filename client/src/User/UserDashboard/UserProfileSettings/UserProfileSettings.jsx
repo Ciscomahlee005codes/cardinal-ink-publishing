@@ -24,10 +24,18 @@ const UserProfileSettings = () => {
       {/* Settings Form */}
       <form className="settings-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Full Name</label>
+          <label>First Name</label>
           <div className="input-box">
             <FaUserCircle className="input-icon" />
-            <input type="text" placeholder="Enter full name" />
+            <input type="text" placeholder="Enter first name" />
+          </div>
+        </div>
+
+         <div className="form-group">
+          <label>Last Name</label>
+          <div className="input-box">
+            <FaUserCircle className="input-icon" />
+            <input type="text" placeholder="Enter last name" />
           </div>
         </div>
 
@@ -36,14 +44,6 @@ const UserProfileSettings = () => {
           <div className="input-box">
             <FaEnvelope className="input-icon" />
             <input type="email" placeholder="Enter email" />
-          </div>
-        </div>
-
-        <div className="form-group">
-          <label>Username</label>
-          <div className="input-box">
-            <FaUserCircle className="input-icon" />
-            <input type="text" placeholder="Enter username" />
           </div>
         </div>
 

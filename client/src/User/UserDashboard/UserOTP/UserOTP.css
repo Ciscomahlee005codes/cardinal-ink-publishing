@@ -103,3 +103,27 @@
     transform: translateY(0);
   }
 }
+@media (max-width: 414px) {
+  .otp-inputs input {
+  width: 40px;
+  height: 45px;
+  font-size: 20px;
+  text-align: center;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+}
+@media (max-width: 360px) {
+  .otp-inputs input {
+  width: 35px;
+  height: 40px;
+  font-size: 20px;
+  text-align: center;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+}

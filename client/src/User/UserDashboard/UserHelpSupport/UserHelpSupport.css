@@ -6,7 +6,7 @@
 }
 
 .help-title {
-  font-size: 2.5rem;
+  font-size: 2.3rem;
   font-weight: bold;
   color: #2d2d2d;
   margin-bottom: 15px;
@@ -108,4 +108,22 @@
 
 .contact-icon {
   font-size: 1.3rem;
+}
+@media (max-width: 884px) {
+  .help-title {
+  font-size: 2.3rem;
+  font-weight: bold;
+  color: #2d2d2d;
+  margin-bottom: 15px;
+  text-align: center;
+}
+}
+@media (max-width: 430px) {
+  .help-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2d2d2d;
+  margin-bottom: 15px;
+  text-align: center;
+}
 }

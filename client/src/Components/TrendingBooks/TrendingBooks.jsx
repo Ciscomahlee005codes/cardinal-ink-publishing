@@ -75,7 +75,7 @@ const TrendingBooks = () => {
               <p className="author">by {book.author}</p>
               <div className="rating">{renderStars(book.rating)}</div>
               <p className="price">{book.price}</p>
-              <button className="btn-buy">Add to Cart</button>
+              <button className="btn-buy">Buy Book</button>
             </div>
           ))}
         </div>

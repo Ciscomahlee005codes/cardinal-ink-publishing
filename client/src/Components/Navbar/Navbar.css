@@ -180,12 +180,8 @@
   .logo { order: 1; }
   .right-side { order: 2; }
 
-  /* show hamburger */
-  .menu-toggle { display: inline-block; margin-left: 6px; }
 }
 
-/* ----------------- RESPONSIVE BEHAVIOR ----------------- */
-/* ----------------- RESPONSIVE BEHAVIOR ----------------- */
 @media (max-width: 600px) {
   /* Top row adjustments */
   .nav-row {

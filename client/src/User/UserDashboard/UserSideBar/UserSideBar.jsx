@@ -91,11 +91,6 @@ const UserSideBar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/userdashboard/subscription" className="link">
-              <FaClipboardList /> Subscription
-            </NavLink>
-          </li>
-          <li>
             <NavLink to="/userdashboard/profilesettings" className="link">
               <FaUserCog /> Profile & Settings
             </NavLink>

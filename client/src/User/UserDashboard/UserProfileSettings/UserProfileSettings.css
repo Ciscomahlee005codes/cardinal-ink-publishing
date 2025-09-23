@@ -183,3 +183,13 @@ input:checked + .slider:before {
 .save-btn:hover {
   background: #17a673;
 }
+@media (max-width: 412px) {
+  .profile-settings h2 {
+  text-align: center;
+  font-size: 1.6rem;
+  color: #333;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  position: relative;
+}
+}

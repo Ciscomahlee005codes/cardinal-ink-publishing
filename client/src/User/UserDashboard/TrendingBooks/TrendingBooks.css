@@ -72,3 +72,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+@media (max-width: 768px) {
+  .book-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: auto;
+}
+}

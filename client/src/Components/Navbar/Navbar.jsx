@@ -29,8 +29,7 @@ const Navbar = () => {
 
           {/* Auth Buttons (visible on desktop) */}
           <div className="auth-buttons">
-            <NavLink to="/authentication" className="btn-signup">Sign Up</NavLink>
-            <NavLink to="/authentication" className="btn-login">Login</NavLink>
+            <NavLink to="/authentication" className="btn-signup">Register</NavLink>
           </div>
 
           {/* Hamburger */}
@@ -47,17 +46,29 @@ const Navbar = () => {
       {/* Bottom Nav Links */}
       <nav className={`bottom-nav ${menuOpen ? "open" : ""}`}>
         <ul>
-          <li><NavLink to="/">Home</NavLink></li>
-          <li><NavLink to="/bookstore">Book Store</NavLink></li>
-          <li><NavLink to="/mylibrary">My Library</NavLink></li>
-          <li><NavLink to="/blog">Blogs</NavLink></li>
-          <li><NavLink to="/aboutUs">About</NavLink></li>
-          <li><NavLink to="/contactUs">Contact</NavLink></li>
+         <li>
+  <NavLink to="/" onClick={() => setMenuOpen(false)}>Home</NavLink>
+</li>
+<li>
+  <NavLink to="/bookstore" onClick={() => setMenuOpen(false)}>Book Store</NavLink>
+</li>
+<li>
+  <NavLink to="/mylibrary" onClick={() => setMenuOpen(false)}>My Library</NavLink>
+</li>
+<li>
+  <NavLink to="/blog" onClick={() => setMenuOpen(false)}>Blogs</NavLink>
+</li>
+<li>
+  <NavLink to="/aboutUs" onClick={() => setMenuOpen(false)}>About</NavLink>
+</li>
+<li>
+  <NavLink to="/contactUs" onClick={() => setMenuOpen(false)}>Contact</NavLink>
+</li>
+
 
           {/* Auth only visible inside mobile dropdown */}
           <li className="mobile-auth">
-            <NavLink to="/authentication" className="btn-signup">Sign Up</NavLink>
-            <NavLink to="/authentication" className="btn-login">Login</NavLink>
+            <NavLink to="/authentication" className="btn-signup"  onClick={() => setMenuOpen(false)}>Register</NavLink>
           </li>
         </ul>
       </nav>
