@@ -9,44 +9,15 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.createTable("books", {
+
+    await queryInterface.createTable("category", {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      title: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      author: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      description: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      category_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: "category",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      },
-      price: {
-        type: Sequelize.DECIMAL(0, 2),
-        allowNull: false,
-      },
-      cover_url: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      content_url: {
+      category: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -68,7 +39,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-
-    await queryInterface.dropTable("books");
+    await queryInterface.dropTable("category");
   },
 };

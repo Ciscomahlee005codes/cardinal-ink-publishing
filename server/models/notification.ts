@@ -1,9 +1,8 @@
 const dB = require("../config/db/db.ts");
-
 const { DataTypes } = require("sequelize");
 
-const PurchasesAndDownloads = dB.define(
-  "users_purchases_and_downloads",
+const notification = dB.define(
+  "notification",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,29 +10,25 @@ const PurchasesAndDownloads = dB.define(
       autoIncrement: true,
       primaryKey: true,
     },
+    message: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: "users",
         key: "id",
       },
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE",
     },
-    book_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: "books",
-        key: "id",
-      },
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE",
+    callbackurl: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
-    downloaded: {
+    viewed: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: true,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -45,9 +40,9 @@ const PurchasesAndDownloads = dB.define(
     },
   },
   {
-    tableName: "users_purchases_and_downloads",
-    modelName: "purchasesAndDownloads",
+    tableName: "notification",
+    modelName: "notification",
   }
 );
 
-module.exports = PurchasesAndDownloads;
+module.exports = notification;

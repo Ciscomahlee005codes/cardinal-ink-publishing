@@ -1,6 +1,6 @@
 const { Users } = require("../../models/indexs");
 const bcrypt = require("bcrypt");
-const { generateOtp } = require("../utils/functions");
+const { generateOtp, mailer } = require("../utils/functions");
 const jwt = require("jsonwebtoken");
 
 exports.createNewUser = async (req: any, res: any) => {
@@ -62,6 +62,19 @@ exports.createNewUser = async (req: any, res: any) => {
     );
 
     // email verify OTP
+    const sendEmail = mailer(
+      `${firstname}, ${lastname}`,
+      email,
+      "Email Verification",
+      ""
+    );
+
+    if (sendEmail !== true) {
+      return res?.json({
+        status: false,
+        message: "unable to send otp to email. check your connectivity",
+      });
+    }
 
     return res?.json({
       status: true,
@@ -121,6 +134,19 @@ exports.loginUser = async (req: any, res: any) => {
     );
 
     //logic to send otp to email
+    const sendEmail = mailer(
+      `${checkIfEmailExists.firstname}, ${checkIfEmailExists.lastname}`,
+      email,
+      "Email Verification",
+      ""
+    );
+
+    if (sendEmail !== true) {
+      return res?.json({
+        status: false,
+        message: "unable to send otp to email. check your connectivity",
+      });
+    }
 
     return res?.json({
       status: true,
@@ -168,6 +194,19 @@ exports.ResendOTP = async (req: any, res: any) => {
     }
 
     //logic to send otp to email
+    const sendEmail = mailer(
+      `${updated.firstname}, ${updated.lastname}`,
+      email,
+      "Email Verification",
+      ""
+    );
+
+    if (sendEmail !== true) {
+      return res?.json({
+        status: false,
+        message: "unable to send otp to email. check your connectivity",
+      });
+    }
 
     if (otpType == "verifyEmail") {
       return res?.json({
@@ -262,7 +301,11 @@ exports.verifyOtp = async (req: any, res: any) => {
 
     if (otpType == "auth") {
       const generateAuthToken = jwt.sign(
-        { id: checkIfEmailExists.id, email: email },
+        {
+          id: checkIfEmailExists.id,
+          email: email,
+          role: checkIfEmailExists.role,
+        },
         process.env.JWT_SECRET_KEY,
         { expiresIn: "90d" }
       );
@@ -328,6 +371,19 @@ exports.forgottonPassword = async (req: any, res: any) => {
     );
 
     //email logic
+    const sendEmail = mailer(
+      `${checkIfEmailExists.firstname}, ${checkIfEmailExists.lastname}`,
+      email,
+      "Email Verification",
+      ""
+    );
+
+    if (sendEmail !== true) {
+      return res?.json({
+        status: false,
+        message: "unable to send otp to email. check your connectivity",
+      });
+    }
 
     return res?.json({
       status: true,
