@@ -42,11 +42,11 @@ const MyLibrary = () => {
               <div className="progress-container">
                 <div
                   className="progress-bar"
-                  style={{ width: `${book.progress || 0}%` }}
+                  style={{ width: `${book.progress || 80}%` }}
                 ></div>
               </div>
               <span className="progress-text">
-                {book.progress || 0}% read
+                {book.progress || 80}% read
               </span>
 
               <div className="btn-group">

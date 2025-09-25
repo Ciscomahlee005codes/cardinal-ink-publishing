@@ -111,18 +111,8 @@ const GetBook = () => {
             </div>
             <hr />
             <div className="card-total-details">
-              <p>Service Fee</p>
-              <p>${getTotalCartAmount() === 0 ? 0 : 500}</p>
-            </div>
-            <hr />
-            <div className="card-total-details">
               <b>Total</b>
-              <b>
-                $
-                {getTotalCartAmount() === 0
-                  ? 0
-                  : getTotalCartAmount() + 500}
-              </b>
+              <b>${getTotalCartAmount()}</b>
             </div>
             <div id="cart-content">
               <button
@@ -130,7 +120,7 @@ const GetBook = () => {
                 className={`checkout-button ${isProceeding ? "proceeding" : ""}`}
                 disabled={isProceeding}
               >
-                {isProceeding ? "PROCESSING..." : "PLACE ORDER"}
+                {isProceeding ? "PROCESSING..." : "Get Book"}
               </button>
             </div>
           </div>

@@ -77,6 +77,23 @@
   color: #00bf63;
   font-weight: 600;
 }
+/* Brand Column */
+.brand-col {
+  text-align: left;
+}
+
+.footer-logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00bf63;
+  margin-bottom: 10px;
+}
+
+.footer-tagline {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+}
 
 /* Responsive */
 @media (max-width: 768px) {

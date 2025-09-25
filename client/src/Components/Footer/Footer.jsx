@@ -1,24 +1,19 @@
 import React from "react";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPinterestP } from "react-icons/fa";
-import { MdLocationOn, MdEmail, MdPhone } from "react-icons/md";
+import { MdEmail, MdPhone } from "react-icons/md";
 import "./Footer.css";
 
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        
-        {/* Our Locations */}
-        <div className="footer-col">
-          <h3>Our Locations</h3>
-          <ul>
-            <li><MdLocationOn /> India</li>
-            <li><MdLocationOn /> USA</li>
-            <li><MdLocationOn /> Russia</li>
-            <li><MdLocationOn /> France</li>
-            <li><MdLocationOn /> Japan</li>
-            <li><MdLocationOn /> Africa</li>
-          </ul>
+
+        {/* Logo + Tagline */}
+        <div className="footer-col brand-col">
+          <h2 className="footer-logo">📚 E-Lib</h2>
+          <p className="footer-tagline">
+            Your trusted online bookstore for knowledge, imagination, and growth.
+          </p>
         </div>
 
         {/* Quick Links */}
@@ -26,22 +21,22 @@ const Footer = () => {
           <h3>Quick Links</h3>
           <ul>
             <li><a href="/">Home</a></li>
-            <li><a href="/featured">Featured</a></li>
-            <li><a href="/arrivals">Arrivals</a></li>
-            <li><a href="/reviews">Reviews</a></li>
+            <li><a href="/featured">Book Store</a></li>
+            <li><a href="/arrivals">My Library</a></li>
+            <li><a href="/reviews">About Us</a></li>
             <li><a href="/blogs">Blogs</a></li>
           </ul>
         </div>
 
-        {/* Extra Links */}
+        {/* Customer Service */}
         <div className="footer-col">
-          <h3>Extra Links</h3>
+          <h3>Customer Service</h3>
           <ul>
-            <li><a href="/account">Account Info</a></li>
+            <li><a href="/account">FAQs</a></li>
             <li><a href="/orders">Ordered Items</a></li>
             <li><a href="/privacy">Privacy Policy</a></li>
             <li><a href="/payment">Payment Method</a></li>
-            <li><a href="/services">Our Services</a></li>
+            <li><a href="/services">Help Center</a></li>
           </ul>
         </div>
 
@@ -67,7 +62,9 @@ const Footer = () => {
 
       {/* Copyright */}
       <div className="footer-bottom">
-        <p>Copyright <span>E-Lib</span> | All Rights Reserved © {new Date().getFullYear()}</p>
+        <p>
+          Copyright <span>E-Lib</span> | All Rights Reserved © {new Date().getFullYear()}
+        </p>
       </div>
     </footer>
   );

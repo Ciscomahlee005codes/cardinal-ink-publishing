@@ -103,7 +103,7 @@ const Navbar = () => {
           {/* Desktop Auth */}
           <div className="auth-buttons desktop-only">
             <NavLink to="/authentication" className="btn-signup">
-              Register
+              Log In
             </NavLink>
           </div>
 
@@ -135,7 +135,7 @@ const Navbar = () => {
               className="btn-signup" 
               onClick={() => setMenuOpen(false)}
             >
-              Register
+              Log In
             </NavLink>
           </li>
         </ul>

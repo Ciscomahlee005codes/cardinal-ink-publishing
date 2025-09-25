@@ -1,14 +1,15 @@
 import React, { useContext, useState } from "react";
-import { books_store } from "../../../library_list";
 import "./TrendingBooks.css";
+import useBooks from "../../Hooks/useBooks"
 import { StoreContext } from "../../Context/StoreContext";
 
 const TrendingBooks = () => {
+  const {bookCollection} = useBooks()
   const { cartItems, addToCart } = useContext(StoreContext);
   const [addedBooks, setAddedBooks] = useState({});
 
   // Pick only 4 books for Trending
-  const trendingBooks = books_store.slice(0, 4);
+  const trendingBooks = bookCollection.slice(0, 4);
 
   const handleAddToCart = (bookId) => {
     addToCart(bookId);
