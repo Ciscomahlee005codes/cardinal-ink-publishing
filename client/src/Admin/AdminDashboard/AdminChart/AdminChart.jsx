@@ -1,5 +1,5 @@
 import React from "react";
-import "./AdminChart.css"
+import "./AdminChart.css";
 import {
   LineChart,
   Line,
@@ -19,11 +19,11 @@ import {
 const AdminChart = () => {
   // Example data
   const salesData = [
-    { month: "Jan", sold: 400, available: 240 },
-    { month: "Feb", sold: 300, available: 200 },
-    { month: "Mar", sold: 500, available: 300 },
-    { month: "Apr", sold: 700, available: 350 },
-    { month: "May", sold: 600, available: 400 },
+    { month: "Jan", sold: 400 },
+    { month: "Feb", sold: 300 },
+    { month: "Mar", sold: 500 },
+    { month: "Apr", sold: 700 },
+    { month: "May", sold: 600 },
   ];
 
   const revenueData = [
@@ -50,7 +50,7 @@ const AdminChart = () => {
 
       {/* Sales Bar Chart */}
       <div className="chart-card">
-        <h3>Books Sold vs Available</h3>
+        <h3>Books Sold</h3>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={salesData}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -59,7 +59,6 @@ const AdminChart = () => {
             <Tooltip />
             <Legend />
             <Bar dataKey="sold" fill="#4e73df" />
-            <Bar dataKey="available" fill="#1cc88a" />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -74,7 +73,12 @@ const AdminChart = () => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="revenue" stroke="#e74a3b" strokeWidth={3} />
+            <Line
+              type="monotone"
+              dataKey="revenue"
+              stroke="#e74a3b"
+              strokeWidth={3}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>

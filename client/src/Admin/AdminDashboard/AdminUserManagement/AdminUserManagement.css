@@ -55,6 +55,7 @@ th {
 }
 
 /* Status tags */
+/* Status tags */
 .status {
   padding: 4px 8px;
   border-radius: 12px;
@@ -68,15 +69,11 @@ th {
   color: #155724;
 }
 
-.status.suspended {
+.status.inactive {
   background: #f8d7da;
   color: #721c24;
 }
 
-.status.pending {
-  background: #fff3cd;
-  color: #856404;
-}
 
 /* Role tags */
 .role {

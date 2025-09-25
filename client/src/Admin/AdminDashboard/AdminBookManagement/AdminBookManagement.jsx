@@ -147,67 +147,91 @@ const AdminBookManagement = () => {
       </table>
 
       {/* Modal Popup */}
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>Add New Book</h2>
-            <form onSubmit={handleAddBook}>
-              <input 
-                type="text" 
-                name="title" 
-                placeholder="Book Title" 
-                value={newBook.title} 
-                onChange={handleChange} 
-                required 
-              />
-              <input 
-                type="text" 
-                name="author" 
-                placeholder="Author" 
-                value={newBook.author} 
-                onChange={handleChange} 
-                required 
-              />
-              <input 
-                type="text" 
-                name="genre" 
-                placeholder="Genre" 
-                value={newBook.genre} 
-                onChange={handleChange} 
-                required 
-              />
-              <input 
-                type="text" 
-                name="price" 
-                placeholder="Price (e.g. $15)" 
-                value={newBook.price} 
-                onChange={handleChange} 
-                required 
-              />
-              <label>Upload Cover Image</label>
-              <input 
-                type="file" 
-                name="cover" 
-                accept="image/*" 
-                onChange={handleFileChange} 
-                required 
-              />
-              <label>Upload Book PDF</label>
-              <input 
-                type="file" 
-                name="pdf" 
-                accept="application/pdf" 
-                onChange={handleFileChange} 
-                required 
-              />
-              <div className="modal-actions">
-                <button type="submit" className="save-btn">Save</button>
-                <button type="button" className="cancel-btn" onClick={() => setShowModal(false)}>Cancel</button>
-              </div>
-            </form>
-          </div>
+{showModal && (
+  <div className="modal-overlay">
+    <div className="modal">
+      <h2>Add New Book</h2>
+      <form onSubmit={handleAddBook}>
+        <input 
+          type="text" 
+          name="title" 
+          placeholder="Book Title" 
+          value={newBook.title} 
+          onChange={handleChange} 
+          required 
+        />
+        <input 
+          type="text" 
+          name="author" 
+          placeholder="Author" 
+          value={newBook.author} 
+          onChange={handleChange} 
+          required 
+        />
+
+        <input 
+          type="text" 
+          name="category" 
+          placeholder="Category (e.g. Business, Self Discipline)" 
+          value={newBook.category || ""} 
+          onChange={handleChange} 
+          required 
+        />
+
+        <input 
+          type="text" 
+          name="price" 
+          placeholder="Price (e.g. $15)" 
+          value={newBook.price} 
+          onChange={handleChange} 
+          required 
+        />
+
+        {/* ✅ Cover Image Upload with Preview */}
+        <label>Upload Cover Image</label>
+        <input 
+          type="file" 
+          name="cover" 
+          accept="image/*" 
+          onChange={(e) => {
+            const file = e.target.files[0];
+            if (file) {
+              setNewBook({
+                ...newBook,
+                cover: file,
+                coverPreview: URL.createObjectURL(file), // <-- preview URL
+              });
+            }
+          }}
+          required 
+        />
+        {newBook.coverPreview && (
+          <img 
+            src={newBook.coverPreview} 
+            alt="Preview" 
+            className="preview-image" 
+          />
+        )}
+
+        {/* PDF Upload */}
+        <label>Upload Book PDF</label>
+        <input 
+          type="file" 
+          name="pdf" 
+          accept="application/pdf" 
+          onChange={handleFileChange} 
+          required 
+        />
+
+        <div className="modal-actions">
+          <button type="submit" className="save-btn">Save</button>
+          <button type="button" className="cancel-btn" onClick={() => setShowModal(false)}>Cancel</button>
         </div>
-      )}
+      </form>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

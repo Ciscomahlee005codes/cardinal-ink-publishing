@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import "./AdminUserManagement.css";
-import { FaSearch, FaEdit, FaTrash, FaBan, FaUserShield } from "react-icons/fa";
+import { FaSearch, FaEdit, FaTrash, FaBan } from "react-icons/fa";
 
 const AdminUserManagement = () => {
   const [search, setSearch] = useState("");
 
   const users = [
     { id: 1, name: "John Doe", email: "john@example.com", role: "reader", status: "Active", date: "Sept 20, 2025" },
-    { id: 2, name: "Jane Smith", email: "jane@example.com", role: "reader", status: "Suspended", date: "Sept 15, 2025" },
-    { id: 3, name: "Chris Lee", email: "chris@example.com", role: "reader", status: "Pending", date: "Sept 10, 2025" },
+    { id: 2, name: "Jane Smith", email: "jane@example.com", role: "reader", status: "Inactive", date: "Sept 15, 2025" },
+    { id: 3, name: "Chris Lee", email: "chris@example.com", role: "reader", status: "Inactive", date: "Sept 10, 2025" },
     { id: 4, name: "David Johnson", email: "david@example.com", role: "reader", status: "Active", date: "Sept 8, 2025" },
   ];
 
@@ -63,7 +63,6 @@ const AdminUserManagement = () => {
                 <button className="edit"><FaEdit /></button>
                 <button className="delete"><FaTrash /></button>
                 <button className="suspend"><FaBan /></button>
-                {/* <button className="role-btn"><FaUserShield /></button> */}
               </td>
             </tr>
           ))}
