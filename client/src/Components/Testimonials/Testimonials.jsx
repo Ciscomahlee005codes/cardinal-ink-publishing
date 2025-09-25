@@ -35,38 +35,39 @@ const Testimonials = ( { isStandalone } ) => {
     return () => clearTimeout(timerRef.current);
   }, [currentSlide]);
 
-  const testimonials = [
+const testimonials = [
   {
     name: "Okwuibe Chinedu",
-    text: "Before Mentra, I felt stuck coding alone without direction. My mentor helped me structure my learning and guided me through real projects. In just 2 months, my confidence skyrocketed.",
+    text: "Cardinal Ink Publishing’s E-Library has completely changed the way I access books. I can now read finance, health, and motivational titles anytime without worrying about availability.",
     stars: 4.5,
     image: "./src/assets/customer-6.jpg"
   },
   {
     name: "Emmanuella Ginna",
-    text: "I joined Mentra thinking it would be another random learning site, but it’s way more than that. The progress tracking and team challenges pushed me to a level I didn’t think I could reach this fast.",
+    text: "Affordable and easy to use! The wide range of genres on Cardinal Ink’s platform keeps me hooked. I’ve discovered authors I never would have found in physical stores.",
     stars: 5,
     image: "./src/assets/customer-2.jpg"
   },
   {
     name: "Sarah Umeh",
-    text: "As a beginner, I was overwhelmed by where to start. Mentra gave me a roadmap, a mentor to check in with, and a community to share my journey. It made learning feel exciting, not lonely.",
-    stars: 3.5,
+    text: "As a student, buying books was always expensive. But Cardinal Ink’s E-Library makes premium titles affordable and accessible. It’s like carrying a library in my pocket.",
+    stars: 4,
     image: "./src/assets/customer-4.jpg"
   },
   {
     name: "Obafemi Bolawatife",
-    text: "The mentorship sessions are top notch! I’ve been able to join a small dev team through Mentra and we’ve already built two projects together. The experience feels real and job-ready.",
+    text: "The experience is smooth and user-friendly! From academic resources to inspirational books, I’ve been able to find everything I need for my studies and personal growth.",
     stars: 4.5,
     image: "./src/assets/customer-3.jpg"
   },
   {
     name: "Ifemelu Obinze",
-    text: "The internship opportunity I got through Mentra was a game-changer. It bridged the gap between tutorials and real-life software development. I now have a portfolio that speaks for itself.",
+    text: "Cardinal Ink Publishing gave me access to global bestsellers at local-friendly prices. My reading habit has improved, and I now finish at least 3 books every month!",
     stars: 5,
     image: "./src/assets/customer-5.jpg"
   },
 ];
+
 
 
   return (

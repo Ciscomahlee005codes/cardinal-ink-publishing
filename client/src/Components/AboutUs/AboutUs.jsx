@@ -1,8 +1,10 @@
 import React from "react";
 import { FaBookOpen, FaUsers, FaGlobe, FaCheckCircle } from "react-icons/fa";
 import "./AboutUs.css";
+import { useNavigate } from "react-router-dom";
 
 const AboutUs = () => {
+  const navigate = useNavigate();
   return (
     <section className="about-section">
       {/* Top Intro Section */}
@@ -16,7 +18,7 @@ const AboutUs = () => {
             offering a seamless online platform where you can discover, buy, and
             enjoy books anytime, anywhere.
           </p>
-          <button className="btn-primary">Shop Now</button>
+          <button onClick={()=> navigate("/bookstore")} className="btn-primary">Shop Now</button>
         </div>
         <div className="about-image">
           <img

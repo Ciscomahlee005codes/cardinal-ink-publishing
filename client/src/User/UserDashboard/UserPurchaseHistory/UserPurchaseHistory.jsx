@@ -1,5 +1,6 @@
 import React from "react";
 import { FaCheckCircle, FaHourglassHalf, FaTimesCircle, FaDownload } from "react-icons/fa";
+import { FaRegEye } from "react-icons/fa";
 import "./UserPurchaseHistory.css";
 
 const UserPurchaseHistory = () => {
@@ -79,7 +80,7 @@ const UserPurchaseHistory = () => {
               </td>
               <td>
                 <button className="download-btn">
-                  <FaDownload /> Download
+                  <FaRegEye  /> View Receipt
                 </button>
               </td>
             </tr>

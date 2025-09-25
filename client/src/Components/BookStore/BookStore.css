@@ -88,3 +88,18 @@
   font-weight: 600;
   color: #00bf63;
 }
+.library-btn {
+  margin-top: 12px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #00bf63;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.library-btn:hover {
+  background: #009f53;
+}

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./UserLibrary.css";
+import { FaSearch } from "react-icons/fa";
 
 const UserLibrary = () => {
   const [activeTab, setActiveTab] = useState("available");
   const [selectedGenre, setSelectedGenre] = useState("All");
+  const [search, setSearch] = useState("");
 
   const genres = ["All", "Fiction", "Sci-Fi", "History", "Romance", "Business"];
 
@@ -13,19 +15,23 @@ const UserLibrary = () => {
     { id: 3, title: "1984", genre: "Sci-Fi" },
     { id: 4, title: "Pride and Prejudice", genre: "Romance" },
     { id: 5, title: "Sapiens", genre: "History" },
+    { id: 6, title: "Rich Dad Poor Dad", genre: "Business" },
+    { id: 7, title: "Deep Work", genre: "Business" },
+    { id: 8, title: "Harry Potter", genre: "Fiction" },
   ];
 
   const myBooks = {
-    purchased: ["Atomic Habits", "Sapiens"],
-    favorites: ["The Great Gatsby"],
+    purchased: ["Atomic Habits", "Sapiens", "Deep Work"],
+    favorites: ["The Great Gatsby", "Harry Potter"],
     read: ["1984"],
-    borrowed: ["Pride and Prejudice"],
   };
 
-  const filteredBooks =
-    selectedGenre === "All"
-      ? allBooks
-      : allBooks.filter((book) => book.genre === selectedGenre);
+  const filteredBooks = allBooks.filter((book) => {
+    const matchesGenre =
+      selectedGenre === "All" || book.genre === selectedGenre;
+    const matchesSearch = book.title.toLowerCase().includes(search.toLowerCase());
+    return matchesGenre && matchesSearch;
+  });
 
   return (
     <div className="library">
@@ -51,6 +57,19 @@ const UserLibrary = () => {
       {activeTab === "available" && (
         <div className="available-section">
           <h3>Bookstore</h3>
+
+          {/* Search bar */}
+          <div className="search-bar">
+            <FaSearch className="search-icon" />
+            <input
+              type="text"
+              placeholder="Search books by title..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+
+          {/* Genre filter */}
           <div className="filter-buttons">
             {genres.map((genre) => (
               <button
@@ -63,13 +82,18 @@ const UserLibrary = () => {
             ))}
           </div>
 
+          {/* Book cards */}
           <div className="book-grid">
-            {filteredBooks.map((book) => (
-              <div key={book.id} className="book-card">
-                <h4>{book.title}</h4>
-                <p>{book.genre}</p>
-              </div>
-            ))}
+            {filteredBooks.length > 0 ? (
+              filteredBooks.map((book) => (
+                <div key={book.id} className="book-card">
+                  <h4>{book.title}</h4>
+                  <p>{book.genre}</p>
+                </div>
+              ))
+            ) : (
+              <p className="no-results">No books found.</p>
+            )}
           </div>
         </div>
       )}
@@ -99,14 +123,6 @@ const UserLibrary = () => {
               <h4>Read</h4>
               <ul>
                 {myBooks.read.map((book, i) => (
-                  <li key={i}>{book}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4>Borrowed</h4>
-              <ul>
-                {myBooks.borrowed.map((book, i) => (
                   <li key={i}>{book}</li>
                 ))}
               </ul>

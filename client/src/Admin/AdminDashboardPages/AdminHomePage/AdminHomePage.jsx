@@ -3,8 +3,8 @@ import AdminSidebar from '../../AdminDashboard/AdminSidebar/AdminSidebar'
 import "./AdminHomePage.css"
 import AdminActivity from '../../AdminDashboard/AdminActivity/AdminActivity'
 import AdminDashboardTop from '../../AdminDashboard/AdminDashboardTop/AdminDashboardTop'
-import AdminAvailableBooks from '../../AdminDashboard/AdminAvailableBooks/AdminAvailableBooks'
 import RecentActivity from '../../../User/UserDashboard/RecentActivity/RecentActivity'
+import AdminChart from '../../AdminDashboard/AdminChart/AdminChart'
 
 const AdminHomePage = () => {
   return (
@@ -13,7 +13,7 @@ const AdminHomePage = () => {
       <div className="adminHome-content">
         <AdminDashboardTop />
         <AdminActivity />
-        <AdminAvailableBooks />
+        <AdminChart />
         <RecentActivity />
       </div>
     </div>

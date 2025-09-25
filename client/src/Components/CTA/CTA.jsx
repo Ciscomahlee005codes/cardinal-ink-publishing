@@ -1,5 +1,6 @@
 import React from "react";
 import "./CTA.css";
+import { NavLink } from "react-router-dom";
 
 const CTA = () => {
   return (
@@ -12,8 +13,8 @@ const CTA = () => {
           your first book at <span>50% off!</span>
         </p>
         <div className="cta-buttons">
-          <a href="/signup" className="btn-primary">Get Started</a>
-          <a href="/books" className="btn-secondary">Browse Library</a>
+          <NavLink to="/authentication" className="btn-primary"> Get Started </NavLink>
+          <NavLink to="/bookstore" className="btn-secondary">Browse Library</NavLink>
         </div>
       </div>
     </section>

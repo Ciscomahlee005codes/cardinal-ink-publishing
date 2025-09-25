@@ -1,6 +1,7 @@
 import React from "react";
 import HeroImage from "../../assets/Hero-img.jpg"
 import "./Hero.css";
+import { NavLink } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -14,8 +15,8 @@ const Hero = () => {
             Enjoy seamless access to your library anytime, anywhere.
           </p>
           <div className="hero-buttons">
-            <a href="/books" className="btn-primary1">Shop Now</a>
-            <a href="/featured" className="btn-secondary">Browse Featured</a>
+            <NavLink to="/bookstore" className="btn-primary1">Shop Now</NavLink>
+            <NavLink to="/authentication" className="btn-secondary">Browse Books</NavLink>
           </div>
         </div>
 

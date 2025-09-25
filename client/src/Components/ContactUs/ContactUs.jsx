@@ -5,7 +5,7 @@ import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 const ContactUs = () => {
   return (
     <div className="contact-container">
-      <h2 className="contact-title">Contact ARCE Housing Agency</h2>
+      <h2 className="contact-title">Contact E-Library</h2>
       <p className="contact-subtitle">
         We'd love to hear from you! Reach out anytime.
       </p>
@@ -16,7 +16,7 @@ const ContactUs = () => {
             <FaPhoneAlt className="icon" />
             <div>
               <h4>Phone</h4>
-              <p>+234 812 345 6789</p>
+              <a href="tel:+2348123456789" style={{color: '#009f53'}}>+234 812 345 6789</a>
             </div>
           </div>
 
@@ -24,7 +24,7 @@ const ContactUs = () => {
             <FaEnvelope className="icon" />
             <div>
               <h4>Email</h4>
-              <p>support@arcehousing.com</p>
+              <a href="mailto:support@arcehousing.com" style={{color: '#009f53'}}>support@arcehousing.com</a>
             </div>
           </div>
 

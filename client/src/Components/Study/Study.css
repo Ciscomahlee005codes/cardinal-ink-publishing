@@ -1,0 +1,127 @@
+.place-order{
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 50px;
+    margin-top: 100px;
+}
+.place-order-left{
+    width: 100%;
+    max-width: max(30%, 500px);
+}
+.place-order-left .delivery-information{
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 50px;
+}
+.place-order-left input{
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #c5c5c5;
+    border-radius: 4px;
+    outline-color: crimson;
+}
+.place-order-left .multi-fields{
+    display: flex;
+    gap: 10px;
+}
+.place-order-right{
+    width: 100%;
+    max-width: max(40%,500px);
+}
+.place-order .cart-total button{
+    margin-top: 30px;
+}
+.error {
+  color: red;
+  font-size: 0.75rem;
+  margin-top: 2px;
+  display: block;
+}
+input:invalid {
+  border: 1px solid red;
+}
+
+.order-confirmation-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.popup-inner {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.popup-inner h2 {
+  margin-bottom: 1rem;
+}
+
+.popup-inner p {
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.popup-inner button {
+  background: crimson;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.payment-method {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 20px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.payment-method label {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+.payment-method select {
+  padding: 10px 14px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  background-color: #f9f9f9;
+  transition: all 0.2s ease-in-out;
+}
+
+.payment-method select:focus {
+  outline: none;
+  border-color: #4a90e2;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.payment-method select:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .place-order{
+        display: flex;
+        flex-direction: column;
+    }
+}

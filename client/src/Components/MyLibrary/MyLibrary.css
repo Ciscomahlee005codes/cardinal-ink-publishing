@@ -1,7 +1,7 @@
 .my-library {
   padding: 50px 8%;
   font-family: "Segoe UI", sans-serif;
-  background: #f9f9f9;
+  background: #f5f7fa;
   min-height: 100vh;
 }
 
@@ -9,7 +9,8 @@
   text-align: center;
   margin-bottom: 50px;
   color: #00bf63;
-  font-size: 2rem;
+  font-size: 2.2rem;
+  font-weight: 700;
 }
 
 .library-section {
@@ -27,18 +28,21 @@
 
 .book-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 25px;
 }
 
 .book-card {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 14px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   text-align: center;
   padding: 20px 15px;
   transition: all 0.3s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .book-card:hover {
@@ -50,7 +54,7 @@
   width: 100%;
   height: 250px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-bottom: 15px;
 }
 
@@ -63,4 +67,60 @@
 .book-card p {
   font-size: 0.95rem;
   color: #666;
+  margin-bottom: 15px;
+}
+
+/* Progress bar */
+.progress-container {
+  background: #e0e0e0;
+  border-radius: 50px;
+  height: 8px;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #00bf63;
+  border-radius: 50px;
+}
+
+.progress-text {
+  font-size: 0.85rem;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.read-btn, .download-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.read-btn {
+  background: #00bf63;
+  color: #fff;
+}
+
+.read-btn:hover {
+  background: #00994f;
+}
+
+.download-btn {
+  background: #f1f1f1;
+  color: #333;
+}
+
+.download-btn:hover {
+  background: #ddd;
 }

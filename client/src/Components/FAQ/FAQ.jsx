@@ -3,30 +3,27 @@ import './FAQ.css';
 
 const faqs = [
   {
-    question: "What is Mentra?",
-    answer: "Mentra is a mentorship-driven platform that connects developers, mentors, and recruiters to learn, collaborate, and grow through real-world projects, challenges, and career opportunities.",
+    question: "What is Cardinal Ink Publishing’s E-Library?",
+    answer: "It is a digital library platform that provides easy and affordable access to a wide range of books, from academics to self-development, health, finance, and fiction."
   },
   {
-    question: "How does mentorship work on Mentra?",
-    answer: "You can sign up as a mentee to be matched with experienced mentors who will guide you through learning paths, projects, and skill-building challenges. Mentors provide feedback, track your progress, and help you achieve your goals.",
+    question: "How do I access the E-Library?",
+    answer: "Simply sign up on our platform, browse our collection, and start reading instantly. You can access the E-Library from your phone, tablet, or computer."
   },
   {
-    question: "Is Mentra free to use?",
-    answer: "Yes! Joining Mentra as a learner or mentor is free. Some advanced programs or premium mentorship plans may have fees, but our core mentorship features remain free for all.",
+    question: "Is the E-Library free?",
+    answer: "We offer both free and premium book collections. Some titles are free to access, while premium or newly released books may require a subscription or one-time purchase."
   },
   {
-    question: "Can I team up with other developers?",
-    answer: "Absolutely. Mentra allows you to find teammates, join coding groups, and work on collaborative projects — so you never have to build in isolation.",
+    question: "Can I read books offline?",
+    answer: "Yes! With our download option, you can save books to your device and enjoy reading even without an internet connection."
   },
   {
-    question: "What kind of challenges are available?",
-    answer: "Mentra offers hands-on challenges ranging from beginner-friendly coding exercises to advanced real-world projects, helping you sharpen your skills and gain portfolio-ready experience.",
-  },
-  {
-    question: "Does Mentra offer internships?",
-    answer: "Yes. Through our partner network, active learners can access internship opportunities to apply their skills in real work environments.",
+    question: "What kind of books are available?",
+    answer: "Our library covers a wide range of genres including academic, motivational, finance, health, self-help, fiction, and more. We constantly update the catalog with new releases."
   },
 ];
+
 
 const FAQ = () => {
   const [activeIndex, setActiveIndex] = useState(null);
