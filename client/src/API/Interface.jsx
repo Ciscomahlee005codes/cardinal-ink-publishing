@@ -1,11 +1,7 @@
-import React from 'react'
-import axios from 'axios'
+import axios from "axios";
 
-const Interface = () => {
-  const endPoint = axios.create({
-    baseURL: "http://localhost:3000"
-  })
-  return  endPoint 
-}
+const endPoint = axios.create({
+  baseURL: "http://localhost:3000",
+});
 
-export default Interface
+export default endPoint;

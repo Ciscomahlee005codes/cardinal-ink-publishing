@@ -31,10 +31,10 @@ const {
   deleteNotification,
 } = require("../controllers/notificationController");
 
-const {
+/*const {
   createOrder,
   completePayment,
-} = require("../controllers/transactionController");
+} = require("../controllers/transactionController");*/
 
 const {
   userPurchasedBooks,
@@ -88,13 +88,13 @@ routes.delete(
   deleteNotification
 );
 
-routes.post("/user/create/order", userMiddleware, createOrder);
-routes.post(
+//routes.post("/user/create/order", userMiddleware, createOrder);
+/*routes.post(
   "/user/payment/finailized/:orderId",
   userMiddleware,
   completePayment
 );
-
+*/
 routes.get("/purchased/books", userMiddleware, userPurchasedBooks);
 
 module.exports = routes;
