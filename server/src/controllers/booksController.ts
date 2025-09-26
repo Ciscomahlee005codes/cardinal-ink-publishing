@@ -70,7 +70,7 @@ exports.createNewBook = [
 
 exports.allBooks = async (req: any, res: any) => {
   try {
-    const getAllBooks = await books.findAll({ include: "category" });
+    const getAllBooks = await books.findAll({ include: "categorys" });
 
     return res?.json({
       status: true,
