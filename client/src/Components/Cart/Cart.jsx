@@ -35,38 +35,37 @@ const Cart = () => {
       ) : (
         <>
           <div className="cart-items">
-            <div className="cart-items-header">
-              <p>Item</p>
-              <p>Title</p>
-              <p>Price</p>
-              <p>Quantity</p>
-              <p>Total</p>
-              <p>Remove</p>
-            </div>
-            <hr />
+  <div className="cart-items-header">
+    <p>Item</p>
+    <p>Title</p>
+    <p>Author</p>
+    <p>Price</p>
+    <p>Remove</p>
+  </div>
+  <hr />
 
-            {books_store.map((item) => {
-              if (cartItems[item.id] > 0) {
-                return (
-                  <div key={item.id}>
-                    <div className="cart-items-row">
-                      <img src={item.image} alt={item.name} />
-                      <p>{item.title || item.name}</p>
-                      <p>${item.price}</p>
-                      <p>{cartItems[item.id]}</p>
-                      <p>${item.price * cartItems[item.id]}</p>
-                      <IoMdClose
-                        onClick={() => removeFromCart(item.id)}
-                        className="remove-icon"
-                      />
-                    </div>
-                    <hr />
-                  </div>
-                );
-              }
-              return null;
-            })}
+  {books_store.map((item) => {
+    if (cartItems[item.id] > 0) {
+      return (
+        <div key={item.id}>
+          <div className="cart-items-row">
+            <img src={item.image} alt={item.name} />
+            <p className="cart-label"><b>Title:</b> {item.title || item.name}</p>
+            <p className="cart-label"><b>Author:</b> {item.author || "Unknown"}</p>
+            <p className="cart-label"><b>Price:</b> ${item.price}</p>
+            <IoMdClose
+              onClick={() => removeFromCart(item.id)}
+              className="remove-icon"
+            />
           </div>
+          <hr />
+        </div>
+      );
+    }
+    return null;
+  })}
+</div>
+
 
           {/* Cart Totals Section */}
           <div className="cart-summary">

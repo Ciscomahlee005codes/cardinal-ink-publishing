@@ -146,7 +146,7 @@ const AdminBookManagement = () => {
         </tbody>
       </table>
 
-      {/* Modal Popup */}
+        {/* Modal Popup */}
 {showModal && (
   <div className="modal-overlay">
     <div className="modal">
@@ -169,14 +169,24 @@ const AdminBookManagement = () => {
           required 
         />
 
-        <input 
-          type="text" 
-          name="category" 
-          placeholder="Category (e.g. Business, Self Discipline)" 
-          value={newBook.category || ""} 
-          onChange={handleChange} 
-          required 
-        />
+        {/* ✅ Category as Dropdown */}
+        <label>Select Category</label>
+        <select
+          name="category"
+          value={newBook.category || ""}
+          onChange={handleChange}
+          required
+        >
+          <option value="">-- Select Category --</option>
+          <option value="Business">Business</option>
+          <option value="Self-help">Self-help</option>
+          <option value="Motivation">Motivation</option>
+          <option value="Productivity">Productivity</option>
+          <option value="Finance">Finance</option>
+          <option value="Fiction">Fiction</option>
+          <option value="Science">Science</option>
+          <option value="History">History</option>
+        </select>
 
         <input 
           type="text" 
@@ -231,6 +241,7 @@ const AdminBookManagement = () => {
     </div>
   </div>
 )}
+
 
     </div>
   );

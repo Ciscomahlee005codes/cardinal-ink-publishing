@@ -1,0 +1,105 @@
+.category-page {
+  padding: 20px;
+  background: #f8f9fc;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.category-page h1 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.6rem;
+}
+
+/* Add Category Section */
+.add-category {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.add-category input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.add-btn {
+  padding: 8px 16px;
+  background: #28a745;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #218838;
+}
+
+/* Table Styles */
+.category-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.category-table th,
+.category-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.category-table th {
+  background: #f1f1f1;
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #555;
+}
+
+.category-table tbody tr:hover {
+  background: #f9fafb;
+  transition: background 0.2s ease;
+}
+
+/* Buttons */
+.edit-btn,
+.delete-btn {
+  border: none;
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: all 0.2s ease;
+}
+
+.edit-btn {
+  background: #007bff;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #0069d9;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #c82333;
+}

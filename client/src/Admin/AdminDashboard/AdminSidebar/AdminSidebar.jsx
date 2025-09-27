@@ -14,6 +14,7 @@ import {
   FaUserShield,
   FaShoppingCart,
 } from "react-icons/fa";
+import { BiSolidCategory } from "react-icons/bi";
 import { GrTransaction } from "react-icons/gr";
 import "./AdminSidebar.css";
 
@@ -81,6 +82,11 @@ const AdminSidebar = () => {
           <li>
             <NavLink to="/admindashboard/bookmanagement" className="admin-link">
               <FaBook /> Book Management
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/admindashboard/bookcategory" className="admin-link">
+              <BiSolidCategory /> Book Categories
             </NavLink>
           </li>
           <li>

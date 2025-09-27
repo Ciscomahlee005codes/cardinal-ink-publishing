@@ -1,9 +1,11 @@
 .blog-section {
-  padding: 60px 40px;
+  padding: 60px 20px; /* reduce default padding */
   font-family: "Poppins", sans-serif;
   background: #fafafa;
+  max-width: 1200px;  /* keeps content centered */
+  margin: 0 auto;     /* center align */
+  box-sizing: border-box;
 }
-
 /* Blog Hero */
 .blog-hero {
   text-align: center;
@@ -27,7 +29,7 @@
 /* Blog Grid */
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* was 320px */
   gap: 25px;
 }
 

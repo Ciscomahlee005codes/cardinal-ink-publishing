@@ -1,19 +1,20 @@
 import React, { useContext, useState } from "react";
 import "./BookStore.css";
+import { books_store } from "../../../library_list";
 import { StoreContext } from "../../Context/StoreContext";
-import useBooks from "../../Hooks/useBooks"
+// import useBooks from "../../Hooks/useBooks"
 
 // Unique genres for filter buttons
 
 const BookStore = () => {
-  const {bookCollection} = useBooks()
-  const genres = ["All", ...new Set(bookCollection.map((book) => book.genre))];
+  // const {bookCollection} = useBooks()
+  const genres = ["All", ...new Set(books_store.map((book) => book.genre))];
   const [selectedGenre, setSelectedGenre] = useState("All");
   const { addToCart, cartItems } = useContext(StoreContext);
   const [addedBooks, setAddedBooks] = useState({});
 
   const filterBooks = (category) => {
-    return bookCollection.filter(
+    return books_store.filter(
       (book) =>
         book.category === category &&
         (selectedGenre === "All" || book.genre === selectedGenre)

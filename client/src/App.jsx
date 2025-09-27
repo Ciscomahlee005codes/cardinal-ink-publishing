@@ -7,6 +7,7 @@ import Loader from "./Components/Loader/Loader";
 import DelayLoader from "./Components/Loader/DelayLoader";
 import Cart from "./Components/Cart/Cart";
 import GetBook from "./Components/GetBook/GetBook";
+import BookCatPage from "./Admin/AdminDashboardPages/BookCatPage/BookCatPage";
 
 // Lazy-loaded Pages
 const Home = DelayLoader(() => import("./Pages/Home/Home"));
@@ -50,7 +51,7 @@ function App() {
     "/userdashboard/helpsupport", "/user/OTP", "/admindashboard/home",
     "/admindashboard/usermanagement", "/admindashboard/bookmanagement",
     "/admindashboard/transactionhistory", "/admindashboard/notification",
-    "/admindashboard/profilesettings", "/admin/authentication"
+    "/admindashboard/profilesettings", "/admin/authentication", "/admindashboard/bookcategory"
   ];
   
   const hideLayout = hiddenRoutes.includes(location.pathname);
@@ -89,6 +90,7 @@ function App() {
         <Route path="/admin/authentication" element={<AdminAuth />} />
         <Route path="/admindashboard/usermanagement" element={<AdminUserPage />} />
         <Route path="/admindashboard/bookmanagement" element={<AdminBookPage />} />
+        <Route path="/admindashboard/bookcategory" element={<BookCatPage />} />
         <Route path="/admindashboard/transactionhistory" element={<AdminTransactionPage />} />
         <Route path="/admindashboard/notification" element={<AdminNotificationPage />} />
         <Route path="/admindashboard/profilesettings" element={<AdminProfilePage />} />

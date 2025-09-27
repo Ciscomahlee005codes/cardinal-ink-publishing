@@ -114,6 +114,16 @@ th {
   margin-bottom: 15px;
   color: #333;
 }
+.modal form select {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+}
 
 /* Modal Form */
 .modal form input {
