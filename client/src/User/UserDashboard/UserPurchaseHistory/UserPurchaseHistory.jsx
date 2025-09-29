@@ -68,24 +68,25 @@ const UserPurchaseHistory = () => {
           </tr>
         </thead>
         <tbody>
-          {purchases.map((item, index) => (
-            <tr key={item.id}>
-              <td>{index + 1}</td>
-              <td>{item.book}</td>
-              <td>{item.author}</td>
-              <td>{item.date}</td>
-              <td>{item.price}</td>
-              <td className={`status ${item.status.toLowerCase()}`}>
-                {getStatusIcon(item.status)} {item.status}
-              </td>
-              <td>
-                <button className="download-btn">
-                  <FaRegEye  /> View Receipt
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+  {purchases.map((item, index) => (
+    <tr key={item.id}>
+      <td data-label="#"> {index + 1}</td>
+      <td data-label="Book Title">{item.book}</td>
+      <td data-label="Author">{item.author}</td>
+      <td data-label="Date">{item.date}</td>
+      <td data-label="Price">{item.price}</td>
+      <td data-label="Status" className={`status ${item.status.toLowerCase()}`}>
+        {getStatusIcon(item.status)} {item.status}
+      </td>
+      <td data-label="Receipt">
+        <button className="download-btn">
+          <FaRegEye /> View Receipt
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
       </table>
     </div>
   );

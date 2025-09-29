@@ -124,26 +124,27 @@ const AdminBookManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredBooks.map((book, index) => (
-            <tr key={book.id}>
-              <td>{index + 1}</td>
-              <td>
-                <img src={book.cover} alt={book.title} className="book-cover" />
-              </td>
-              <td>{book.title}</td>
-              <td>{book.author}</td>
-              <td>{book.genre}</td>
-              <td>{book.price}</td>
-              <td>{book.date}</td>
-              <td className="actions">
-                <button className="edit"><FaEdit /></button>
-                <button className="delete"><FaTrash /></button>
-                <button className="feature"><FaStar /></button>
-                <button className="outofstock"><FaTimesCircle /></button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+  {filteredBooks.map((book, index) => (
+    <tr key={book.id}>
+      <td data-label="#">{index + 1}</td>
+      <td data-label="Cover">
+        <img src={book.cover} alt={book.title} className="book-cover" />
+      </td>
+      <td data-label="Title">{book.title}</td>
+      <td data-label="Author">{book.author}</td>
+      <td data-label="Genre">{book.genre}</td>
+      <td data-label="Price">{book.price}</td>
+      <td data-label="Date Added">{book.date}</td>
+      <td data-label="Actions" className="actions">
+        <button className="edit"><FaEdit /></button>
+        <button className="delete"><FaTrash /></button>
+        <button className="feature"><FaStar /></button>
+        <button className="outofstock"><FaTimesCircle /></button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
       </table>
 
         {/* Modal Popup */}

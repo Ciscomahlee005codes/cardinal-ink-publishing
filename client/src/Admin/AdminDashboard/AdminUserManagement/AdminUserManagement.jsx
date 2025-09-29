@@ -47,26 +47,27 @@ const AdminUserManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredUsers.map((user, index) => (
-            <tr key={user.id}>
-              <td>{index + 1}</td>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>
-                <span className={`role ${user.role.toLowerCase()}`}>{user.role}</span>
-              </td>
-              <td>
-                <span className={`status ${user.status.toLowerCase()}`}>{user.status}</span>
-              </td>
-              <td>{user.date}</td>
-              <td className="actions">
-                <button className="edit"><FaEdit /></button>
-                <button className="delete"><FaTrash /></button>
-                <button className="suspend"><FaBan /></button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+  {filteredUsers.map((user, index) => (
+    <tr key={user.id}>
+      <td data-label="#">{index + 1}</td>
+      <td data-label="Name">{user.name}</td>
+      <td data-label="Email">{user.email}</td>
+      <td data-label="Role">
+        <span className={`role ${user.role.toLowerCase()}`}>{user.role}</span>
+      </td>
+      <td data-label="Status">
+        <span className={`status ${user.status.toLowerCase()}`}>{user.status}</span>
+      </td>
+      <td data-label="Date Joined">{user.date}</td>
+      <td data-label="Actions" className="actions">
+        <button className="edit"><FaEdit /></button>
+        <button className="delete"><FaTrash /></button>
+        <button className="suspend"><FaBan /></button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
       </table>
     </div>
   );

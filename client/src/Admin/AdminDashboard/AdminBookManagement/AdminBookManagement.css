@@ -210,3 +210,9 @@ th {
 .actions button:hover {
   opacity: 0.8;
 }
+@media (max-width: 430px) {
+   .book-management h1{
+    text-align: center;
+    font-size: 24px;
+  }
+}

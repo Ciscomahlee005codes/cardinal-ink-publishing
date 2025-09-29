@@ -91,3 +91,49 @@
 .download-btn:hover {
   background: #2e59d9;
 }
+
+/* 📱 Responsive Styles */
+@media (max-width: 768px) {
+  .history-table,
+  .history-table thead,
+  .history-table tbody,
+  .history-table th,
+  .history-table td,
+  .history-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .history-table thead {
+    display: none; /* Hide header row */
+  }
+
+  .history-table tr {
+    margin-bottom: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .history-table td {
+    padding: 10px 12px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    border: none;
+  }
+
+  .history-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #444;
+    flex: 1;
+    text-align: left;
+  }
+
+  .history-table td:last-child {
+    justify-content: flex-start;
+  }
+}

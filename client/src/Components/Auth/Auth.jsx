@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import endPoint from '../../API/Interface';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import './Auth.css';
 
 const Auth = () => {
@@ -34,38 +37,60 @@ const Auth = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Placeholder signup
+  // Signup
   const handleSignUp = async () => {
     const { password, confirmPassword } = formData;
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      toast.warn("⚠ Passwords do not match");
       return;
     }
 
     setIsLoading(true);
     try {
       console.log("Signup request:", formData);
-      alert("Signup successful (dummy). Please login.");
+      toast.success("✅ Signup successful (dummy). Please login.");
       setIsLoginForm(true);
     } catch (error) {
-      alert("Signup failed");
+      toast.error("❌ Signup failed");
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Placeholder login
+  // Login
   const handleLogin = async () => {
+    const loginEmail = formData.email;
+    const loginPassword = formData.password;
     setIsLoading(true);
     try {
       console.log("Login request:", formData);
-      if (formData.role === "reader") {
-        navigate("/userdashboard/home");
-      } else {
-        navigate("/userdashboard/home"); // Reader goes to homepage
-      }
+      // Inside handleLogin
+const requestAuthentication = await endPoint.post("/login/users", {
+  loginEmail,
+  loginPassword,
+});
+const authResponse = requestAuthentication.data;
+
+if (authResponse.status !== true) {
+  toast.error(authResponse.message || "❌ Login failed");
+  return;
+}
+
+const newAuthData = authResponse.data;
+
+// Save temporary token (if backend sends one at login)
+if (newAuthData.tempToken) {
+  localStorage.setItem("tempToken", newAuthData.tempToken);
+}
+
+toast.success("✅ Login successful!");
+navigate(
+  `/user/OTP?email=${newAuthData.email}&otpType=${newAuthData.otpType}&expiryTime=${newAuthData.time}`
+);
+
     } catch (error) {
-      alert("Login failed");
+      console.error(error);
+      toast.error("❌ Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -130,21 +155,20 @@ const Auth = () => {
             >
               <h2>Create Your E-Library Account</h2>
               
-                <input
-                  name="firstName"
-                  type="text"
-                  placeholder="First Name"
-                  value={formData.firstName}
-                  onChange={handleInputChange}
-                />
-                <input
-                  name="lastName"
-                  type="text"
-                  placeholder="Last Name"
-                  value={formData.lastName}
-                  onChange={handleInputChange}
-                />
-            
+              <input
+                name="firstName"
+                type="text"
+                placeholder="First Name"
+                value={formData.firstName}
+                onChange={handleInputChange}
+              />
+              <input
+                name="lastName"
+                type="text"
+                placeholder="Last Name"
+                value={formData.lastName}
+                onChange={handleInputChange}
+              />
               <input
                 name="email"
                 type="email"
@@ -188,6 +212,17 @@ const Auth = () => {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Toast container (needed once in app) */}
+      <ToastContainer 
+        position="top-right" 
+        autoClose={3000} 
+        hideProgressBar={false} 
+        newestOnTop 
+        closeOnClick 
+        pauseOnHover 
+        draggable 
+      />
     </div>
   );
 };

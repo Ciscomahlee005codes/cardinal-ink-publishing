@@ -76,25 +76,26 @@ const BookCategory = () => {
           </tr>
         </thead>
         <tbody>
-          {categories.map((cat, index) => (
-            <tr key={cat.id}>
-              <td>{index + 1}</td>
-              <td>{cat.name}</td>
-              <td>{cat.description}</td>
-              <td>
-                <button className="edit-btn" onClick={() => handleEdit(cat.id)}>
-                  Edit
-                </button>
-                <button
-                  className="delete-btn"
-                  onClick={() => handleDelete(cat.id)}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+  {categories.map((cat, index) => (
+    <tr key={cat.id}>
+      <td data-label="#">{index + 1}</td>
+      <td data-label="Category Name">{cat.name}</td>
+      <td data-label="Description">{cat.description}</td>
+      <td data-label="Actions">
+        <button className="edit-btn" onClick={() => handleEdit(cat.id)}>
+          Edit
+        </button>
+        <button
+          className="delete-btn"
+          onClick={() => handleDelete(cat.id)}
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
       </table>
     </div>
   );

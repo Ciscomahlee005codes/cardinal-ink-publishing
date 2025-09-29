@@ -72,29 +72,30 @@ const AdminTransaction = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredTransactions.length > 0 ? (
-            filteredTransactions.map((txn, index) => (
-              <tr key={txn.id}>
-                <td>{index + 1}</td>
-                <td>{txn.id}</td>
-                <td>{txn.user}</td>
-                <td>{txn.book}</td>
-                <td>{txn.amount}</td>
-                <td>{renderStatus(txn.status)}</td>
-                <td>{txn.date}</td>
-                <td>
-                  <button className="view-btn"><FaReceipt /> View</button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="8" style={{ textAlign: "center", padding: "15px" }}>
-                No transactions found
-              </td>
-            </tr>
-          )}
-        </tbody>
+  {filteredTransactions.length > 0 ? (
+    filteredTransactions.map((txn, index) => (
+      <tr key={txn.id}>
+        <td data-label="#"> {index + 1}</td>
+        <td data-label="Transaction ID">{txn.id}</td>
+        <td data-label="User">{txn.user}</td>
+        <td data-label="Book">{txn.book}</td>
+        <td data-label="Amount">{txn.amount}</td>
+        <td data-label="Status">{renderStatus(txn.status)}</td>
+        <td data-label="Date">{txn.date}</td>
+        <td data-label="Action">
+          <button className="view-btn"><FaReceipt /> View</button>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="8" style={{ textAlign: "center", padding: "15px" }}>
+        No transactions found
+      </td>
+    </tr>
+  )}
+</tbody>
+
       </table>
     </div>
   );
