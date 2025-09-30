@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import endPoint from '../../API/Interface';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import endPoint from "../../API/Interface";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import './Auth.css';
+import "./Auth.css";
 
 const Auth = () => {
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    role: 'reader',
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "reader",
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,19 +22,19 @@ const Auth = () => {
 
   const handleToggleForm = () => {
     setFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      role: 'reader',
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      role: "reader",
     });
-    setIsLoginForm(prev => !prev);
+    setIsLoginForm((prev) => !prev);
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   // Signup
@@ -51,6 +51,7 @@ const Auth = () => {
       toast.success("✅ Signup successful (dummy). Please login.");
       setIsLoginForm(true);
     } catch (error) {
+      console.log(error);
       toast.error("❌ Signup failed");
     } finally {
       setIsLoading(false);
@@ -63,31 +64,29 @@ const Auth = () => {
     const loginPassword = formData.password;
     setIsLoading(true);
     try {
-      console.log("Login request:", formData);
       // Inside handleLogin
-const requestAuthentication = await endPoint.post("/login/users", {
-  loginEmail,
-  loginPassword,
-});
-const authResponse = requestAuthentication.data;
+      const requestAuthentication = await endPoint.post("/login/users", {
+        email: loginEmail,
+        password: loginPassword,
+      });
+      const authResponse = requestAuthentication.data;
 
-if (authResponse.status !== true) {
-  toast.error(authResponse.message || "❌ Login failed");
-  return;
-}
+      if (authResponse.status !== true) {
+        toast.error(authResponse.message || "❌ Login failed");
+        return;
+      }
 
-const newAuthData = authResponse.data;
+      const newAuthData = authResponse.data;
 
-// Save temporary token (if backend sends one at login)
-if (newAuthData.tempToken) {
-  localStorage.setItem("tempToken", newAuthData.tempToken);
-}
+      // Save temporary token (if backend sends one at login)
+      if (newAuthData.tempToken) {
+        localStorage.setItem("tempToken", newAuthData.tempToken);
+      }
 
-toast.success("✅ Login successful!");
-navigate(
-  `/user/OTP?email=${newAuthData.email}&otpType=${newAuthData.otpType}&expiryTime=${newAuthData.time}`
-);
-
+      toast.success("✅ Login successful!");
+      navigate(
+        `/user/OTP?email=${newAuthData.email}&otpType=${newAuthData.otpType}&expiryTime=${newAuthData.time}`
+      );
     } catch (error) {
       console.error(error);
       toast.error("❌ Login failed. Please try again.");
@@ -99,7 +98,7 @@ navigate(
   return (
     <div className="auth-container">
       <div className="auth-image"></div>
-      <div className={`auth-form ${isLoginForm ? 'login-mode' : ''}`}>
+      <div className={`auth-form ${isLoginForm ? "login-mode" : ""}`}>
         <AnimatePresence mode="wait">
           {isLoginForm ? (
             <motion.div
@@ -138,7 +137,7 @@ navigate(
                 onClick={handleLogin}
                 disabled={isLoading}
               >
-                {isLoading ? 'Logging in...' : 'Login'}
+                {isLoading ? "Logging in..." : "Login"}
               </button>
               <p onClick={handleToggleForm}>
                 Don't have an account? <span>Sign Up</span>
@@ -154,7 +153,7 @@ navigate(
               className="form-box"
             >
               <h2>Create Your E-Library Account</h2>
-              
+
               <input
                 name="firstName"
                 type="text"
@@ -203,7 +202,7 @@ navigate(
                 onClick={handleSignUp}
                 disabled={isLoading}
               >
-                {isLoading ? 'Signing up...' : 'Sign Up'}
+                {isLoading ? "Signing up..." : "Sign Up"}
               </button>
               <p onClick={handleToggleForm}>
                 Already have an account? <span>Login</span>
@@ -214,14 +213,14 @@ navigate(
       </div>
 
       {/* Toast container (needed once in app) */}
-      <ToastContainer 
-        position="top-right" 
-        autoClose={3000} 
-        hideProgressBar={false} 
-        newestOnTop 
-        closeOnClick 
-        pauseOnHover 
-        draggable 
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
       />
     </div>
   );

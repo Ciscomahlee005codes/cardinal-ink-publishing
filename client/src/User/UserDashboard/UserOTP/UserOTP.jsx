@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import endPoint from "../../API/Interface";
+import endPoint from "../../../API/Interface";
 import "react-toastify/dist/ReactToastify.css";
 import "./UserOTP.css";
 
@@ -43,27 +43,26 @@ const UserOTP = () => {
 
     setIsLoading(true);
     try {
-     // Inside handleSubmit
-const response = await endPoint.post("/verify-otp", {
-  email,
-  otp: otpCode,
-  otpType,
-  // If backend needs the temp token:
-  tempToken: localStorage.getItem("tempToken"),
-});
+      // Inside handleSubmit
+      const response = await endPoint.post("/verify-otp", {
+        email,
+        otp: otpCode,
+        otpType,
+        // If backend needs the temp token:
+        tempToken: localStorage.getItem("tempToken"),
+      });
 
-const result = response.data;
+      const result = response.data;
 
-if (result.status === true) {
-  // Save Auth Token securely
-  localStorage.setItem("authToken", result.data.token);
+      if (result.status === true) {
+        // Save Auth Token securely
+        localStorage.setItem("authToken", result.data.token);
 
-  toast.success("✅ OTP verified successfully!");
-  setTimeout(() => navigate("/user/dashboard"), 2000);
-} else {
-  toast.error(result.message || "❌ Invalid OTP");
-}
-
+        toast.success("✅ OTP verified successfully!");
+        setTimeout(() => navigate("/user/dashboard"), 2000);
+      } else {
+        toast.error(result.message || "❌ Invalid OTP");
+      }
     } catch (error) {
       console.error(error);
       toast.error("❌ Verification failed. Please try again.");
