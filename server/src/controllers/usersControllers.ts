@@ -1,6 +1,7 @@
 const { Users } = require("../../models/indexs");
 const bcrypt = require("bcrypt");
-const { generateOtp, mailer } = require("../utils/functions");
+const mailer = require("../utils/Mail");
+const generateOtp = require("../utils/tokenGeneration");
 const jwt = require("jsonwebtoken");
 
 exports.createNewUser = async (req: any, res: any) => {
@@ -91,9 +92,8 @@ exports.createNewUser = async (req: any, res: any) => {
 };
 
 exports.loginUser = async (req: any, res: any) => {
+  const { email, password } = req.body;
   try {
-    const { email, password } = req.body;
-
     if (!email || !password) {
       return res?.json({
         status: false,
@@ -110,8 +110,8 @@ exports.loginUser = async (req: any, res: any) => {
     }
 
     const decryptPassword = await bcrypt.compare(
-      checkIfEmailExists.password,
-      password
+      password,
+      checkIfEmailExists.password
     );
     if (!decryptPassword) {
       return res?.json({
@@ -134,19 +134,12 @@ exports.loginUser = async (req: any, res: any) => {
     );
 
     //logic to send otp to email
-    const sendEmail = mailer(
-      `${checkIfEmailExists.firstname}, ${checkIfEmailExists.lastname}`,
+    mailer(
+      `${checkIfEmailExists.firstname} ${checkIfEmailExists.lastname}`,
       email,
       "Email Verification",
-      ""
+      `Here is your authenctication one time password <str>${generateOtpToken}</str> and it expires in 5 minutes`
     );
-
-    if (sendEmail !== true) {
-      return res?.json({
-        status: false,
-        message: "unable to send otp to email. check your connectivity",
-      });
-    }
 
     return res?.json({
       status: true,

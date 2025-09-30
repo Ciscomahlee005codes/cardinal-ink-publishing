@@ -11,12 +11,9 @@ async function startServer() {
   server.use(
     cors({
       origin:
-        process.env.MODE != "production"
+        process.env.MODE === "production"
           ? process.env.SECUREDURL
           : process.env.DEVURL,
-
-      credential: true,
-      methods: ["POST", "GET", "PUT", "DELETE", "PATCH", "OPTIONS"],
     })
   );
   server.use(express.json());

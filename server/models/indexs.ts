@@ -38,7 +38,7 @@ books.belongsTo(categories, {
 
 notification.belongsTo(Users, {
   foreignKey: "user_id",
-  as: "notification",
+  as: "user", // each notification belongs to one user
 });
 
 module.exports = {
