@@ -64,10 +64,16 @@ exports.createNewUser = async (req: any, res: any) => {
 
     // email verify OTP
     const sendEmail = mailer(
-      `${firstname}, ${lastname}`,
+      `${firstname} ${lastname}`,
       email,
       "Email Verification",
-      ""
+      `<div class="lead">
+        Use the verification code below to complete your action. This code is valid for <strong>5 minutes</strong>.
+      </div>
+      <div class="otp-box">
+        <div class="otp-code">${generateOtpToken}</div>
+        <div class="otp-note">If you didn't request this, please ignore this email.</div>
+      </div> `
     );
 
     if (sendEmail !== true) {
@@ -138,7 +144,13 @@ exports.loginUser = async (req: any, res: any) => {
       `${checkIfEmailExists.firstname} ${checkIfEmailExists.lastname}`,
       email,
       "Email Verification",
-      `Here is your authenctication one time password <str>${generateOtpToken}</str> and it expires in 5 minutes`
+      ` <div class="lead">
+        Use the verification code below to complete your action. This code is valid for <strong>5 minutes</strong>.
+      </div>
+      <div class="otp-box">
+        <div class="otp-code">${generateOtpToken}</div>
+        <div class="otp-note">If you didn't request this, please ignore this email.</div>
+      </div> `
     );
 
     return res?.json({
@@ -187,19 +199,18 @@ exports.ResendOTP = async (req: any, res: any) => {
     }
 
     //logic to send otp to email
-    const sendEmail = mailer(
+    mailer(
       `${updated.firstname}, ${updated.lastname}`,
       email,
-      "Email Verification",
-      ""
+      `OTP RESEND`,
+      `<div class="lead">
+        Use the verification code below to complete your action. This code is valid for <strong>5 minutes</strong>.
+      </div>
+      <div class="otp-box">
+        <div class="otp-code">${generateOtpToken}</div>
+        <div class="otp-note">If you didn't request this, please ignore this email.</div>
+      </div> `
     );
-
-    if (sendEmail !== true) {
-      return res?.json({
-        status: false,
-        message: "unable to send otp to email. check your connectivity",
-      });
-    }
 
     if (otpType == "verifyEmail") {
       return res?.json({
@@ -236,7 +247,7 @@ exports.verifyOtp = async (req: any, res: any) => {
   try {
     const { otp, email, otpType } = req.body;
 
-    if (!otp || !email || otpType) {
+    if (!otp || !email || !otpType) {
       return res?.json({
         status: false,
         message: "unable to complete request. missing arguments",
@@ -244,8 +255,8 @@ exports.verifyOtp = async (req: any, res: any) => {
     }
 
     if (
-      otpType != "auth" ||
-      otpType != "verifyEmail" ||
+      otpType != "auth" &&
+      otpType != "verifyEmail" &&
       otpType != "passwordReset"
     ) {
       return res?.json({
@@ -284,6 +295,17 @@ exports.verifyOtp = async (req: any, res: any) => {
         {
           where: { email: email },
         }
+      );
+
+      mailer(
+        `${checkIfEmailExists.firstname}, ${checkIfEmailExists.lastname}`,
+        email,
+        `Verification Successful 🎉`,
+        ` <div class="content">
+      <h2>Verification Successful 🎉</h2>
+      <p>Your email has been successfully verified.  
+      You can now enjoy full access to Cardinal Publishing Ink and explore thousands of amazing books at your fingertips.</p>
+    </div> `
       );
 
       return res?.json({
@@ -367,8 +389,14 @@ exports.forgottonPassword = async (req: any, res: any) => {
     const sendEmail = mailer(
       `${checkIfEmailExists.firstname}, ${checkIfEmailExists.lastname}`,
       email,
-      "Email Verification",
-      ""
+      "Password Reset OTP",
+      `<div class="lead">
+        Use the verification code below to complete your action. This code is valid for <strong>5 minutes</strong>.
+      </div>
+      <div class="otp-box">
+        <div class="otp-code">${generateOtpToken}</div>
+        <div class="otp-note">If you didn't request this, please ignore this email.</div>
+      </div> `
     );
 
     if (sendEmail !== true) {
@@ -419,11 +447,21 @@ exports.resetPassword = async (req: any, res: any) => {
 
     const hashPassword = await bcrypt.hash(password, 15);
 
-    await Users.update(
+    const checkIfEmailExists = await Users.update(
       {
         password: hashPassword,
       },
       { where: { id: id } }
+    );
+
+    mailer(
+      `${checkIfEmailExists.firstname}, ${checkIfEmailExists.lastname}`,
+      checkIfEmailExists.email,
+      `Password Reset Successful`,
+      ` <div class="content">
+      <h2>Password Reset Successful 🎉</h2>
+      <p>Your Password has been successfully been changed.</p>
+    </div> `
     );
 
     return res?.json({
