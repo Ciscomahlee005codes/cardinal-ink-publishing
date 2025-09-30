@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import endPoint from "../../../API/Interface";
@@ -9,6 +9,7 @@ const UserOTP = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [isLoading, setIsLoading] = useState(false);
   const [resending, setResending] = useState(false);
+  const [timer, setTimer] = useState(120); // 2 minutes = 120 seconds
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -19,17 +20,34 @@ const UserOTP = () => {
   const otpType = queryParams.get("otpType");
   const expiryTime = queryParams.get("expiryTime");
 
-  const handleChange = (element, index) => {
-    if (isNaN(element.value)) return;
+  // countdown effect
+  useEffect(() => {
+    if (timer <= 0) return;
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timer]);
 
-    let newOtp = [...otp];
-    newOtp[index] = element.value;
-    setOtp(newOtp);
-
-    if (element.nextSibling && element.value !== "") {
-      element.nextSibling.focus();
-    }
+  // Format timer mm:ss
+  const formatTime = (secs) => {
+    const minutes = Math.floor(secs / 60);
+    const seconds = secs % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
+
+   const handleChange = (element, index) => {
+  let newOtp = [...otp];
+  // Take only the first character and make sure it's alphanumeric
+  newOtp[index] = element.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+  setOtp(newOtp);
+
+  // move to next input if not empty
+  if (element.nextSibling && element.value !== "") {
+    element.nextSibling.focus();
+  }
+};
+
 
   // Verify OTP
   const handleSubmit = async (e) => {
@@ -43,21 +61,17 @@ const UserOTP = () => {
 
     setIsLoading(true);
     try {
-      // Inside handleSubmit
       const response = await endPoint.post("/verify-otp", {
         email,
         otp: otpCode,
         otpType,
-        // If backend needs the temp token:
         tempToken: localStorage.getItem("tempToken"),
       });
 
       const result = response.data;
 
       if (result.status === true) {
-        // Save Auth Token securely
         localStorage.setItem("authToken", result.data.token);
-
         toast.success("✅ OTP verified successfully!");
         setTimeout(() => navigate("/user/dashboard"), 2000);
       } else {
@@ -84,6 +98,7 @@ const UserOTP = () => {
 
       if (result.status === true) {
         toast.success("📩 OTP resent successfully!");
+        setTimer(120); // restart countdown
       } else {
         toast.error(result.message || "❌ Failed to resend OTP");
       }
@@ -124,15 +139,19 @@ const UserOTP = () => {
         </form>
 
         <div className="otp-footer">
-          <p>
-            Didn’t receive the code?{" "}
-            <span
-              className={`resend ${resending ? "disabled" : ""}`}
-              onClick={!resending ? handleResend : undefined}
-            >
-              {resending ? "Resending..." : "Resend"}
-            </span>
-          </p>
+          {timer > 0 ? (
+            <p>⏳ Resend available in {formatTime(timer)}</p>
+          ) : (
+            <p>
+              Didn’t receive the code?{" "}
+              <span
+                className={`resend ${resending ? "disabled" : ""}`}
+                onClick={!resending ? handleResend : undefined}
+              >
+                {resending ? "Resending..." : "Resend"}
+              </span>
+            </p>
+          )}
         </div>
       </div>
 
