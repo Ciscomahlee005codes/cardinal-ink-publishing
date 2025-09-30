@@ -36,18 +36,17 @@ const UserOTP = () => {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
-   const handleChange = (element, index) => {
-  let newOtp = [...otp];
-  // Take only the first character and make sure it's alphanumeric
-  newOtp[index] = element.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
-  setOtp(newOtp);
+  const handleChange = (element, index) => {
+    let newOtp = [...otp];
+    // Take only the first character and make sure it's alphanumeric
+    newOtp[index] = element.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+    setOtp(newOtp);
 
-  // move to next input if not empty
-  if (element.nextSibling && element.value !== "") {
-    element.nextSibling.focus();
-  }
-};
-
+    // move to next input if not empty
+    if (element.nextSibling && element.value !== "") {
+      element.nextSibling.focus();
+    }
+  };
 
   // Verify OTP
   const handleSubmit = async (e) => {
@@ -60,16 +59,14 @@ const UserOTP = () => {
     }
 
     setIsLoading(true);
+
+    const response = await endPoint.post("/verify/otp", {
+      email,
+      otp: otpCode,
+      otpType,
+    });
+    const result = response.data;
     try {
-      const response = await endPoint.post("/verify-otp", {
-        email,
-        otp: otpCode,
-        otpType,
-        tempToken: localStorage.getItem("tempToken"),
-      });
-
-      const result = response.data;
-
       if (result.status === true) {
         localStorage.setItem("authToken", result.data.token);
         toast.success("✅ OTP verified successfully!");
@@ -79,7 +76,9 @@ const UserOTP = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error("❌ Verification failed. Please try again.");
+      toast.error(
+        result.message || "❌ Verification failed. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -89,10 +88,9 @@ const UserOTP = () => {
   const handleResend = async () => {
     setResending(true);
     try {
-      const response = await endPoint.post("/resend-otp", {
-        email,
-        otpType,
-      });
+      const response = await endPoint.post(
+        `/resendotp?email=${email}&otpType=${otpType}`
+      );
 
       const result = response.data;
 
