@@ -18,6 +18,10 @@ const Auth = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
+  // Toggle visibility states
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const navigate = useNavigate();
 
   const handleToggleForm = () => {
@@ -39,7 +43,9 @@ const Auth = () => {
 
   // Signup
   const handleSignUp = async () => {
-    const { password, confirmPassword } = formData;
+    const { firstName, lastName, email, password, confirmPassword, role } =
+      formData;
+
     if (password !== confirmPassword) {
       toast.warn("⚠ Passwords do not match");
       return;
@@ -47,12 +53,34 @@ const Auth = () => {
 
     setIsLoading(true);
     try {
-      console.log("Signup request:", formData);
-      toast.success("✅ Signup successful (dummy). Please login.");
-      setIsLoginForm(true);
+      const requestSignup = await endPoint.post("/signup/users", {
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+      });
+
+      const signupResponse = requestSignup.data;
+
+      if (signupResponse.status !== true) {
+        toast.error(signupResponse.message || "❌ Signup failed");
+        return;
+      }
+
+      const newUserData = signupResponse.data;
+
+      if (newUserData.tempToken) {
+        localStorage.setItem("tempToken", newUserData.tempToken);
+      }
+
+      toast.success("✅ Signup successful! Verify your email with the OTP sent.");
+      navigate(
+        `/user/OTP?email=${newUserData.email}&otpType=${newUserData.otpType}&expiryTime=${newUserData.time}`
+      );
     } catch (error) {
-      console.log(error);
-      toast.error("❌ Signup failed");
+      console.error(error);
+      toast.error("❌ Signup failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -64,7 +92,6 @@ const Auth = () => {
     const loginPassword = formData.password;
     setIsLoading(true);
     try {
-      // Inside handleLogin
       const requestAuthentication = await endPoint.post("/login/users", {
         email: loginEmail,
         password: loginPassword,
@@ -78,7 +105,6 @@ const Auth = () => {
 
       const newAuthData = authResponse.data;
 
-      // Save temporary token (if backend sends one at login)
       if (newAuthData.tempToken) {
         localStorage.setItem("tempToken", newAuthData.tempToken);
       }
@@ -117,13 +143,24 @@ const Auth = () => {
                 value={formData.email}
                 onChange={handleInputChange}
               />
-              <input
-                name="password"
-                type="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
+
+              {/* Password with toggle */}
+              <div className="password-wrapper">
+                <input
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                />
+                <span
+                  className="toggle-icon"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                >
+                  {showPassword ? "🙈" : "👁"}
+                </span>
+              </div>
+
               <select
                 name="role"
                 value={formData.role}
@@ -175,20 +212,41 @@ const Auth = () => {
                 value={formData.email}
                 onChange={handleInputChange}
               />
-              <input
-                name="password"
-                type="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
-              <input
-                name="confirmPassword"
-                type="password"
-                placeholder="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-              />
+
+              {/* Password with toggle */}
+              <div className="password-wrapper">
+                <input
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                />
+                <span
+                  className="toggle-icon"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                >
+                  {showPassword ? "🙈" : "👁"}
+                </span>
+              </div>
+
+              {/* Confirm Password with toggle */}
+              <div className="password-wrapper">
+                <input
+                  name="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm Password"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                />
+                <span
+                  className="toggle-icon"
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                >
+                  {showConfirmPassword ? "🙈" : "👁"}
+                </span>
+              </div>
+
               <select
                 name="role"
                 value={formData.role}
@@ -212,7 +270,6 @@ const Auth = () => {
         </AnimatePresence>
       </div>
 
-      {/* Toast container (needed once in app) */}
       <ToastContainer
         position="top-right"
         autoClose={3000}
