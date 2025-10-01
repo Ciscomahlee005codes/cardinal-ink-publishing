@@ -11,7 +11,7 @@ exports.createNewUser = async (req: any, res: any) => {
     if (!firstname || !lastname || !email || !password || !role) {
       return res?.json({
         status: false,
-        message: "request can't be processed. some fields ae missing",
+        message: "request can't be processed. some fields are missing",
       });
     }
 
@@ -58,12 +58,12 @@ exports.createNewUser = async (req: any, res: any) => {
         otpExpiry: otpExpiry,
       },
       {
-        where: { id: checkIfEmailExists.id },
+        where: { id: createUser.id },
       }
     );
 
     // email verify OTP
-    const sendEmail = mailer(
+    mailer(
       `${firstname} ${lastname}`,
       email,
       "Email Verification",
@@ -75,13 +75,6 @@ exports.createNewUser = async (req: any, res: any) => {
         <div class="otp-note">If you didn't request this, please ignore this email.</div>
       </div> `
     );
-
-    if (sendEmail !== true) {
-      return res?.json({
-        status: false,
-        message: "unable to send otp to email. check your connectivity",
-      });
-    }
 
     return res?.json({
       status: true,
@@ -178,6 +171,11 @@ exports.ResendOTP = async (req: any, res: any) => {
       });
     }
 
+    const checkIfEmailExists = await Users.findOne({ where: { email: email } });
+    if (!checkIfEmailExists) {
+      return res?.json({ status: false, message: "invalid request" });
+    }
+
     const generateOtpToken = generateOtp(6);
     const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
 
@@ -200,7 +198,7 @@ exports.ResendOTP = async (req: any, res: any) => {
 
     //logic to send otp to email
     mailer(
-      `${updated.firstname}, ${updated.lastname}`,
+      `${checkIfEmailExists.firstname}, ${checkIfEmailExists.lastname}`,
       email,
       `OTP RESEND`,
       `<div class="lead">
@@ -311,6 +309,8 @@ exports.verifyOtp = async (req: any, res: any) => {
       return res?.json({
         status: true,
         message: "email verified",
+        type: "verifyEmail",
+        role: checkIfEmailExists.role,
       });
     }
 
@@ -326,6 +326,7 @@ exports.verifyOtp = async (req: any, res: any) => {
       );
       return res?.json({
         status: true,
+        type: "auth",
         message: "login successfull",
         authToken: generateAuthToken,
         role: checkIfEmailExists.role,
@@ -343,6 +344,7 @@ exports.verifyOtp = async (req: any, res: any) => {
         status: true,
         message: "verification successful",
         passwordResetToken: generatePasswordResetToken,
+        type: "passwordReset",
       });
     }
   } catch (error) {

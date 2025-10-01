@@ -39,7 +39,7 @@ const UserOTP = () => {
   const handleChange = (element, index) => {
     let newOtp = [...otp];
     // Take only the first character and make sure it's alphanumeric
-    newOtp[index] = element.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+    newOtp[index] = element.value.replace(/[^a-zA-Z0-9]/g, "");
     setOtp(newOtp);
 
     // move to next input if not empty
@@ -68,9 +68,24 @@ const UserOTP = () => {
     const result = response.data;
     try {
       if (result.status === true) {
-        localStorage.setItem("authToken", result.data.token);
-        toast.success("✅ OTP verified successfully!");
-        setTimeout(() => navigate("/user/dashboard"), 2000);
+        if (result.type === "verifyEmail") {
+          toast.success("✅ OTP verified successfully!");
+          setTimeout(() => navigate("/authenticate"), 2000);
+          return;
+        }
+        if (result.type === "passwordReset") {
+          toast.success("✅ OTP verified! Redirecting to reset password...");
+          return;
+        }
+        if (result.type !== "auth") {
+          localStorage.setItem("authToken", result.data.token);
+          toast.success("✅ OTP verified successfully!");
+          if (result.role === "admin") {
+            setTimeout(() => navigate("/admin/dashboard"), 2000);
+          } else if (result.role === "reader") {
+            setTimeout(() => navigate("/user/dashboard"), 2000);
+          }
+        }
       } else {
         toast.error(result.message || "❌ Invalid OTP");
       }
