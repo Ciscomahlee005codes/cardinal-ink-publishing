@@ -54,8 +54,8 @@ const Auth = () => {
     setIsLoading(true);
     try {
       const requestSignup = await endPoint.post("/signup/users", {
-        firstName,
-        lastName,
+        firstname: firstName,
+        lastname: lastName,
         email,
         password,
         role,
@@ -74,7 +74,9 @@ const Auth = () => {
         localStorage.setItem("tempToken", newUserData.tempToken);
       }
 
-      toast.success("✅ Signup successful! Verify your email with the OTP sent.");
+      toast.success(
+        "✅ Signup successful! Verify your email with the OTP sent."
+      );
       navigate(
         `/user/OTP?email=${newUserData.email}&otpType=${newUserData.otpType}&expiryTime=${newUserData.time}`
       );
