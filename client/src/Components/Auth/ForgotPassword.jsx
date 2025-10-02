@@ -3,10 +3,12 @@ import endPoint from "../../API/Interface";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./ForgotPassword.css";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleForgotPassword = async () => {
     if (!email) {
@@ -25,6 +27,11 @@ const ForgotPassword = () => {
       }
 
       toast.success("✅ Password reset link has been sent to your email.");
+      setTimeout(() => {
+        navigate(
+          `/user/OTP?email=${data.data.email}&otpType=${data.data.otpType}&expiryTime=${data.data.time}`
+        );
+      }, 2000);
     } catch (error) {
       console.error(error);
       toast.error("❌ Failed to send reset link. Try again later.");
@@ -38,8 +45,8 @@ const ForgotPassword = () => {
       <div className="forgot-box">
         <h2>Reset Your Password</h2>
         <p>
-          Enter your registered email address and we will send you a link to reset
-          your password.
+          Enter your registered email address and we will send you a link to
+          reset your password.
         </p>
         <input
           type="email"

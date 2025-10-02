@@ -1,3 +1,5 @@
+import console = require("console");
+
 const express = require("express");
 const routes = express.Router();
 const {
@@ -43,6 +45,19 @@ const {
 const authTokenValidator = require("../middleware/authTokenValidator");
 const adminMiddleware = require("../middleware/AdminMiddleware");
 const userMiddleware = require("../middleware/userAuth");
+
+routes.get("/admin/verifytoken", [authTokenValidator], (req: any, res: any) => {
+  console.log(req.user);
+  res.json({
+    status: true,
+  });
+});
+routes.get("/user/verifytoken", [authTokenValidator], (req: any, res: any) => {
+  console.log(req.user);
+  res.json({
+    status: true,
+  });
+});
 
 routes.post("/createnew/books", createNewBook);
 routes.get("/books", allBooks);

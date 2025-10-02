@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ResetPassword.css";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import endPoint from "../../API/Interface";
 import { toast, ToastContainer } from "react-toastify";
@@ -13,12 +13,18 @@ const ResetPassword = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const location = useLocation();
+  //const location = useLocation();
   const navigate = useNavigate();
 
   // Extract token from URL
-  const queryParams = new URLSearchParams(location.search);
-  const token = queryParams.get("token");
+  //const queryParams = new URLSearchParams(location.search);
+  const token = sessionStorage.getItem("resetPassowrdToken");
+
+  useEffect(() => {
+    if (!token || token == "") {
+      navigate("/authenicate");
+    }
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,10 +43,10 @@ const ResetPassword = () => {
     try {
       const response = await endPoint.put(
         "/passwordReset",
-        { newPassword },
+        { password: newPassword, confirmPassword },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            authorization: `Bearer ${token}`,
           },
         }
       );
@@ -52,6 +58,7 @@ const ResetPassword = () => {
         return;
       }
 
+      sessionStorage.removeItem("resetPassowrdToken");
       toast.success("✅ Password reset successful!");
       setTimeout(() => {
         navigate("/authentication"); // redirect to login after success

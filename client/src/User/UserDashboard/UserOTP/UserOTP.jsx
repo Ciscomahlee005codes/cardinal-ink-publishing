@@ -74,16 +74,26 @@ const UserOTP = () => {
           return;
         }
         if (result.type === "passwordReset") {
+          sessionStorage.setItem(
+            "resetPassowrdToken",
+            result.passwordResetToken
+          );
           toast.success("✅ OTP verified! Redirecting to reset password...");
+          setTimeout(() => {
+            navigate("/resetpassword");
+          }, 1000);
+
           return;
         }
-        if (result.type !== "auth") {
-          localStorage.setItem("authToken", result.data.token);
+        if (result.type === "auth") {
+          // localStorage.setItem("authToken", result.data.token);
           toast.success("✅ OTP verified successfully!");
           if (result.role === "admin") {
-            setTimeout(() => navigate("/admin/dashboard"), 2000);
+            localStorage.setItem("adminAuthToken", result.authToken);
+            setTimeout(() => navigate("/admindashboard/home"), 2000);
           } else if (result.role === "reader") {
-            setTimeout(() => navigate("/user/dashboard"), 2000);
+            localStorage.setItem("userAuthToken", result.authToken);
+            setTimeout(() => navigate("/userdashboard/home"), 2000);
           }
         }
       } else {
