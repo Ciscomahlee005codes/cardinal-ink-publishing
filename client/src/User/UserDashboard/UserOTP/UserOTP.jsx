@@ -129,7 +129,6 @@ const UserOTP = () => {
         <h2 className="otp-title">Verify Your Account</h2>
         <p className="otp-subtitle">
           Enter the 6-digit code sent to <strong>{email}</strong>. <br />
-          (Expires in {expiryTime} minutes)
         </p>
 
         <form onSubmit={handleSubmit} className="otp-form">

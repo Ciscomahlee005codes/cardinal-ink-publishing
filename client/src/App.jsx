@@ -8,6 +8,8 @@ import DelayLoader from "./Components/Loader/DelayLoader";
 import Cart from "./Components/Cart/Cart";
 import GetBook from "./Components/GetBook/GetBook";
 import BookCatPage from "./Admin/AdminDashboardPages/BookCatPage/BookCatPage";
+import ForgotPassword from "./Components/Auth/ForgotPassword";
+import ResetPassword from "./Components/Auth/ResetPassword";
 
 // Lazy-loaded Pages
 const Home = DelayLoader(() => import("./Pages/Home/Home"));
@@ -51,7 +53,8 @@ function App() {
     "/userdashboard/helpsupport", "/user/OTP", "/admindashboard/home",
     "/admindashboard/usermanagement", "/admindashboard/bookmanagement",
     "/admindashboard/transactionhistory", "/admindashboard/notification",
-    "/admindashboard/profilesettings", "/admin/authentication", "/admindashboard/bookcategory"
+    "/admindashboard/profilesettings", "/admin/authentication", "/admindashboard/bookcategory",
+    "/forgottenpassword", "/resetpassword"
   ];
   
   const hideLayout = hiddenRoutes.includes(location.pathname);
@@ -70,6 +73,8 @@ function App() {
         <Route path="/mylibrary" element={<LibraryPage />} />
         <Route path="/bookstore" element={<BookStorePage />} />
         <Route path="/authentication" element={<AuthPage />} />
+        <Route path= "/forgottenpassword" element={<ForgotPassword />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/getbook" element={<GetBook />} />
         <Route path="*" element={<ErrorPage />} />

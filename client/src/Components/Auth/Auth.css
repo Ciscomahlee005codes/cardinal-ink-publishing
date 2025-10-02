@@ -102,6 +102,17 @@ body {
 .toggle-icon:hover {
   color: #00bf63;
 }
+.forgot-password {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #027c21 !important;
+  cursor: pointer;
+  text-align: right;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
 
 @media (max-width: 768px) {
   .auth-container {

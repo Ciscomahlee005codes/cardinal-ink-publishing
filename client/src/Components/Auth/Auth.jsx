@@ -178,6 +178,15 @@ const Auth = () => {
               >
                 {isLoading ? "Logging in..." : "Login"}
               </button>
+
+              {/* Forgot password link */}
+              <p
+                className="forgot-password"
+                onClick={() => navigate("/forgottenpassword")}
+              >
+                Forgot Password?
+              </p>
+
               <p onClick={handleToggleForm}>
                 Don't have an account? <span>Sign Up</span>
               </p>
