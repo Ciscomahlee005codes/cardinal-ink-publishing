@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const authTokenValidator = async (req: any, res: any, next: any) => {
   try {
-    const authToken = req.header["authorization"];
+    const authToken = req.headers["authorization"];
     if (!authToken) {
       return res?.json({
         status: false,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import endPoint from "../../API/Interface";
@@ -23,6 +23,37 @@ const Auth = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
+  useEffect(() => {
+    async function checkUserOrAdmin() {
+      try {
+        const userToken = localStorage.getItem("userAuthToken");
+        const adminToken = localStorage.getItem("adminAuthToken");
+
+        if (userToken) {
+          const result = await endPoint.get("/user/verifytoken", {
+            headers: { authorization: `Bearer ${userToken}` },
+          });
+          result.data.status
+            ? navigate("/userdashboard/home")
+            : navigate("/authentication");
+        } else if (adminToken) {
+          const result = await endPoint.get("/admin/verifytoken", {
+            headers: { authorization: `Bearer ${adminToken}` },
+          });
+          result.data.status
+            ? navigate("/admindashboard/home")
+            : navigate("/authentication");
+        } else {
+          navigate("/authentication");
+        }
+      } catch (err) {
+        console.log(err);
+        navigate("/authentication");
+      }
+    }
+
+    checkUserOrAdmin();
+  }, [navigate]);
 
   const handleToggleForm = () => {
     setFormData({

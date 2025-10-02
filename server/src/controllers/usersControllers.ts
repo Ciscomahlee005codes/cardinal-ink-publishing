@@ -136,7 +136,7 @@ exports.loginUser = async (req: any, res: any) => {
     mailer(
       `${checkIfEmailExists.firstname} ${checkIfEmailExists.lastname}`,
       email,
-      "Email Verification",
+      "authentication Verification",
       ` <div class="lead">
         Use the verification code below to complete your action. This code is valid for <strong>5 minutes</strong>.
       </div>
@@ -388,7 +388,7 @@ exports.forgottonPassword = async (req: any, res: any) => {
     );
 
     //email logic
-    const sendEmail = mailer(
+    mailer(
       `${checkIfEmailExists.firstname}, ${checkIfEmailExists.lastname}`,
       email,
       "Password Reset OTP",
@@ -400,13 +400,6 @@ exports.forgottonPassword = async (req: any, res: any) => {
         <div class="otp-note">If you didn't request this, please ignore this email.</div>
       </div> `
     );
-
-    if (sendEmail !== true) {
-      return res?.json({
-        status: false,
-        message: "unable to send otp to email. check your connectivity",
-      });
-    }
 
     return res?.json({
       status: true,
@@ -432,7 +425,7 @@ exports.resetPassword = async (req: any, res: any) => {
       !confirmPassword ||
       !tokenType ||
       !id ||
-      tokenType !== "passwordReset"
+      tokenType != "passwordReset"
     ) {
       return res?.json({
         status: false,
@@ -448,8 +441,16 @@ exports.resetPassword = async (req: any, res: any) => {
     }
 
     const hashPassword = await bcrypt.hash(password, 15);
+    const checkIfEmailExists = await Users.findOne({ where: { id: id } });
 
-    const checkIfEmailExists = await Users.update(
+    if (!checkIfEmailExists) {
+      return res?.json({
+        status: true,
+        message: "unable to process request",
+      });
+    }
+
+    await Users.update(
       {
         password: hashPassword,
       },
