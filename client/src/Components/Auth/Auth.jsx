@@ -28,8 +28,16 @@ const Auth = () => {
       try {
         const userToken = localStorage.getItem("userAuthToken");
         const adminToken = localStorage.getItem("adminAuthToken");
-
-        if (userToken) {
+        if (userToken && adminToken) {
+          localStorage.clear();
+          navigate("/authentication");
+          return;
+        } else if (
+          (!userToken || userToken === "") &&
+          (!adminToken || adminToken === "")
+        ) {
+          navigate("/authentication");
+        } else if (userToken) {
           const result = await endPoint.get("/user/verifytoken", {
             headers: { authorization: `Bearer ${userToken}` },
           });
@@ -195,12 +203,12 @@ const Auth = () => {
               </div>
 
               <input
-  name="role"
-  type="text"
-  value={formData.role}
-  readOnly
-  className="fixed-role-input"
-/>
+                name="role"
+                type="text"
+                value={formData.role}
+                readOnly
+                className="fixed-role-input"
+              />
 
               <button
                 className="primary-btn"
@@ -290,12 +298,12 @@ const Auth = () => {
               </div>
 
               <input
-  name="role"
-  type="text"
-  value={formData.role}
-  readOnly
-  className="fixed-role-input"
-/>
+                name="role"
+                type="text"
+                value={formData.role}
+                readOnly
+                className="fixed-role-input"
+              />
 
               <button
                 className="primary-btn"

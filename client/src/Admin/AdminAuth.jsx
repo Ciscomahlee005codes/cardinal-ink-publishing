@@ -7,9 +7,9 @@ const AdminAuth = () => {
   useEffect(() => {
     async function checkAuth() {
       const adminToken = localStorage.getItem("adminAuthToken");
-      // if (!adminToken || adminToken === "") {
-      //   navigate("/authentication");
-      // }
+      if (!adminToken || adminToken === "") {
+        navigate("/authentication");
+      }
 
       const request = await endPoint.get("/admin/verifytoken", {
         headers: { authorization: `Bearer ${adminToken}` },
