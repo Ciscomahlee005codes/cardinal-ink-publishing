@@ -166,7 +166,9 @@ function App() {
         {/* Admin Dashboard Routes */}
         {/* <Route path="/admin/authentication" element={<AdminAuth />} /> */}
         <Route element={<AdminAuthentication />}>
-          <Route path="/admindashboard/home" element={<AdminHomePage />} />
+         
+        </Route>
+         <Route path="/admindashboard/home" element={<AdminHomePage />} />
           <Route
             path="/admindashboard/usermanagement"
             element={<AdminUserPage />}
@@ -191,7 +193,6 @@ function App() {
             path="/admindashboard/profilesettings"
             element={<AdminProfilePage />}
           />
-        </Route>
       </Routes>
 
       {!hideLayout && <Footer />}

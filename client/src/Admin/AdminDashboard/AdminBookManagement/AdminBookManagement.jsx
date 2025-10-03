@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./AdminBookManagement.css";
-import { FaSearch, FaEdit, FaTrash, FaStar, FaTimesCircle, FaPlus } from "react-icons/fa";
+import {
+  FaSearch,
+  FaEdit,
+  FaTrash,
+  FaStar,
+  FaTimesCircle,
+  FaPlus,
+} from "react-icons/fa";
+import endPoint  from "../../../API/Interface";
+import { toast } from "react-toastify";
 
 const AdminBookManagement = () => {
   const [search, setSearch] = useState("");
+  const [books, setBooks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [newBook, setNewBook] = useState({
     title: "",
@@ -12,61 +22,25 @@ const AdminBookManagement = () => {
     price: "",
     cover: null,
     pdf: null,
+     coverPreview: null, 
   });
 
-  const books = [
-    { 
-      id: 1, 
-      title: "Rich Dad Poor Dad", 
-      author: "Robert Kiyosaki", 
-      genre: "Finance", 
-      price: "$10", 
-      cover: "https://m.media-amazon.com/images/I/81bsw6fnUiL.jpg", 
-      date: "Sept 15, 2025" 
-    },
-    { 
-      id: 2, 
-      title: "Atomic Habits", 
-      author: "James Clear", 
-      genre: "Self-help", 
-      price: "$12", 
-      cover: "https://m.media-amazon.com/images/I/91bYsX41DVL.jpg", 
-      date: "Sept 18, 2025" 
-    },
-    { 
-      id: 3, 
-      title: "The Lean Startup", 
-      author: "Eric Ries", 
-      genre: "Business", 
-      price: "$15", 
-      cover: "https://m.media-amazon.com/images/I/81-QB7nDh4L.jpg", 
-      date: "Sept 19, 2025" 
-    },
-    { 
-      id: 4, 
-      title: "Think and Grow Rich", 
-      author: "Napoleon Hill", 
-      genre: "Motivation", 
-      price: "$9", 
-      cover: "https://m.media-amazon.com/images/I/81dQwQlmAXL.jpg", 
-      date: "Sept 20, 2025" 
-    },
-    { 
-      id: 5, 
-      title: "Deep Work", 
-      author: "Cal Newport", 
-      genre: "Productivity", 
-      price: "$14", 
-      cover: "https://m.media-amazon.com/images/I/81n2a2-mSIL.jpg", 
-      date: "Sept 21, 2025" 
-    }
-  ];
+  // ✅ Fetch books from backend
+  useEffect(() => {
+    fetchBooks();
+  }, []);
 
-  const filteredBooks = books.filter(
-    (book) =>
-      book.title.toLowerCase().includes(search.toLowerCase()) ||
-      book.author.toLowerCase().includes(search.toLowerCase())
-  );
+  const fetchBooks = async () => {
+    try {
+      const res = await endPoint.get("/books");
+      if (res.data && Array.isArray(res.data)) {
+        setBooks(res.data);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to fetch books ❌");
+    }
+  };
 
   // Handle file inputs
   const handleFileChange = (e) => {
@@ -80,12 +54,96 @@ const AdminBookManagement = () => {
     setNewBook({ ...newBook, [name]: value });
   };
 
-  const handleAddBook = (e) => {
+  // ✅ Add book to backend
+  const handleAddBook = async (e) => {
     e.preventDefault();
-    console.log("New Book Added:", newBook);
-    setShowModal(false);
-    setNewBook({ title: "", author: "", genre: "", price: "", cover: null, pdf: null });
+    try {
+      const formData = new FormData();
+      formData.append("title", newBook.title);
+      formData.append("author", newBook.author);
+      formData.append("genre", newBook.genre);
+      formData.append("price", newBook.price);
+      formData.append("cover", newBook.cover);
+      formData.append("pdf", newBook.pdf);
+
+      const res = await endPoint.post("/createnew/books", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (res.data.status) {
+        toast.success("✅ Book added successfully");
+        fetchBooks();
+        setShowModal(false);
+        setNewBook({
+          title: "",
+          author: "",
+          genre: "",
+          price: "",
+          cover: null,
+          pdf: null,
+        });
+      } else {
+        toast.error(res.data.message || "Failed to add book ❌");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to add book ❌");
+    }
   };
+
+  // ✅ Delete book
+  const handleDeleteBook = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this book?")) return;
+    try {
+      const res = await endPoint.put("/book/delete", { id });
+      if (res.data.status) {
+        toast.success("✅ Book deleted successfully");
+        fetchBooks();
+      } else {
+        toast.error(res.data.message || "Failed to delete ❌");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete ❌");
+    }
+  };
+
+  // ✅ Edit book (just demo, you can extend modal to edit)
+  const handleEditBook = async (book) => {
+    const newTitle = prompt("Enter new title:", book.title);
+    if (!newTitle) return;
+    try {
+      const res = await endPoint.put("/book/edit", {
+        id: book._id,
+        title: newTitle,
+      });
+      if (res.data.status) {
+        toast.success("✅ Book updated successfully");
+        fetchBooks();
+      } else {
+        toast.error(res.data.message || "Failed to update ❌");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update ❌");
+    }
+  };
+
+  // ✅ Toggle Featured
+  const handleFeatureBook = (book) => {
+    toast.info(`⭐ Marked "${book.title}" as featured (demo)`);
+  };
+
+  // ✅ Toggle Out of Stock
+  const handleOutOfStock = (book) => {
+    toast.info(`❌ Marked "${book.title}" as out of stock (demo)`);
+  };
+
+  const filteredBooks = books.filter(
+    (book) =>
+      book.title.toLowerCase().includes(search.toLowerCase()) ||
+      book.author.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="book-management">
@@ -124,126 +182,151 @@ const AdminBookManagement = () => {
           </tr>
         </thead>
         <tbody>
-  {filteredBooks.map((book, index) => (
-    <tr key={book.id}>
-      <td data-label="#">{index + 1}</td>
-      <td data-label="Cover">
-        <img src={book.cover} alt={book.title} className="book-cover" />
-      </td>
-      <td data-label="Title">{book.title}</td>
-      <td data-label="Author">{book.author}</td>
-      <td data-label="Genre">{book.genre}</td>
-      <td data-label="Price">{book.price}</td>
-      <td data-label="Date Added">{book.date}</td>
-      <td data-label="Actions" className="actions">
-        <button className="edit"><FaEdit /></button>
-        <button className="delete"><FaTrash /></button>
-        <button className="feature"><FaStar /></button>
-        <button className="outofstock"><FaTimesCircle /></button>
-      </td>
-    </tr>
-  ))}
-</tbody>
-
+          {filteredBooks.length > 0 ? (
+            filteredBooks.map((book, index) => (
+              <tr key={book._id || index}>
+                <td data-label="#">{index + 1}</td>
+                <td data-label="Cover">
+                  <img
+                    src={book.coverUrl || ""}
+                    alt={book.title}
+                    className="book-cover"
+                  />
+                </td>
+                <td data-label="Title">{book.title}</td>
+                <td data-label="Author">{book.author}</td>
+                <td data-label="Genre">{book.genre}</td>
+                <td data-label="Price">{book.price}</td>
+                <td data-label="Date Added">
+                  {new Date(book.createdAt).toLocaleDateString()}
+                </td>
+                <td data-label="Actions" className="actions">
+                  <button className="edit" onClick={() => handleEditBook(book)}>
+                    <FaEdit />
+                  </button>
+                  <button
+                    className="delete"
+                    onClick={() => handleDeleteBook(book._id)}
+                  >
+                    <FaTrash />
+                  </button>
+                  <button
+                    className="feature"
+                    onClick={() => handleFeatureBook(book)}
+                  >
+                    <FaStar />
+                  </button>
+                  <button
+                    className="outofstock"
+                    onClick={() => handleOutOfStock(book)}
+                  >
+                    <FaTimesCircle />
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="8" style={{ textAlign: "center" }}>
+                No books found
+              </td>
+            </tr>
+          )}
+        </tbody>
       </table>
 
-        {/* Modal Popup */}
-{showModal && (
-  <div className="modal-overlay">
-    <div className="modal">
-      <h2>Add New Book</h2>
-      <form onSubmit={handleAddBook}>
-        <input 
-          type="text" 
-          name="title" 
-          placeholder="Book Title" 
-          value={newBook.title} 
-          onChange={handleChange} 
-          required 
-        />
-        <input 
-          type="text" 
-          name="author" 
-          placeholder="Author" 
-          value={newBook.author} 
-          onChange={handleChange} 
-          required 
-        />
+      {/* Modal Popup */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Add New Book</h2>
+            <form onSubmit={handleAddBook}>
+              <input
+                type="text"
+                name="title"
+                placeholder="Book Title"
+                value={newBook.title}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="author"
+                placeholder="Author"
+                value={newBook.author}
+                onChange={handleChange}
+                required
+              />
 
-        {/* ✅ Category as Dropdown */}
-        <label>Select Category</label>
-        <select
-          name="category"
-          value={newBook.category || ""}
-          onChange={handleChange}
-          required
-        >
-          <option value="">-- Select Category --</option>
-          <option value="Business">Business</option>
-          <option value="Self-help">Self-help</option>
-          <option value="Motivation">Motivation</option>
-          <option value="Productivity">Productivity</option>
-          <option value="Finance">Finance</option>
-          <option value="Fiction">Fiction</option>
-          <option value="Science">Science</option>
-          <option value="History">History</option>
-        </select>
+              <label>Genre</label>
+              <input
+                type="text"
+                name="genre"
+                placeholder="Genre"
+                value={newBook.genre}
+                onChange={handleChange}
+                required
+              />
 
-        <input 
-          type="text" 
-          name="price" 
-          placeholder="Price (e.g. $15)" 
-          value={newBook.price} 
-          onChange={handleChange} 
-          required 
-        />
+              <input
+                type="text"
+                name="price"
+                placeholder="Price (e.g. $15)"
+                value={newBook.price}
+                onChange={handleChange}
+                required
+              />
 
-        {/* ✅ Cover Image Upload with Preview */}
-        <label>Upload Cover Image</label>
-        <input 
-          type="file" 
-          name="cover" 
-          accept="image/*" 
-          onChange={(e) => {
-            const file = e.target.files[0];
-            if (file) {
-              setNewBook({
-                ...newBook,
-                cover: file,
-                coverPreview: URL.createObjectURL(file), // <-- preview URL
-              });
-            }
-          }}
-          required 
-        />
-        {newBook.coverPreview && (
-          <img 
-            src={newBook.coverPreview} 
-            alt="Preview" 
-            className="preview-image" 
-          />
-        )}
+              {/* Cover Upload with Preview */}
+<label>Upload Cover Image</label>
+<input
+  type="file"
+  name="cover"
+  accept="image/*"
+  onChange={(e) => {
+    handleFileChange(e);
+    const file = e.target.files[0];
+    if (file) {
+      const previewURL = URL.createObjectURL(file);
+      setNewBook((prev) => ({ ...prev, coverPreview: previewURL }));
+    }
+  }}
+  required
+/>
 
-        {/* PDF Upload */}
-        <label>Upload Book PDF</label>
-        <input 
-          type="file" 
-          name="pdf" 
-          accept="application/pdf" 
-          onChange={handleFileChange} 
-          required 
-        />
-
-        <div className="modal-actions">
-          <button type="submit" className="save-btn">Save</button>
-          <button type="button" className="cancel-btn" onClick={() => setShowModal(false)}>Cancel</button>
-        </div>
-      </form>
-    </div>
+{/* Show Preview if Image is Selected */}
+{newBook.coverPreview && (
+  <div className="cover-preview">
+    <img src={newBook.coverPreview} alt="Book Cover Preview" />
   </div>
 )}
 
 
+              <label>Upload Book PDF</label>
+              <input
+                type="file"
+                name="pdf"
+                accept="application/pdf"
+                onChange={handleFileChange}
+                required
+              />
+
+              <div className="modal-actions">
+                <button type="submit" className="save-btn">
+                  Save
+                </button>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
