@@ -88,9 +88,9 @@ const Navbar = () => {
         {/* Right Side */}
         <div className="right-side">
           <div className="icons">
-            <NavLink to="/wishlist" title="Wishlist">
+            {/* <NavLink to="/wishlist" title="Wishlist">
               <MdFavorite />
-            </NavLink>
+            </NavLink> */}
             <div className="navbar-search-icon">
               <NavLink to="/cart" title="Cart">
                 <TiShoppingCart className="cart-icon" />

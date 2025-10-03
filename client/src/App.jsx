@@ -154,7 +154,7 @@ function App() {
         {/* Admin Dashboard Routes */}
         <Route path="/admin/authentication" element={<AdminAuth />} />
         <Route
-          path="/admindashboard/*"
+          path="/admindashboard/*"                                                  
           element={
             <AdminAuth>
               <Route path="home" element={<AdminHomePage />} />

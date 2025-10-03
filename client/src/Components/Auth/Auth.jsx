@@ -14,7 +14,7 @@ const Auth = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "reader",
+    role: "Reader",
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -194,14 +194,14 @@ const Auth = () => {
                 </span>
               </div>
 
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleInputChange}
-                className="role-select"
-              >
-                <option value="reader">Reader</option>
-              </select>
+              <input
+  name="role"
+  type="text"
+  value={formData.role}
+  readOnly
+  className="fixed-role-input"
+/>
+
               <button
                 className="primary-btn"
                 onClick={handleLogin}
@@ -289,14 +289,14 @@ const Auth = () => {
                 </span>
               </div>
 
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleInputChange}
-                className="role-select"
-              >
-                <option value="reader">Reader</option>
-              </select>
+              <input
+  name="role"
+  type="text"
+  value={formData.role}
+  readOnly
+  className="fixed-role-input"
+/>
+
               <button
                 className="primary-btn"
                 onClick={handleSignUp}
