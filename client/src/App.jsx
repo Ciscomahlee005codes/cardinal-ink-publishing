@@ -11,6 +11,7 @@ import BookCatPage from "./Admin/AdminDashboardPages/BookCatPage/BookCatPage";
 import ForgotPassword from "./Components/Auth/ForgotPassword";
 import ResetPassword from "./Components/Auth/ResetPassword";
 import UserAuth from "./User/UserAuth";
+import AdminAuthentication from "./Admin/AdminAuth"
 
 // Lazy-loaded Pages
 const Home = DelayLoader(() => import("./Pages/Home/Home"));
@@ -80,9 +81,9 @@ const AdminNotificationPage = DelayLoader(() =>
 const AdminProfilePage = DelayLoader(() =>
   import("./Admin/AdminDashboardPages/AdminProfilePage/AdminProfilePage")
 );
-const AdminAuth = DelayLoader(() =>
-  import("./Admin/AdminDashboard/AdminAuth/AdminAuth")
-);
+// const AdminAuth = DelayLoader(() =>
+//   import("./Admin/AdminDashboard/AdminAuth/AdminAuth")
+// );
 
 function App() {
   const location = useLocation();
@@ -152,11 +153,11 @@ function App() {
         <Route path="/user/OTP" element={<UserOTP />} />
 
         {/* Admin Dashboard Routes */}
-        <Route path="/admin/authentication" element={<AdminAuth />} />
+        {/* <Route path="/admin/authentication" element={<AdminAuth />} /> */}
         <Route
           path="/admindashboard/*"                                                  
           element={
-            <AdminAuth>
+            <AdminAuthentication>
               <Route path="home" element={<AdminHomePage />} />
               <Route path="usermanagement" element={<AdminUserPage />} />
               <Route path="bookmanagement" element={<AdminBookPage />} />
@@ -167,7 +168,7 @@ function App() {
               />
               <Route path="notification" element={<AdminNotificationPage />} />
               <Route path="profilesettings" element={<AdminProfilePage />} />
-            </AdminAuth>
+            </AdminAuthentication>
           }
         />
       </Routes>

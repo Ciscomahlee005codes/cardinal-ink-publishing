@@ -60,7 +60,7 @@ const AdminAuth = () => {
     try {
       console.log("Admin Login request:", formData);
       if (formData.role === "admin") {
-        navigate("/admin/dashboard");
+        navigate("/admin/dashboard/home");
       }
     } catch (error) {
       alert("Login failed");
