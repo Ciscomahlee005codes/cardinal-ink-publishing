@@ -46,18 +46,24 @@ const authTokenValidator = require("../middleware/authTokenValidator");
 const adminMiddleware = require("../middleware/AdminMiddleware");
 const userMiddleware = require("../middleware/userAuth");
 
-routes.get("/admin/verifytoken", [authTokenValidator], (req: any, res: any) => {
-  console.log(req.user);
-  res.json({
-    status: true,
-  });
-});
-routes.get("/user/verifytoken", [authTokenValidator], (req: any, res: any) => {
-  console.log(req.user);
-  res.json({
-    status: true,
-  });
-});
+routes.get(
+  "/admin/verifytoken",
+  [authTokenValidator, adminMiddleware],
+  (req: any, res: any) => {
+    res.json({
+      status: true,
+    });
+  }
+);
+routes.get(
+  "/user/verifytoken",
+  [authTokenValidator, userMiddleware],
+  (req: any, res: any) => {
+    res.json({
+      status: true,
+    });
+  }
+);
 
 routes.post("/createnew/books", createNewBook);
 routes.get("/books", allBooks);

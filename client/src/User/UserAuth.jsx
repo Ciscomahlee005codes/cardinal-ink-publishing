@@ -2,13 +2,13 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import endPoint from "../API/Interface";
 
-const UserAuth = () => {
+const UserAuth = ({ allowed }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
     async function checkAuth() {
       try {
-        const userAuthToken = localStorage.getItem("userAuthToken");
+        const userAuthToken = localStorage.getItem(allowed);
         if (!userAuthToken) return navigate("/authentication");
 
         const request = await endPoint.get("/user/verifytoken", {
@@ -25,9 +25,13 @@ const UserAuth = () => {
       }
     }
     checkAuth();
-  }, [navigate]);
+  }, [navigate, allowed]);
 
-  return <Outlet />; // 👈 renders child routes here
+  return (
+    <>
+      <Outlet />
+    </>
+  ); // 👈 renders child routes here
 };
 
 export default UserAuth;

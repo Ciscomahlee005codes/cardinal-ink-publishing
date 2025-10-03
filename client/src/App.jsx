@@ -11,7 +11,7 @@ import BookCatPage from "./Admin/AdminDashboardPages/BookCatPage/BookCatPage";
 import ForgotPassword from "./Components/Auth/ForgotPassword";
 import ResetPassword from "./Components/Auth/ResetPassword";
 import UserAuth from "./User/UserAuth";
-import AdminAuthentication from "./Admin/AdminAuth"
+import AdminAuthentication from "./Admin/AdminAuth";
 
 // Lazy-loaded Pages
 const Home = DelayLoader(() => import("./Pages/Home/Home"));
@@ -135,31 +135,63 @@ function App() {
         <Route path="*" element={<ErrorPage />} />
 
         {/* User Dashboard Routes */}
-         <Route element={<UserAuth />}>
-  <Route path="/userdashboard/home" element={<UserHomePage />} />
-  <Route path="/userdashboard/mylibrary" element={<UserLibraryPage />} />
-  <Route path="/userdashboard/trendingbooks" element={<UserTrendPage />} />
-  <Route path="/userdashboard/purchasehistory" element={<UserPurchasePage />} />
-  <Route path="/userdashboard/subscription" element={<UserSubPage />} />
-  <Route path="/userdashboard/profilesettings" element={<UserProfilePage />} />
-  <Route path="/userdashboard/notification" element={<UserNotificationPage />} />
-  <Route path="/userdashboard/helpsupport" element={<UserHelpPage />} />
-</Route>
+        <Route element={<UserAuth allowed="userAuthToken" />}>
+          <Route path="/userdashboard/home" element={<UserHomePage />} />
+          <Route
+            path="/userdashboard/mylibrary"
+            element={<UserLibraryPage />}
+          />
+          <Route
+            path="/userdashboard/trendingbooks"
+            element={<UserTrendPage />}
+          />
+          <Route
+            path="/userdashboard/purchasehistory"
+            element={<UserPurchasePage />}
+          />
+          <Route path="/userdashboard/subscription" element={<UserSubPage />} />
+          <Route
+            path="/userdashboard/profilesettings"
+            element={<UserProfilePage />}
+          />
+          <Route
+            path="/userdashboard/notification"
+            element={<UserNotificationPage />}
+          />
+          <Route path="/userdashboard/helpsupport" element={<UserHelpPage />} />
+        </Route>
 
         <Route path="/user/OTP" element={<UserOTP />} />
 
         {/* Admin Dashboard Routes */}
         {/* <Route path="/admin/authentication" element={<AdminAuth />} /> */}
         <Route element={<AdminAuthentication />}>
-  <Route path="/admindashboard/home" element={<AdminHomePage />} />
-  <Route path="/admindashboard/usermanagement" element={<AdminUserPage />} />
-  <Route path="/admindashboard/bookmanagement" element={<AdminBookPage />} />
-  <Route path="/admindashboard/bookcategory" element={<BookCatPage />} />
-  <Route path="/admindashboard/transactionhistory" element={<AdminTransactionPage />} />
-  <Route path="/admindashboard/notification" element={<AdminNotificationPage />} />
-  <Route path="/admindashboard/profilesettings" element={<AdminProfilePage />} />
-</Route>
-
+          <Route path="/admindashboard/home" element={<AdminHomePage />} />
+          <Route
+            path="/admindashboard/usermanagement"
+            element={<AdminUserPage />}
+          />
+          <Route
+            path="/admindashboard/bookmanagement"
+            element={<AdminBookPage />}
+          />
+          <Route
+            path="/admindashboard/bookcategory"
+            element={<BookCatPage />}
+          />
+          <Route
+            path="/admindashboard/transactionhistory"
+            element={<AdminTransactionPage />}
+          />
+          <Route
+            path="/admindashboard/notification"
+            element={<AdminNotificationPage />}
+          />
+          <Route
+            path="/admindashboard/profilesettings"
+            element={<AdminProfilePage />}
+          />
+        </Route>
       </Routes>
 
       {!hideLayout && <Footer />}
