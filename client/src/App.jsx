@@ -135,42 +135,31 @@ function App() {
         <Route path="*" element={<ErrorPage />} />
 
         {/* User Dashboard Routes */}
-        <Route
-          path="/userdashboard/*"
-          element={
-            <UserAuth>
-              <Route path="home" element={<UserHomePage />} />
-              <Route path="mylibrary" element={<UserLibraryPage />} />
-              <Route path="trendingbooks" element={<UserTrendPage />} />
-              <Route path="purchasehistory" element={<UserPurchasePage />} />
-              <Route path="subscription" element={<UserSubPage />} />
-              <Route path="profilesettings" element={<UserProfilePage />} />
-              <Route path="notification" element={<UserNotificationPage />} />
-              <Route path="helpsupport" element={<UserHelpPage />} />
-            </UserAuth>
-          }
-        />
+         <Route element={<UserAuth />}>
+  <Route path="/userdashboard/home" element={<UserHomePage />} />
+  <Route path="/userdashboard/mylibrary" element={<UserLibraryPage />} />
+  <Route path="/userdashboard/trendingbooks" element={<UserTrendPage />} />
+  <Route path="/userdashboard/purchasehistory" element={<UserPurchasePage />} />
+  <Route path="/userdashboard/subscription" element={<UserSubPage />} />
+  <Route path="/userdashboard/profilesettings" element={<UserProfilePage />} />
+  <Route path="/userdashboard/notification" element={<UserNotificationPage />} />
+  <Route path="/userdashboard/helpsupport" element={<UserHelpPage />} />
+</Route>
+
         <Route path="/user/OTP" element={<UserOTP />} />
 
         {/* Admin Dashboard Routes */}
         {/* <Route path="/admin/authentication" element={<AdminAuth />} /> */}
-        <Route
-          path="/admindashboard/*"                                                  
-          element={
-            <AdminAuthentication>
-              <Route path="home" element={<AdminHomePage />} />
-              <Route path="usermanagement" element={<AdminUserPage />} />
-              <Route path="bookmanagement" element={<AdminBookPage />} />
-              <Route path="bookcategory" element={<BookCatPage />} />
-              <Route
-                path="transactionhistory"
-                element={<AdminTransactionPage />}
-              />
-              <Route path="notification" element={<AdminNotificationPage />} />
-              <Route path="profilesettings" element={<AdminProfilePage />} />
-            </AdminAuthentication>
-          }
-        />
+        <Route element={<AdminAuthentication />}>
+  <Route path="/admindashboard/home" element={<AdminHomePage />} />
+  <Route path="/admindashboard/usermanagement" element={<AdminUserPage />} />
+  <Route path="/admindashboard/bookmanagement" element={<AdminBookPage />} />
+  <Route path="/admindashboard/bookcategory" element={<BookCatPage />} />
+  <Route path="/admindashboard/transactionhistory" element={<AdminTransactionPage />} />
+  <Route path="/admindashboard/notification" element={<AdminNotificationPage />} />
+  <Route path="/admindashboard/profilesettings" element={<AdminProfilePage />} />
+</Route>
+
       </Routes>
 
       {!hideLayout && <Footer />}
