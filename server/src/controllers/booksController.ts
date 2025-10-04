@@ -5,17 +5,11 @@ const fs = require("fs");
 exports.createNewBook = [
   upload.array("fileContent", 2),
   async (req: any, res: any) => {
+    console.log(req.body, req.files);
+
     try {
-      const {
-        title,
-        author,
-        description,
-        price,
-        category_id,
-        cover_url,
-        content_url,
-      } = req?.body;
-      const file = req?.file;
+      const { title, author, description, price, category_id } = req?.body;
+      const file = req?.files;
 
       if (!Array.isArray(file)) {
         return res?.json({
@@ -25,15 +19,7 @@ exports.createNewBook = [
         });
       }
 
-      if (
-        !title ||
-        !author ||
-        !description ||
-        !price ||
-        !cover_url ||
-        !content_url ||
-        !category_id
-      ) {
+      if (!title || !author || !description || !price || !category_id) {
         return res?.json({
           status: false,
           message: "ensure all fields are filled",

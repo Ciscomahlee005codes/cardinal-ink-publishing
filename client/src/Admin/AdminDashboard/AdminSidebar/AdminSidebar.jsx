@@ -50,7 +50,9 @@ const AdminSidebar = () => {
       )}
 
       <div
-        className={`admin-sidebar ${isMobile ? (isOpen ? "open" : "") : "desktop"}`}
+        className={`admin-sidebar ${
+          isMobile ? (isOpen ? "open" : "") : "desktop"
+        }`}
       >
         {isMobile && (
           <button className="admin-close-btn" onClick={toggleSidebar}>
@@ -90,8 +92,11 @@ const AdminSidebar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admindashboard/transactionhistory" className="admin-link">
-              <GrTransaction/> Transaction History
+            <NavLink
+              to="/admindashboard/transactionhistory"
+              className="admin-link"
+            >
+              <GrTransaction /> Transaction History
             </NavLink>
           </li>
           <li>
@@ -100,15 +105,24 @@ const AdminSidebar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admindashboard/profilesettings" className="admin-link">
-              <FaCogs />Profile Settings
+            <NavLink
+              to="/admindashboard/profilesettings"
+              className="admin-link"
+            >
+              <FaCogs />
+              Profile Settings
             </NavLink>
           </li>
         </ul>
 
         {/* Logout */}
         <div className="admin-logout">
-          <button>
+          <button
+            onClick={() => {
+              localStorage.removeItem("adminAuthToken");
+              window.location.href = "/#/authentication";
+            }}
+          >
             <FaSignOutAlt /> Logout
           </button>
         </div>
