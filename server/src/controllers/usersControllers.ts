@@ -479,3 +479,36 @@ exports.resetPassword = async (req: any, res: any) => {
     });
   }
 };
+
+exports.allUsers = async (req: any, res: any) => {
+  try {
+    const getAllUsers = await Users.findAll();
+
+    return res?.json({
+      status: true,
+      users: getAllUsers,
+    });
+  } catch (error) {
+    console.log(error);
+    res?.json({ status: false, message: "internal server error" });
+  }
+};
+
+exports.getUserById = async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+    const getAUser = await Users.findOne({ where: { id: id } });
+
+    if (!getAUser) {
+      return res?.json({ status: false, message: "internal server error" });
+    }
+
+    return res?.json({
+      status: true,
+      user: getAUser,
+    });
+  } catch (error) {
+    console.log(error);
+    res?.json({ status: false, message: "internal server error" });
+  }
+};
