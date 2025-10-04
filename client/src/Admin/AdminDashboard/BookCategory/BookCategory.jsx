@@ -20,6 +20,8 @@ const BookCategory = () => {
       const res = await endPoint.get("/categories");
       if (res.data && Array.isArray(res.data)) {
         setCategories(res.data);
+      } else {
+        toast.error("⚠️ Invalid response format");
       }
     } catch (err) {
       console.error(err);
@@ -34,14 +36,22 @@ const BookCategory = () => {
       return;
     }
 
+    const token =
+      localStorage.getItem("adminAuthToken") || localStorage.getItem("token");
+
+    if (!token) {
+      toast.error("❌ No admin token found. Please login again.");
+      return;
+    }
+
     try {
       const res = await endPoint.post("/create/category", newCategory, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // ✅ include admin token
+          Authorization: `Bearer ${token}`, // ✅ Correct token
         },
       });
 
-      if (res.data.status) {
+      if (res.data.status === true) {
         toast.success("✅ Category created successfully");
         setNewCategory({ name: "", description: "" });
         fetchCategories();
@@ -61,13 +71,16 @@ const BookCategory = () => {
 
     if (!newName || !newDesc) return;
 
+    const token =
+      localStorage.getItem("adminAuthToken") || localStorage.getItem("token");
+
     try {
       const res = await endPoint.put(
         "/edit/category",
         { id: cat._id, name: newName, description: newDesc },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -88,10 +101,13 @@ const BookCategory = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this category?")) return;
 
+    const token =
+      localStorage.getItem("adminAuthToken") || localStorage.getItem("token");
+
     try {
       const res = await endPoint.delete(`/categories/delete/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
