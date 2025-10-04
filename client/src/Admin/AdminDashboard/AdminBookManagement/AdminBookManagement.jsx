@@ -70,11 +70,14 @@ const AdminBookManagement = () => {
       formData.append("author", newBook.author);
       formData.append("description", newBook.description);
       formData.append("price", newBook.price);
-      if (newBook.cover) formData.append("cover", newBook.cover);
-      if (newBook.pdf) formData.append("pdf", newBook.pdf);
+      if (newBook.cover) formData.append("fileContent", newBook.cover);
+      if (newBook.pdf) formData.append("fileContent", newBook.pdf);
 
       const res = await endPoint.post("/createnew/books", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${localStorage.getItem("adminAuthToken")}`,
+        },
       });
 
       if (res.data.status === true) {
