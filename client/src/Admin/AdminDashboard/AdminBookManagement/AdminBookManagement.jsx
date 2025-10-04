@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import endPoint from "../../../API/Interface";
 import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminBookManagement = () => {
   const [search, setSearch] = useState("");
@@ -18,14 +19,14 @@ const AdminBookManagement = () => {
   const [newBook, setNewBook] = useState({
     title: "",
     author: "",
-    genre: "",
+    description: "",
     price: "",
     cover: null,
     pdf: null,
     coverPreview: null,
   });
 
-  // ✅ Fetch books from backend
+  // ✅ Fetch all books
   useEffect(() => {
     fetchBooks();
   }, []);
@@ -35,6 +36,8 @@ const AdminBookManagement = () => {
       const res = await endPoint.get("/books");
       if (res.data && Array.isArray(res.data)) {
         setBooks(res.data);
+      } else {
+        toast.error("Invalid response format ❌");
       }
     } catch (err) {
       console.error(err);
@@ -42,34 +45,36 @@ const AdminBookManagement = () => {
     }
   };
 
-  // Handle file inputs
-  const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    setNewBook({ ...newBook, [name]: files[0] });
-  };
-
-  // Handle text inputs
+  // ✅ Handle inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewBook({ ...newBook, [name]: value });
   };
 
-  // ✅ Add book to backend
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    setNewBook({ ...newBook, [name]: files[0] });
+  };
+
+  // ✅ Add new book
   const handleAddBook = async (e) => {
     e.preventDefault();
+    if (!newBook.title || !newBook.author || !newBook.price) {
+      toast.warn("⚠ Please fill in all required fields");
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append("title", newBook.title);
       formData.append("author", newBook.author);
-      formData.append("genre", newBook.genre);
+      formData.append("description", newBook.description);
       formData.append("price", newBook.price);
-      formData.append("fileContent", newBook.cover);
-      formData.append("fileContent", newBook.pdf);
+      if (newBook.cover) formData.append("cover", newBook.cover);
+      if (newBook.pdf) formData.append("pdf", newBook.pdf);
 
       const res = await endPoint.post("/createnew/books", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       if (res.data.status === true) {
@@ -79,15 +84,15 @@ const AdminBookManagement = () => {
         setNewBook({
           title: "",
           author: "",
-          genre: "",
+          description: "",
           price: "",
           cover: null,
           pdf: null,
+          coverPreview: null,
         });
-
-        return;
+      } else {
+        toast.error(res.data.message || "Failed to add book ❌");
       }
-      toast.error(res.data.message || "Failed to add book ❌");
     } catch (err) {
       console.error(err);
       toast.error("Failed to add book ❌");
@@ -111,7 +116,7 @@ const AdminBookManagement = () => {
     }
   };
 
-  // ✅ Edit book (just demo, you can extend modal to edit)
+  // ✅ Edit book title (simple)
   const handleEditBook = async (book) => {
     const newTitle = prompt("Enter new title:", book.title);
     if (!newTitle) return;
@@ -130,16 +135,6 @@ const AdminBookManagement = () => {
       console.error(err);
       toast.error("Failed to update ❌");
     }
-  };
-
-  // ✅ Toggle Featured
-  const handleFeatureBook = (book) => {
-    toast.info(`⭐ Marked "${book.title}" as featured (demo)`);
-  };
-
-  // ✅ Toggle Out of Stock
-  const handleOutOfStock = (book) => {
-    toast.info(`❌ Marked "${book.title}" as out of stock (demo)`);
   };
 
   const filteredBooks = books.filter(
@@ -178,7 +173,7 @@ const AdminBookManagement = () => {
             <th>Cover</th>
             <th>Title</th>
             <th>Author</th>
-            <th>Genre</th>
+            <th>Description</th>
             <th>Price</th>
             <th>Date Added</th>
             <th>Actions</th>
@@ -198,7 +193,7 @@ const AdminBookManagement = () => {
                 </td>
                 <td data-label="Title">{book.title}</td>
                 <td data-label="Author">{book.author}</td>
-                <td data-label="Genre">{book.genre}</td>
+                <td data-label="Description">{book.description}</td>
                 <td data-label="Price">{book.price}</td>
                 <td data-label="Date Added">
                   {new Date(book.createdAt).toLocaleDateString()}
@@ -215,13 +210,17 @@ const AdminBookManagement = () => {
                   </button>
                   <button
                     className="feature"
-                    onClick={() => handleFeatureBook(book)}
+                    onClick={() =>
+                      toast.info(`⭐ Marked "${book.title}" as featured`)
+                    }
                   >
                     <FaStar />
                   </button>
                   <button
                     className="outofstock"
-                    onClick={() => handleOutOfStock(book)}
+                    onClick={() =>
+                      toast.info(`❌ Marked "${book.title}" as out of stock`)
+                    }
                   >
                     <FaTimesCircle />
                   </button>
@@ -259,14 +258,12 @@ const AdminBookManagement = () => {
                 onChange={handleChange}
               />
 
-              <label>Genre</label>
-              <input
-                type="text"
-                name="genre"
-                placeholder="Genre"
-                value={newBook.genre}
+              <textarea
+                name="description"
+                placeholder="Description"
+                value={newBook.description}
                 onChange={handleChange}
-              />
+              ></textarea>
 
               <input
                 type="text"
@@ -276,7 +273,6 @@ const AdminBookManagement = () => {
                 onChange={handleChange}
               />
 
-              {/* Cover Upload with Preview */}
               <label>Upload Cover Image</label>
               <input
                 type="file"
@@ -294,8 +290,6 @@ const AdminBookManagement = () => {
                   }
                 }}
               />
-
-              {/* Show Preview if Image is Selected */}
               {newBook.coverPreview && (
                 <div className="cover-preview">
                   <img src={newBook.coverPreview} alt="Book Cover Preview" />
@@ -326,15 +320,7 @@ const AdminBookManagement = () => {
           </div>
         </div>
       )}
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        pauseOnHover
-        draggable
-      />
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
