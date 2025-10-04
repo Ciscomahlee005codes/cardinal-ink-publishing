@@ -65,7 +65,12 @@ routes.get(
   }
 );
 
-routes.post("/createnew/books", createNewBook);
+routes.post(
+  "/createnew/books",
+  //authTokenValidator,
+  //adminMiddleware,
+  createNewBook
+);
 routes.get("/books", allBooks);
 routes.get("/books/:id", Books);
 routes.put("/book/edit", editBook);

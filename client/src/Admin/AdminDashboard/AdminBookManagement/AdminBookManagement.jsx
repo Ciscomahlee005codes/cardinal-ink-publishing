@@ -8,8 +8,8 @@ import {
   FaTimesCircle,
   FaPlus,
 } from "react-icons/fa";
-import endPoint  from "../../../API/Interface";
-import { toast } from "react-toastify";
+import endPoint from "../../../API/Interface";
+import { toast, ToastContainer } from "react-toastify";
 
 const AdminBookManagement = () => {
   const [search, setSearch] = useState("");
@@ -22,7 +22,7 @@ const AdminBookManagement = () => {
     price: "",
     cover: null,
     pdf: null,
-     coverPreview: null, 
+    coverPreview: null,
   });
 
   // ✅ Fetch books from backend
@@ -63,14 +63,16 @@ const AdminBookManagement = () => {
       formData.append("author", newBook.author);
       formData.append("genre", newBook.genre);
       formData.append("price", newBook.price);
-      formData.append("cover", newBook.cover);
-      formData.append("pdf", newBook.pdf);
+      formData.append("fileContent", newBook.cover);
+      formData.append("fileContent", newBook.pdf);
 
       const res = await endPoint.post("/createnew/books", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      if (res.data.status) {
+      if (res.data.status === true) {
         toast.success("✅ Book added successfully");
         fetchBooks();
         setShowModal(false);
@@ -82,9 +84,10 @@ const AdminBookManagement = () => {
           cover: null,
           pdf: null,
         });
-      } else {
-        toast.error(res.data.message || "Failed to add book ❌");
+
+        return;
       }
+      toast.error(res.data.message || "Failed to add book ❌");
     } catch (err) {
       console.error(err);
       toast.error("Failed to add book ❌");
@@ -247,7 +250,6 @@ const AdminBookManagement = () => {
                 placeholder="Book Title"
                 value={newBook.title}
                 onChange={handleChange}
-                required
               />
               <input
                 type="text"
@@ -255,7 +257,6 @@ const AdminBookManagement = () => {
                 placeholder="Author"
                 value={newBook.author}
                 onChange={handleChange}
-                required
               />
 
               <label>Genre</label>
@@ -265,7 +266,6 @@ const AdminBookManagement = () => {
                 placeholder="Genre"
                 value={newBook.genre}
                 onChange={handleChange}
-                required
               />
 
               <input
@@ -274,33 +274,33 @@ const AdminBookManagement = () => {
                 placeholder="Price (e.g. $15)"
                 value={newBook.price}
                 onChange={handleChange}
-                required
               />
 
               {/* Cover Upload with Preview */}
-<label>Upload Cover Image</label>
-<input
-  type="file"
-  name="cover"
-  accept="image/*"
-  onChange={(e) => {
-    handleFileChange(e);
-    const file = e.target.files[0];
-    if (file) {
-      const previewURL = URL.createObjectURL(file);
-      setNewBook((prev) => ({ ...prev, coverPreview: previewURL }));
-    }
-  }}
-  required
-/>
+              <label>Upload Cover Image</label>
+              <input
+                type="file"
+                name="cover"
+                accept="image/*"
+                onChange={(e) => {
+                  handleFileChange(e);
+                  const file = e.target.files[0];
+                  if (file) {
+                    const previewURL = URL.createObjectURL(file);
+                    setNewBook((prev) => ({
+                      ...prev,
+                      coverPreview: previewURL,
+                    }));
+                  }
+                }}
+              />
 
-{/* Show Preview if Image is Selected */}
-{newBook.coverPreview && (
-  <div className="cover-preview">
-    <img src={newBook.coverPreview} alt="Book Cover Preview" />
-  </div>
-)}
-
+              {/* Show Preview if Image is Selected */}
+              {newBook.coverPreview && (
+                <div className="cover-preview">
+                  <img src={newBook.coverPreview} alt="Book Cover Preview" />
+                </div>
+              )}
 
               <label>Upload Book PDF</label>
               <input
@@ -308,7 +308,6 @@ const AdminBookManagement = () => {
                 name="pdf"
                 accept="application/pdf"
                 onChange={handleFileChange}
-                required
               />
 
               <div className="modal-actions">
@@ -327,6 +326,15 @@ const AdminBookManagement = () => {
           </div>
         </div>
       )}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
     </div>
   );
 };

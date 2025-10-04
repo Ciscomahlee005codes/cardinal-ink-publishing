@@ -109,7 +109,12 @@ const UserSideBar = () => {
 
         {/* Logout */}
         <div className="logout">
-          <button>
+          <button
+            onClick={() => {
+              localStorage.removeItem("userAuthToken");
+              window.location.href = "/#/authentication";
+            }}
+          >
             <FaSignOutAlt /> Logout
           </button>
         </div>
