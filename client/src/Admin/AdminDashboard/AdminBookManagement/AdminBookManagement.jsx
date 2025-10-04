@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./AdminBookManagement.css";
 import {
   FaSearch,
@@ -11,10 +11,11 @@ import {
 import endPoint from "../../../API/Interface";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useBooks from "../../../Hooks/useBooks";
 
 const AdminBookManagement = () => {
+  const { bookCollection, refetchBooks } = useBooks(); 
   const [search, setSearch] = useState("");
-  const [books, setBooks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [newBook, setNewBook] = useState({
     title: "",
@@ -25,25 +26,6 @@ const AdminBookManagement = () => {
     pdf: null,
     coverPreview: null,
   });
-
-  // ✅ Fetch all books
-  useEffect(() => {
-    fetchBooks();
-  }, []);
-
-  const fetchBooks = async () => {
-    try {
-      const res = await endPoint.get("/books");
-      if (res.data && Array.isArray(res.data)) {
-        setBooks(res.data);
-      } else {
-        toast.error("Invalid response format ❌");
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to fetch books ❌");
-    }
-  };
 
   // ✅ Handle inputs
   const handleChange = (e) => {
@@ -82,7 +64,7 @@ const AdminBookManagement = () => {
 
       if (res.data.status === true) {
         toast.success("✅ Book added successfully");
-        fetchBooks();
+        refetchBooks(); // ✅ refresh the books via hook
         setShowModal(false);
         setNewBook({
           title: "",
@@ -109,7 +91,7 @@ const AdminBookManagement = () => {
       const res = await endPoint.put("/book/delete", { id });
       if (res.data.status) {
         toast.success("✅ Book deleted successfully");
-        fetchBooks();
+        refetchBooks(); // ✅ refresh list
       } else {
         toast.error(res.data.message || "Failed to delete ❌");
       }
@@ -130,7 +112,7 @@ const AdminBookManagement = () => {
       });
       if (res.data.status) {
         toast.success("✅ Book updated successfully");
-        fetchBooks();
+        refetchBooks(); // ✅ refresh
       } else {
         toast.error(res.data.message || "Failed to update ❌");
       }
@@ -140,11 +122,12 @@ const AdminBookManagement = () => {
     }
   };
 
-  const filteredBooks = books.filter(
-    (book) =>
-      book.title.toLowerCase().includes(search.toLowerCase()) ||
-      book.author.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredBooks =
+    bookCollection?.filter(
+      (book) =>
+        book.title.toLowerCase().includes(search.toLowerCase()) ||
+        book.author.toLowerCase().includes(search.toLowerCase())
+    ) || [];
 
   return (
     <div className="book-management">
@@ -186,22 +169,20 @@ const AdminBookManagement = () => {
           {filteredBooks.length > 0 ? (
             filteredBooks.map((book, index) => (
               <tr key={book._id || index}>
-                <td data-label="#">{index + 1}</td>
-                <td data-label="Cover">
+                <td>{index + 1}</td>
+                <td>
                   <img
                     src={book.coverUrl || ""}
                     alt={book.title}
                     className="book-cover"
                   />
                 </td>
-                <td data-label="Title">{book.title}</td>
-                <td data-label="Author">{book.author}</td>
-                <td data-label="Description">{book.description}</td>
-                <td data-label="Price">{book.price}</td>
-                <td data-label="Date Added">
-                  {new Date(book.createdAt).toLocaleDateString()}
-                </td>
-                <td data-label="Actions" className="actions">
+                <td>{book.title}</td>
+                <td>{book.author}</td>
+                <td>{book.description}</td>
+                <td>{book.price}</td>
+                <td>{new Date(book.createdAt).toLocaleDateString()}</td>
+                <td className="actions">
                   <button className="edit" onClick={() => handleEditBook(book)}>
                     <FaEdit />
                   </button>
@@ -260,14 +241,12 @@ const AdminBookManagement = () => {
                 value={newBook.author}
                 onChange={handleChange}
               />
-
               <textarea
                 name="description"
                 placeholder="Description"
                 value={newBook.description}
                 onChange={handleChange}
               ></textarea>
-
               <input
                 type="text"
                 name="price"
@@ -323,6 +302,7 @@ const AdminBookManagement = () => {
           </div>
         </div>
       )}
+
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
