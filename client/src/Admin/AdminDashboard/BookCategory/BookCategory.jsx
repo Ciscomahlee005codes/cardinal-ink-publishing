@@ -1,43 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./BookCategory.css";
 import endPoint from "../../../API/Interface";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import useCategory from "../../../Hooks/useCategory";
+import useGetCategoryId from "../../../Hooks/useGetCategoryId";
 
 const BookCategory = () => {
-  const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState({
     name: "",
     description: "",
   });
 
-  // ✅ Fetch categories from backend
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const fetchCategories = async () => {
-    try {
-      const res = await endPoint.get("/categories");
-      if (res.data && Array.isArray(res.data)) {
-        setCategories(res.data);
-      } else {
-        toast.error("⚠️ Invalid response format");
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("❌ Failed to load categories");
-    }
-  };
-
+  const { Categories } = useCategory();
+  const { CategoryById } = useGetCategoryId();
   // ✅ Add new category
   const handleAdd = async () => {
-    if (newCategory.name.trim() === "" || newCategory.description.trim() === "") {
-      toast.error("⚠️ Please fill in both fields");
-      return;
-    }
-
-    const token =
-      localStorage.getItem("adminAuthToken") || localStorage.getItem("token");
+    const token = localStorage.getItem("adminAuthToken");
 
     if (!token) {
       toast.error("❌ No admin token found. Please login again.");
@@ -45,19 +23,22 @@ const BookCategory = () => {
     }
 
     try {
-      const res = await endPoint.post("/create/category", newCategory, {
-        headers: {
-          Authorization: `Bearer ${token}`, // ✅ Correct token
-        },
-      });
+      const res = await endPoint.post(
+        "/create/category",
+        { category: newCategory.name },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (res.data.status === true) {
         toast.success("✅ Category created successfully");
         setNewCategory({ name: "", description: "" });
-        fetchCategories();
-      } else {
-        toast.error(res.data.message || "❌ Failed to create category");
+        return;
       }
+      toast.error(res.data.message || "❌ Failed to create category");
     } catch (err) {
       console.error(err);
       toast.error("❌ Failed to create category");
@@ -87,7 +68,6 @@ const BookCategory = () => {
 
       if (res.data.status) {
         toast.success("✅ Category updated successfully");
-        fetchCategories();
       } else {
         toast.error(res.data.message || "❌ Failed to update category");
       }
@@ -99,7 +79,8 @@ const BookCategory = () => {
 
   // ✅ Delete category
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this category?")) return;
+    if (!window.confirm("Are you sure you want to delete this category?"))
+      return;
 
     const token =
       localStorage.getItem("adminAuthToken") || localStorage.getItem("token");
@@ -113,7 +94,6 @@ const BookCategory = () => {
 
       if (res.data.status) {
         toast.success("✅ Category deleted successfully");
-        fetchCategories();
       } else {
         toast.error(res.data.message || "❌ Failed to delete category");
       }
@@ -133,14 +113,8 @@ const BookCategory = () => {
           type="text"
           placeholder="Category Name"
           value={newCategory.name}
-          onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="Description"
-          value={newCategory.description}
           onChange={(e) =>
-            setNewCategory({ ...newCategory, description: e.target.value })
+            setNewCategory({ ...newCategory, name: e.target.value })
           }
         />
         <button className="add-btn" onClick={handleAdd}>
@@ -154,17 +128,15 @@ const BookCategory = () => {
           <tr>
             <th>#</th>
             <th>Category Name</th>
-            <th>Description</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {categories.length > 0 ? (
-            categories.map((cat, index) => (
+          {Categories.length > 0 ? (
+            Categories.map((cat, index) => (
               <tr key={cat._id}>
                 <td data-label="#">{index + 1}</td>
-                <td data-label="Category Name">{cat.name}</td>
-                <td data-label="Description">{cat.description}</td>
+                <td data-label="Category Name">{cat.category}</td>
                 <td data-label="Actions">
                   <button className="edit-btn" onClick={() => handleEdit(cat)}>
                     Edit
@@ -187,6 +159,7 @@ const BookCategory = () => {
           )}
         </tbody>
       </table>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
