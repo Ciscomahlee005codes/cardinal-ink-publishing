@@ -1,16 +1,17 @@
 import React, { useContext, useState } from "react";
 import "./BookStore.css";
 import { StoreContext } from "../../Context/StoreContext";
-import useBooks from "../../Hooks/useBooks"
-
-// Unique genres for filter buttons
 
 const BookStore = () => {
-  const {bookCollection} = useBooks()
-  const genres = ["All", ...new Set(bookCollection.map((book) => book.genre))];
+  const { bookCollection, addToCart, cartItems, loading, error } = useContext(StoreContext);
   const [selectedGenre, setSelectedGenre] = useState("All");
-  const { addToCart, cartItems } = useContext(StoreContext);
   const [addedBooks, setAddedBooks] = useState({});
+
+  // Show loading/error states
+  if (loading) return <div className="loading">Loading books...</div>;
+  if (error) return <div className="error">{error}</div>;
+
+  const genres = ["All", ...new Set(bookCollection.map((book) => book.genre))];
 
   const filterBooks = (category) => {
     return bookCollection.filter(
@@ -26,7 +27,7 @@ const BookStore = () => {
 
     setTimeout(() => {
       setAddedBooks((prev) => ({ ...prev, [bookId]: false }));
-    }, 2000); // 2s animation
+    }, 2000);
   };
 
   const renderBooks = (books) =>
@@ -58,7 +59,6 @@ const BookStore = () => {
     <section className="bookstore">
       <h1>📚 Book Store</h1>
 
-      {/* Filter Buttons */}
       <div className="filters">
         {genres.map((genre) => (
           <button
@@ -71,19 +71,16 @@ const BookStore = () => {
         ))}
       </div>
 
-      {/* Trending Books */}
       <div className="book-section">
         <h2>📈 Trending Books</h2>
         <div className="book-grid">{renderBooks(filterBooks("Trending"))}</div>
       </div>
 
-      {/* Featured Books */}
       <div className="book-section">
         <h2>⭐ Featured Books</h2>
         <div className="book-grid">{renderBooks(filterBooks("Featured"))}</div>
       </div>
 
-      {/* New Arrivals */}
       <div className="book-section">
         <h2>🆕 New Arrivals</h2>
         <div className="book-grid">{renderBooks(filterBooks("New Arrivals"))}</div>

@@ -1,11 +1,30 @@
-import { createContext, useState } from "react";
-import useBooks from "../Hooks/useBooks";
+import { createContext, useState, useEffect } from "react";
+import endPoint from "../API/Interface"; // ✅ Fetch directly here instead of custom hook
 
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
-  const { bookCollection } = useBooks(); // ✅ books fetched here
+  const [bookCollection, setBookCollection] = useState([]);
   const [cartItems, setCartItems] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // ✅ Fetch books once globally
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await endPoint.get("/books");
+        const data = response.data;
+        setBookCollection(data.books || []);
+      } catch (err) {
+        setError("Failed to load books");
+        console.error("Error fetching books:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBooks();
+  }, []);
 
   // Add to cart
   const addToCart = (itemId) => {
@@ -21,25 +40,19 @@ const StoreContextProvider = (props) => {
       if (prev[itemId] > 1) {
         return { ...prev, [itemId]: prev[itemId] - 1 };
       } else {
-        const newCart = { ...prev };
-        delete newCart[itemId];
-        return newCart;
+        const updatedCart = { ...prev };
+        delete updatedCart[itemId];
+        return updatedCart;
       }
     });
   };
 
-  // Calculate total cart amount
+  // Calculate total
   const getTotalCartAmount = () => {
-    let totalAmount = 0;
-    for (const itemId in cartItems) {
-      const itemInfo = bookCollection.find(
-        (book) => String(book.id) === String(itemId)
-      );
-      if (itemInfo) {
-        totalAmount += itemInfo.price * cartItems[itemId];
-      }
-    }
-    return totalAmount;
+    return Object.entries(cartItems).reduce((total, [itemId, quantity]) => {
+      const book = bookCollection.find((b) => String(b.id) === String(itemId));
+      return book ? total + book.price * quantity : total;
+    }, 0);
   };
 
   const contextValue = {
@@ -48,6 +61,8 @@ const StoreContextProvider = (props) => {
     addToCart,
     removeFromCart,
     getTotalCartAmount,
+    loading,
+    error,
   };
 
   return (
