@@ -216,6 +216,9 @@ th {
 .cancel-btn:hover {
   background: #b02a37;
 }
+.book-cover{
+  width: 100px
+}
 .book-cover-large {
   width: 100%;
   max-width: 250px;
