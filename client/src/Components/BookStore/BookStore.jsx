@@ -1,47 +1,37 @@
 import React, { useContext, useState } from "react";
 import "./BookStore.css";
+import useBooks from "../../Hooks/useBooks";
 import { StoreContext } from "../../Context/StoreContext";
 
 const BookStore = () => {
-  const { bookCollection, addToCart, cartItems, loading, error } =
-    useContext(StoreContext);
+  const { bookCollection, loading, error } = useBooks();
+  const { cartItems, addToCart } = useContext(StoreContext);
   const [selectedGenre, setSelectedGenre] = useState("All");
   const [addedBooks, setAddedBooks] = useState({});
 
-  // Show loading/error states
   if (loading) return <div className="loading">Loading books...</div>;
   if (error) return <div className="error">{error}</div>;
 
-  // Get all unique genres safely
+  // Get unique genres
   const genres = [
     "All",
     ...new Set(bookCollection.map((book) => book.genre || "Unknown")),
   ];
 
-  // ✅ Safe filter: handles undefined or invalid categories
-  const filterBooks = (category) => {
-    return bookCollection.filter((book) => {
-      const bookCategory =
-        typeof book.category === "string" ? book.category.toLowerCase() : "";
-      const matchCategory = bookCategory === category.toLowerCase();
-
-      return (
-        matchCategory &&
-        (selectedGenre === "All" || book.genre === selectedGenre)
-      );
-    });
-  };
+  // Filter by genre
+  const filteredBooks =
+    selectedGenre === "All"
+      ? bookCollection
+      : bookCollection.filter((book) => book.genre === selectedGenre);
 
   const handleAddToCart = (bookId) => {
     addToCart(bookId);
     setAddedBooks((prev) => ({ ...prev, [bookId]: true }));
-
     setTimeout(() => {
       setAddedBooks((prev) => ({ ...prev, [bookId]: false }));
     }, 2000);
   };
 
-  // ✅ Use same image logic as TrendingBooks
   const renderBooks = (books) =>
     books.map((book) => {
       const isInCart = cartItems[book.id] > 0;
@@ -53,11 +43,11 @@ const BookStore = () => {
             alt={book.title}
           />
           <h3>{book.title}</h3>
-          <p>by {book.author}</p>
+          <p className="author">by {book.author}</p>
           <p className="price">₦{book.price}</p>
 
           <button
-            className={`library-btn ${isInCart ? "disabled" : ""}`}
+            className={`btn-buy ${isInCart ? "disabled" : ""}`}
             onClick={() => handleAddToCart(book.id)}
             disabled={isInCart}
           >
@@ -65,7 +55,7 @@ const BookStore = () => {
               ? addedBooks[book.id]
                 ? "Added ✅"
                 : "In Cart"
-              : "Add to Book Cart"}
+              : "Add to Cart"}
           </button>
         </div>
       );
@@ -73,35 +63,25 @@ const BookStore = () => {
 
   return (
     <section className="bookstore">
-      <h1>📚 Book Store</h1>
+      <div className="container">
+        <h2>📖 Book Store</h2>
+        <p className="subtitle">
+          Browse all your favorite books across genres and collections.
+        </p>
 
-      <div className="filters">
-        {genres.map((genre) => (
-          <button
-            key={genre}
-            className={selectedGenre === genre ? "active" : ""}
-            onClick={() => setSelectedGenre(genre)}
-          >
-            {genre}
-          </button>
-        ))}
-      </div>
-
-      <div className="book-section">
-        <h2>📈 Trending Books</h2>
-        <div className="book-grid">{renderBooks(filterBooks("Trending"))}</div>
-      </div>
-
-      <div className="book-section">
-        <h2>⭐ Featured Books</h2>
-        <div className="book-grid">{renderBooks(filterBooks("Featured"))}</div>
-      </div>
-
-      <div className="book-section">
-        <h2>🆕 New Arrivals</h2>
-        <div className="book-grid">
-          {renderBooks(filterBooks("New Arrivals"))}
+        <div className="filters">
+          {genres.map((genre) => (
+            <button
+              key={genre}
+              className={selectedGenre === genre ? "active" : ""}
+              onClick={() => setSelectedGenre(genre)}
+            >
+              {genre}
+            </button>
+          ))}
         </div>
+
+        <div className="books-grid">{renderBooks(filteredBooks)}</div>
       </div>
     </section>
   );
