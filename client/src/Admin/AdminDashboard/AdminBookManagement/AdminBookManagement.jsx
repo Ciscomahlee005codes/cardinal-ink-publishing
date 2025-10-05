@@ -4,7 +4,7 @@ import {
   FaSearch,
   FaEdit,
   FaTrash,
-  FaStar,
+  FaEye,
   FaTimesCircle,
   FaPlus,
 } from "react-icons/fa";
@@ -18,9 +18,9 @@ const AdminBookManagement = () => {
   const { bookCollection, refetchBooks } = useBooks();
   const { Categories } = useCategory();
   const [selectedCategory, setSelectedCategory] = useState(null);
-
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
+
   const [newBook, setNewBook] = useState({
     title: "",
     author: "",
@@ -32,7 +32,11 @@ const AdminBookManagement = () => {
     coverPreview: null,
   });
 
-  // ✅ Handle inputs
+  const [editModal, setEditModal] = useState(null);
+  const [deleteModal, setDeleteModal] = useState(null);
+  const [viewModal, setViewModal] = useState(null);
+
+  // ✅ Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewBook({ ...newBook, [name]: value });
@@ -92,35 +96,18 @@ const AdminBookManagement = () => {
     }
   };
 
-  // ✅ Delete book
-  const handleDeleteBook = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this book?")) return;
-    try {
-      const res = await endPoint.put("/book/delete", { id });
-      if (res.data.status) {
-        toast.success("✅ Book deleted successfully");
-        refetchBooks();
-      } else {
-        toast.error(res.data.message || "Failed to delete ❌");
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to delete ❌");
-    }
-  };
-
-  // ✅ Edit book title
-  const handleEditBook = async (book) => {
-    const newTitle = prompt("Enter new title:", book.title);
-    if (!newTitle) return;
+  // ✅ Edit Book Modal
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
     try {
       const res = await endPoint.put("/book/edit", {
-        id: book._id,
-        title: newTitle,
+        id: editModal._id,
+        title: editModal.title,
       });
       if (res.data.status) {
         toast.success("✅ Book updated successfully");
         refetchBooks();
+        setEditModal(null);
       } else {
         toast.error(res.data.message || "Failed to update ❌");
       }
@@ -130,6 +117,24 @@ const AdminBookManagement = () => {
     }
   };
 
+  // ✅ Delete Book Modal
+  const confirmDelete = async () => {
+    try {
+      const res = await endPoint.put("/book/delete", { id: deleteModal._id });
+      if (res.data.status) {
+        toast.success("✅ Book deleted successfully");
+        refetchBooks();
+        setDeleteModal(null);
+      } else {
+        toast.error(res.data.message || "Failed to delete ❌");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete ❌");
+    }
+  };
+
+  // ✅ Search Filter
   const filteredBooks =
     bookCollection?.filter(
       (book) =>
@@ -152,14 +157,14 @@ const AdminBookManagement = () => {
         />
       </div>
 
-      {/* Add New Book Button */}
+      {/* Add Book */}
       <div className="add-btn-container">
         <button className="add-btn" onClick={() => setShowModal(true)}>
           <FaPlus /> Add New Book
         </button>
       </div>
 
-      {/* Books Table */}
+      {/* Table */}
       <table>
         <thead>
           <tr>
@@ -193,22 +198,14 @@ const AdminBookManagement = () => {
                 <td>{book.price}</td>
                 <td>{new Date(book.createdAt).toLocaleDateString()}</td>
                 <td className="actions">
-                  <button className="edit" onClick={() => handleEditBook(book)}>
+                  <button className="edit" onClick={() => setEditModal(book)}>
                     <FaEdit />
                   </button>
-                  <button
-                    className="delete"
-                    onClick={() => handleDeleteBook(book._id)}
-                  >
+                  <button className="delete" onClick={() => setDeleteModal(book)}>
                     <FaTrash />
                   </button>
-                  <button
-                    className="feature"
-                    onClick={() =>
-                      toast.info(`⭐ Marked "${book.title}" as featured`)
-                    }
-                  >
-                    <FaStar />
+                  <button className="view" onClick={() => setViewModal(book)}>
+                    <FaEye />
                   </button>
                   <button
                     className="outofstock"
@@ -231,7 +228,7 @@ const AdminBookManagement = () => {
         </tbody>
       </table>
 
-      {/* Modal Popup */}
+      {/* Add Book Modal */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal">
@@ -257,7 +254,6 @@ const AdminBookManagement = () => {
                 value={newBook.description}
                 onChange={handleChange}
               ></textarea>
-
               <input
                 type="text"
                 name="price"
@@ -265,70 +261,103 @@ const AdminBookManagement = () => {
                 value={newBook.price}
                 onChange={handleChange}
               />
-
-              {/* ✅ Category Dropdown */}
               <label>Select Category</label>
               <select
-                name="category"
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
                 <option value="">-- Select Category --</option>
-                {Categories?.length > 0 ? (
-                  Categories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.category}
-                    </option>
-                  ))
-                ) : (
-                  <option disabled>Loading categories...</option>
-                )}
+                {Categories?.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.category}
+                  </option>
+                ))}
               </select>
-
               <label>Upload Cover Image</label>
-              <input
-                type="file"
-                name="cover"
-                accept="image/*"
-                onChange={(e) => {
-                  handleFileChange(e);
-                  const file = e.target.files[0];
-                  if (file) {
-                    const previewURL = URL.createObjectURL(file);
-                    setNewBook((prev) => ({
-                      ...prev,
-                      coverPreview: previewURL,
-                    }));
-                  }
-                }}
-              />
-              {newBook.coverPreview && (
-                <div className="cover-preview">
-                  <img src={newBook.coverPreview} alt="Book Cover Preview" />
-                </div>
-              )}
-
+              <input type="file" name="cover" accept="image/*" onChange={handleFileChange} />
               <label>Upload Book PDF</label>
-              <input
-                type="file"
-                name="pdf"
-                accept="application/pdf"
-                onChange={handleFileChange}
-              />
-
+              <input type="file" name="pdf" accept="application/pdf" onChange={handleFileChange} />
               <div className="modal-actions">
                 <button type="submit" className="save-btn">
                   Save
                 </button>
+                <button className="cancel-btn" onClick={() => setShowModal(false)}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {editModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Edit Book</h2>
+            <form onSubmit={handleEditSubmit}>
+              <input
+                type="text"
+                value={editModal.title}
+                onChange={(e) =>
+                  setEditModal({ ...editModal, title: e.target.value })
+                }
+              />
+              <div className="modal-actions">
+                <button type="submit" className="save-btn">
+                  Update
+                </button>
                 <button
                   type="button"
                   className="cancel-btn"
-                  onClick={() => setShowModal(false)}
+                  onClick={() => setEditModal(null)}
                 >
                   Cancel
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Modal */}
+      {deleteModal && (
+        <div className="modal-overlay">
+          <div className="modal delete-modal">
+            <h2>Delete Book</h2>
+            <p>Are you sure you want to delete <b>{deleteModal.title}</b>?</p>
+            <div className="modal-actions">
+              <button className="cancel-btn" onClick={() => setDeleteModal(null)}>
+                Cancel
+              </button>
+              <button className="save-btn" onClick={confirmDelete}>
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Modal */}
+      {viewModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>{viewModal.title}</h2>
+            <img
+              src={`http://localhost:3000/${viewModal.cover_url}`}
+              alt={viewModal.title}
+              className="book-cover-large"
+            />
+            <p><b>Author:</b> {viewModal.author}</p>
+            <p><b>Category:</b> {viewModal.category.category}</p>
+            <p><b>Description:</b> {viewModal.description}</p>
+            <p><b>Price:</b> {viewModal.price}</p>
+            <p><b>Added On:</b> {new Date(viewModal.createdAt).toLocaleDateString()}</p>
+            <div className="modal-actions">
+              <button className="cancel-btn" onClick={() => setViewModal(null)}>
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -136,9 +136,7 @@ function App() {
 
         {/* User Dashboard Routes */}
         <Route element={<UserAuth allowed="userAuthToken" />}>
-          
-        </Route>
-        <Route path="/userdashboard/home" element={<UserHomePage />} />
+          <Route path="/userdashboard/home" element={<UserHomePage />} />
           <Route
             path="/userdashboard/mylibrary"
             element={<UserLibraryPage />}
@@ -163,11 +161,14 @@ function App() {
           <Route path="/userdashboard/helpsupport" element={<UserHelpPage />} />
 
         <Route path="/user/OTP" element={<UserOTP />} />
+        </Route>
 
         {/* Admin Dashboard Routes */}
         {/* <Route path="/admin/authentication" element={<AdminAuth />} /> */}
         <Route element={<AdminAuthentication />}>
-            <Route path="/admindashboard/home" element={<AdminHomePage />} />
+           
+        </Route>
+         <Route path="/admindashboard/home" element={<AdminHomePage />} />
           <Route
             path="/admindashboard/usermanagement"
             element={<AdminUserPage />}
@@ -192,7 +193,6 @@ function App() {
             path="/admindashboard/profilesettings"
             element={<AdminProfilePage />}
           />
-        </Route>
       </Routes>
 
       {!hideLayout && <Footer />}
