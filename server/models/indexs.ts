@@ -28,12 +28,12 @@ transactions.belongsTo(Users, {
 
 categories.hasMany(books, {
   foreignKey: "category_id",
-  as: "categorys",
+  as: "books", // plural, since one category has many books
 });
 
 books.belongsTo(categories, {
   foreignKey: "category_id",
-  as: "categorys",
+  as: "category", // singular, since one book belongs to one category
 });
 
 notification.belongsTo(Users, {
