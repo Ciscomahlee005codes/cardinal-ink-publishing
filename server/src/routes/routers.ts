@@ -85,7 +85,7 @@ routes.post("/resendotp", ResendOTP);
 routes.post("/verify/otp", verifyOtp);
 routes.post("/forgottenpassword", forgottonPassword);
 routes.put("/passwordReset", authTokenValidator, resetPassword);
-routes.get("/all/users", authTokenValidator, allUsers);
+routes.get("/all/users", [authTokenValidator, adminMiddleware], allUsers);
 routes.get("/user/:id", authTokenValidator, getUserById);
 
 routes.post(
