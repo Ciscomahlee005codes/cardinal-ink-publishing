@@ -12,16 +12,24 @@ const BookStore = () => {
   if (loading) return <div className="loading">Loading books...</div>;
   if (error) return <div className="error">{error}</div>;
 
-  // Get all unique genres
-  const genres = ["All", ...new Set(bookCollection.map((book) => book.genre))];
+  // Get all unique genres safely
+  const genres = [
+    "All",
+    ...new Set(bookCollection.map((book) => book.genre || "Unknown")),
+  ];
 
-  // ✅ FIXED: Category check (case-insensitive)
+  // ✅ Safe filter: handles undefined or invalid categories
   const filterBooks = (category) => {
-    return bookCollection.filter(
-      (book) =>
-        book.category?.toLowerCase() === category.toLowerCase() &&
+    return bookCollection.filter((book) => {
+      const bookCategory =
+        typeof book.category === "string" ? book.category.toLowerCase() : "";
+      const matchCategory = bookCategory === category.toLowerCase();
+
+      return (
+        matchCategory &&
         (selectedGenre === "All" || book.genre === selectedGenre)
-    );
+      );
+    });
   };
 
   const handleAddToCart = (bookId) => {
@@ -33,7 +41,7 @@ const BookStore = () => {
     }, 2000);
   };
 
-  // ✅ FIXED: Match your working image style (with backend URL)
+  // ✅ Use same image logic as TrendingBooks
   const renderBooks = (books) =>
     books.map((book) => {
       const isInCart = cartItems[book.id] > 0;
@@ -41,7 +49,7 @@ const BookStore = () => {
       return (
         <div key={book.id} className="book-card">
           <img
-            src={`http://localhost:3000/${book.cover_url}`} // ✅ same as TrendingBooks
+            src={`http://localhost:3000/${book.cover_url}`}
             alt={book.title}
           />
           <h3>{book.title}</h3>
