@@ -197,25 +197,24 @@ const AdminBookManagement = () => {
                 <td>{book.description}</td>
                 <td>{book.price}</td>
                 <td>{new Date(book.createdAt).toLocaleDateString()}</td>
-                <td className="actions">
-                  <button className="edit" onClick={() => setEditModal(book)}>
-                    <FaEdit />
-                  </button>
-                  <button className="delete" onClick={() => setDeleteModal(book)}>
-                    <FaTrash />
-                  </button>
-                  <button className="view" onClick={() => setViewModal(book)}>
-                    <FaEye />
-                  </button>
-                  <button
-                    className="outofstock"
-                    onClick={() =>
-                      toast.info(`❌ Marked "${book.title}" as out of stock`)
-                    }
-                  >
-                    <FaTimesCircle />
-                  </button>
-                </td>
+                 <td className="actions">
+  <button className="action-btn edit" onClick={() => setEditModal(book)}>
+    <FaEdit />
+  </button>
+  <button className="action-btn delete" onClick={() => setDeleteModal(book)}>
+    <FaTrash />
+  </button>
+  <button className="action-btn view" onClick={() => setViewModal(book)}>
+    <FaEye />
+  </button>
+  <button
+    className="action-btn outofstock"
+    onClick={() => toast.info(`❌ Marked "${book.title}" as out of stock`)}
+  >
+    <FaTimesCircle />
+  </button>
+</td>
+
               </tr>
             ))
           ) : (
@@ -339,28 +338,54 @@ const AdminBookManagement = () => {
       )}
 
       {/* View Modal */}
-      {viewModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>{viewModal.title}</h2>
-            <img
-              src={`http://localhost:3000/${viewModal.cover_url}`}
-              alt={viewModal.title}
-              className="book-cover-large"
-            />
-            <p><b>Author:</b> {viewModal.author}</p>
-            <p><b>Category:</b> {viewModal.category.category}</p>
-            <p><b>Description:</b> {viewModal.description}</p>
-            <p><b>Price:</b> {viewModal.price}</p>
-            <p><b>Added On:</b> {new Date(viewModal.createdAt).toLocaleDateString()}</p>
-            <div className="modal-actions">
-              <button className="cancel-btn" onClick={() => setViewModal(null)}>
-                Close
-              </button>
-            </div>
-          </div>
+       {viewModal && (
+  <div className="modal-overlay">
+    <div className="modal large-modal">
+      <h2>{viewModal.title}</h2>
+      <img
+        src={`http://localhost:3000/${viewModal.cover_url}`}
+        alt={viewModal.title}
+        className="book-cover-large"
+      />
+      <div className="book-details">
+        <p><b>Author:</b> {viewModal.author}</p>
+        <p><b>Category:</b> {viewModal.category?.category}</p>
+        <p><b>Description:</b> {viewModal.description}</p>
+        <p><b>Price:</b> ${viewModal.price}</p>
+        <p><b>Added On:</b> {new Date(viewModal.createdAt).toLocaleDateString()}</p>
+      </div>
+
+      {/* PDF Viewer Section */}
+      {viewModal.pdf_url ? (
+        <div className="pdf-section">
+          <h3>📘 Book PDF Preview</h3>
+          <iframe
+            src={`http://localhost:3000/${viewModal.pdf_url}`}
+            title="Book PDF"
+            className="pdf-viewer"
+          ></iframe>
+          <a
+            href={`http://localhost:3000/${viewModal.pdf_url}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="download-link"
+          >
+            📥 Download PDF
+          </a>
         </div>
+      ) : (
+        <p className="no-pdf">❌ No PDF available for this book.</p>
       )}
+
+      <div className="modal-actions">
+        <button className="cancel-btn" onClick={() => setViewModal(null)}>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
 
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
