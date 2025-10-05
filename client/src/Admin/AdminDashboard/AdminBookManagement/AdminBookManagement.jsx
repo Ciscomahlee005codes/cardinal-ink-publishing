@@ -12,9 +12,12 @@ import endPoint from "../../../API/Interface";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useBooks from "../../../Hooks/useBooks";
+import useCategory from "../../../Hooks/useCategory";
 
 const AdminBookManagement = () => {
-  const { bookCollection, refetchBooks } = useBooks(); 
+  const { bookCollection, refetchBooks } = useBooks();
+  const { Categories } = useCategory();
+
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [newBook, setNewBook] = useState({
@@ -22,6 +25,7 @@ const AdminBookManagement = () => {
     author: "",
     description: "",
     price: "",
+    category: "",
     cover: null,
     pdf: null,
     coverPreview: null,
@@ -41,7 +45,7 @@ const AdminBookManagement = () => {
   // ✅ Add new book
   const handleAddBook = async (e) => {
     e.preventDefault();
-    if (!newBook.title || !newBook.author || !newBook.price) {
+    if (!newBook.title || !newBook.author || !newBook.price || !newBook.category) {
       toast.warn("⚠ Please fill in all required fields");
       return;
     }
@@ -52,6 +56,8 @@ const AdminBookManagement = () => {
       formData.append("author", newBook.author);
       formData.append("description", newBook.description);
       formData.append("price", newBook.price);
+      formData.append("category", newBook.category);
+
       if (newBook.cover) formData.append("fileContent", newBook.cover);
       if (newBook.pdf) formData.append("fileContent", newBook.pdf);
 
@@ -64,13 +70,14 @@ const AdminBookManagement = () => {
 
       if (res.data.status === true) {
         toast.success("✅ Book added successfully");
-        refetchBooks(); // ✅ refresh the books via hook
+        refetchBooks();
         setShowModal(false);
         setNewBook({
           title: "",
           author: "",
           description: "",
           price: "",
+          category: "",
           cover: null,
           pdf: null,
           coverPreview: null,
@@ -91,7 +98,7 @@ const AdminBookManagement = () => {
       const res = await endPoint.put("/book/delete", { id });
       if (res.data.status) {
         toast.success("✅ Book deleted successfully");
-        refetchBooks(); // ✅ refresh list
+        refetchBooks();
       } else {
         toast.error(res.data.message || "Failed to delete ❌");
       }
@@ -101,7 +108,7 @@ const AdminBookManagement = () => {
     }
   };
 
-  // ✅ Edit book title (simple)
+  // ✅ Edit book title
   const handleEditBook = async (book) => {
     const newTitle = prompt("Enter new title:", book.title);
     if (!newTitle) return;
@@ -112,7 +119,7 @@ const AdminBookManagement = () => {
       });
       if (res.data.status) {
         toast.success("✅ Book updated successfully");
-        refetchBooks(); // ✅ refresh
+        refetchBooks();
       } else {
         toast.error(res.data.message || "Failed to update ❌");
       }
@@ -159,6 +166,7 @@ const AdminBookManagement = () => {
             <th>Cover</th>
             <th>Title</th>
             <th>Author</th>
+            <th>Category</th>
             <th>Description</th>
             <th>Price</th>
             <th>Date Added</th>
@@ -179,6 +187,7 @@ const AdminBookManagement = () => {
                 </td>
                 <td>{book.title}</td>
                 <td>{book.author}</td>
+                <td>{book.category}</td>
                 <td>{book.description}</td>
                 <td>{book.price}</td>
                 <td>{new Date(book.createdAt).toLocaleDateString()}</td>
@@ -213,7 +222,7 @@ const AdminBookManagement = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="8" style={{ textAlign: "center" }}>
+              <td colSpan="9" style={{ textAlign: "center" }}>
                 No books found
               </td>
             </tr>
@@ -247,6 +256,7 @@ const AdminBookManagement = () => {
                 value={newBook.description}
                 onChange={handleChange}
               ></textarea>
+
               <input
                 type="text"
                 name="price"
@@ -254,6 +264,25 @@ const AdminBookManagement = () => {
                 value={newBook.price}
                 onChange={handleChange}
               />
+
+              {/* ✅ Category Dropdown */}
+              <label>Select Category</label>
+              <select
+                name="category"
+                value={newBook.category}
+                onChange={handleChange}
+              >
+                <option value="">-- Select Category --</option>
+                {Categories?.length > 0 ? (
+                  Categories.map((cat) => (
+                    <option key={cat._id} value={cat.category}>
+                      {cat.category}
+                    </option>
+                  ))
+                ) : (
+                  <option disabled>Loading categories...</option>
+                )}
+              </select>
 
               <label>Upload Cover Image</label>
               <input
