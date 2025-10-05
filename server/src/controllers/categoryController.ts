@@ -1,8 +1,9 @@
-const { categories } = require("../../models/indexs");
+const categories = require("../../models/categories");
 
 exports.createCategory = async (req: any, res: any) => {
   try {
     const { category } = req.body;
+    console.log(category);
 
     if (!category) {
       return res?.json({
@@ -37,7 +38,7 @@ exports.createCategory = async (req: any, res: any) => {
 
 exports.getAllCategories = async (req: any, res: any) => {
   try {
-    const Categories = await categories.findAll({ include: "books" });
+    const Categories = await categories.findAll();
 
     return res?.json({
       status: true,
@@ -62,10 +63,7 @@ exports.getCategoriesById = async (req: any, res: any) => {
         message: "requested can't be proccessed. missing arguments",
       });
     }
-    const Category = await categories.findOne(
-      { where: { id: id } },
-      { include: "books" }
-    );
+    const Category = await categories.findOne({ where: { id: id } });
 
     if (!categories) {
       return res?.json({
