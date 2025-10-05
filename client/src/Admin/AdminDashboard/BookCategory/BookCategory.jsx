@@ -6,13 +6,13 @@ import useCategory from "../../../Hooks/useCategory";
 import useGetCategoryId from "../../../Hooks/useGetCategoryId";
 
 const BookCategory = () => {
-  const [newCategory, setNewCategory] = useState({
-    name: "",
-    description: "",
-  });
+  const [newCategory, setNewCategory] = useState({ name: "", description: "" });
+  const [editModal, setEditModal] = useState(false);
+  const [editData, setEditData] = useState({ id: "", name: "", description: "" });
 
   const { Categories } = useCategory();
   const { CategoryById } = useGetCategoryId();
+
   // ✅ Add new category
   const handleAdd = async () => {
     const token = localStorage.getItem("adminAuthToken");
@@ -26,31 +26,33 @@ const BookCategory = () => {
       const res = await endPoint.post(
         "/create/category",
         { category: newCategory.name },
-        {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { authorization: `Bearer ${token}` } }
       );
 
       if (res.data.status === true) {
         toast.success("✅ Category created successfully");
         setNewCategory({ name: "", description: "" });
-        return;
+      } else {
+        toast.error(res.data.message || "❌ Failed to create category");
       }
-      toast.error(res.data.message || "❌ Failed to create category");
     } catch (err) {
       console.error(err);
       toast.error("❌ Failed to create category");
     }
   };
 
-  // ✅ Edit category
-  const handleEdit = async (cat) => {
-    const newName = prompt("Enter new category name:", cat.name);
-    const newDesc = prompt("Enter new description:", cat.description);
+  // ✅ Open Edit Modal
+  const openEditModal = (cat) => {
+    setEditData({ id: cat._id, name: cat.category, description: cat.description || "" });
+    setEditModal(true);
+  };
 
-    if (!newName || !newDesc) return;
+  // ✅ Save Edited Category
+  const handleSaveEdit = async () => {
+    if (!editData.name.trim()) {
+      toast.warn("⚠ Please enter a category name");
+      return;
+    }
 
     const token =
       localStorage.getItem("adminAuthToken") || localStorage.getItem("token");
@@ -58,7 +60,11 @@ const BookCategory = () => {
     try {
       const res = await endPoint.put(
         "/edit/category",
-        { id: cat._id, name: newName, description: newDesc },
+        {
+          id: editData.id,
+          name: editData.name,
+          description: editData.description,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -68,6 +74,7 @@ const BookCategory = () => {
 
       if (res.data.status) {
         toast.success("✅ Category updated successfully");
+        setEditModal(false);
       } else {
         toast.error(res.data.message || "❌ Failed to update category");
       }
@@ -79,8 +86,7 @@ const BookCategory = () => {
 
   // ✅ Delete category
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this category?"))
-      return;
+    if (!window.confirm("Are you sure you want to delete this category?")) return;
 
     const token =
       localStorage.getItem("adminAuthToken") || localStorage.getItem("token");
@@ -135,10 +141,13 @@ const BookCategory = () => {
           {Categories.length > 0 ? (
             Categories.map((cat, index) => (
               <tr key={cat._id}>
-                <td data-label="#">{index + 1}</td>
-                <td data-label="Category Name">{cat.category}</td>
-                <td data-label="Actions">
-                  <button className="edit-btn" onClick={() => handleEdit(cat)}>
+                <td>{index + 1}</td>
+                <td>{cat.category}</td>
+                <td>
+                  <button
+                    className="edit-btn"
+                    onClick={() => openEditModal(cat)}
+                  >
                     Edit
                   </button>
                   <button
@@ -159,6 +168,42 @@ const BookCategory = () => {
           )}
         </tbody>
       </table>
+
+      {/* ✅ Edit Category Modal */}
+      {editModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Edit Category</h2>
+            <input
+              type="text"
+              placeholder="Category Name"
+              value={editData.name}
+              onChange={(e) =>
+                setEditData({ ...editData, name: e.target.value })
+              }
+            />
+            <textarea
+              placeholder="Description (optional)"
+              value={editData.description}
+              onChange={(e) =>
+                setEditData({ ...editData, description: e.target.value })
+              }
+            />
+            <div className="modal-actions">
+              <button className="save-btn" onClick={handleSaveEdit}>
+                Save Changes
+              </button>
+              <button
+                className="cancel-btn"
+                onClick={() => setEditModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
