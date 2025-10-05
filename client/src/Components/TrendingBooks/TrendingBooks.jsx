@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
 import "./TrendingBooks.css";
-import useBooks from "../../Hooks/useBooks"
+import useBooks from "../../Hooks/useBooks";
 import { StoreContext } from "../../Context/StoreContext";
 
 const TrendingBooks = () => {
-  const {bookCollection} = useBooks()
+  const { bookCollection } = useBooks();
   const { cartItems, addToCart } = useContext(StoreContext);
   const [addedBooks, setAddedBooks] = useState({});
 
@@ -34,7 +34,10 @@ const TrendingBooks = () => {
 
             return (
               <div className="book-card" key={book.id}>
-                <img src={book.image} alt={book.title} />
+                <img
+                  src={`http://localhost:3000/${book.cover_url}`}
+                  alt={book.title}
+                />
                 <h3>{book.title}</h3>
                 <p className="author">by {book.author}</p>
                 <p className="price">₦{book.price}</p>

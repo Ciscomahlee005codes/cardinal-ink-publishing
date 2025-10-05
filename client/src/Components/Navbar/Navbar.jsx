@@ -5,7 +5,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { NavLink, useNavigate } from "react-router-dom";
-import { books_store } from "../../../library_list"; 
+import { books_store } from "../../../library_list";
 import { StoreContext } from "../../Context/StoreContext";
 import "./Navbar.css";
 
@@ -101,11 +101,25 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Auth */}
-          <div className="auth-buttons desktop-only">
-            <NavLink to="/authentication" className="btn-signup">
-              Log In
-            </NavLink>
-          </div>
+          {localStorage.getItem("adminAuthToken") ? (
+            <div className="auth-buttons desktop-only">
+              <NavLink to="/admindashboard/home" className="btn-signup">
+                Admin
+              </NavLink>
+            </div>
+          ) : localStorage.getItem("userAuthToken") ? (
+            <div className="auth-buttons desktop-only">
+              <NavLink to="/userdashboard/home" className="btn-signup">
+                Dashbored
+              </NavLink>
+            </div>
+          ) : (
+            <div className="auth-buttons desktop-only">
+              <NavLink to="/authentication" className="btn-signup">
+                Log In
+              </NavLink>
+            </div>
+          )}
 
           {/* Hamburger */}
           <button
@@ -121,18 +135,42 @@ const Navbar = () => {
       {/* Bottom Nav */}
       <nav className={`bottom-nav ${menuOpen ? "open" : ""}`}>
         <ul>
-          <li><NavLink to="/" onClick={() => setMenuOpen(false)}>Home</NavLink></li>
-          <li><NavLink to="/bookstore" onClick={() => setMenuOpen(false)}>Book Store</NavLink></li>
-          <li><NavLink to="/mylibrary" onClick={() => setMenuOpen(false)}>My Library</NavLink></li>
-          <li><NavLink to="/blog" onClick={() => setMenuOpen(false)}>Blogs</NavLink></li>
-          <li><NavLink to="/aboutUs" onClick={() => setMenuOpen(false)}>About</NavLink></li>
-          <li><NavLink to="/contactUs" onClick={() => setMenuOpen(false)}>Contact</NavLink></li>
+          <li>
+            <NavLink to="/" onClick={() => setMenuOpen(false)}>
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/bookstore" onClick={() => setMenuOpen(false)}>
+              Book Store
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/mylibrary" onClick={() => setMenuOpen(false)}>
+              My Library
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/blog" onClick={() => setMenuOpen(false)}>
+              Blogs
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/aboutUs" onClick={() => setMenuOpen(false)}>
+              About
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/contactUs" onClick={() => setMenuOpen(false)}>
+              Contact
+            </NavLink>
+          </li>
 
           {/* Mobile Auth */}
           <li className="mobile-auth">
-            <NavLink 
-              to="/authentication" 
-              className="btn-signup" 
+            <NavLink
+              to="/authentication"
+              className="btn-signup"
               onClick={() => setMenuOpen(false)}
             >
               Log In
