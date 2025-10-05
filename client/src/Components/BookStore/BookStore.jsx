@@ -3,7 +3,8 @@ import "./BookStore.css";
 import { StoreContext } from "../../Context/StoreContext";
 
 const BookStore = () => {
-  const { bookCollection, addToCart, cartItems, loading, error } = useContext(StoreContext);
+  const { bookCollection, addToCart, cartItems, loading, error } =
+    useContext(StoreContext);
   const [selectedGenre, setSelectedGenre] = useState("All");
   const [addedBooks, setAddedBooks] = useState({});
 
@@ -11,12 +12,14 @@ const BookStore = () => {
   if (loading) return <div className="loading">Loading books...</div>;
   if (error) return <div className="error">{error}</div>;
 
+  // Get all unique genres
   const genres = ["All", ...new Set(bookCollection.map((book) => book.genre))];
 
+  // ✅ FIXED: Category check (case-insensitive)
   const filterBooks = (category) => {
     return bookCollection.filter(
       (book) =>
-        book.category === category &&
+        book.category?.toLowerCase() === category.toLowerCase() &&
         (selectedGenre === "All" || book.genre === selectedGenre)
     );
   };
@@ -30,16 +33,21 @@ const BookStore = () => {
     }, 2000);
   };
 
+  // ✅ FIXED: Match your working image style (with backend URL)
   const renderBooks = (books) =>
     books.map((book) => {
       const isInCart = cartItems[book.id] > 0;
 
       return (
         <div key={book.id} className="book-card">
-          <img src={book.image} alt={book.title} />
+          <img
+            src={`http://localhost:3000/${book.cover_url}`} // ✅ same as TrendingBooks
+            alt={book.title}
+          />
           <h3>{book.title}</h3>
           <p>by {book.author}</p>
-          <span>₦{book.price}</span>
+          <p className="price">₦{book.price}</p>
+
           <button
             className={`library-btn ${isInCart ? "disabled" : ""}`}
             onClick={() => handleAddToCart(book.id)}
@@ -83,7 +91,9 @@ const BookStore = () => {
 
       <div className="book-section">
         <h2>🆕 New Arrivals</h2>
-        <div className="book-grid">{renderBooks(filterBooks("New Arrivals"))}</div>
+        <div className="book-grid">
+          {renderBooks(filterBooks("New Arrivals"))}
+        </div>
       </div>
     </section>
   );
