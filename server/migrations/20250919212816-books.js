@@ -39,7 +39,7 @@ module.exports = {
         onDelete: "CASCADE",
       },
       price: {
-        type: Sequelize.DECIMAL(0, 2),
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
       cover_url: {

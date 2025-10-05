@@ -17,6 +17,7 @@ import useCategory from "../../../Hooks/useCategory";
 const AdminBookManagement = () => {
   const { bookCollection, refetchBooks } = useBooks();
   const { Categories } = useCategory();
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -25,7 +26,7 @@ const AdminBookManagement = () => {
     author: "",
     description: "",
     price: "",
-    category: "",
+    category: 0,
     cover: null,
     pdf: null,
     coverPreview: null,
@@ -45,7 +46,7 @@ const AdminBookManagement = () => {
   // ✅ Add new book
   const handleAddBook = async (e) => {
     e.preventDefault();
-    if (!newBook.title || !newBook.author || !newBook.price || !newBook.category) {
+    if (!newBook.title || !newBook.author || !newBook.price) {
       toast.warn("⚠ Please fill in all required fields");
       return;
     }
@@ -55,8 +56,8 @@ const AdminBookManagement = () => {
       formData.append("title", newBook.title);
       formData.append("author", newBook.author);
       formData.append("description", newBook.description);
-      formData.append("price", newBook.price);
-      formData.append("category", newBook.category);
+      formData.append("price", Number(newBook.price).toFixed(2));
+      formData.append("category_id", selectedCategory);
 
       if (newBook.cover) formData.append("fileContent", newBook.cover);
       if (newBook.pdf) formData.append("fileContent", newBook.pdf);
@@ -180,14 +181,14 @@ const AdminBookManagement = () => {
                 <td>{index + 1}</td>
                 <td>
                   <img
-                    src={book.coverUrl || ""}
+                    src={`http://localhost:3000/${book.cover_url}`}
                     alt={book.title}
                     className="book-cover"
                   />
                 </td>
                 <td>{book.title}</td>
                 <td>{book.author}</td>
-                <td>{book.category}</td>
+                <td>{book.category.category}</td>
                 <td>{book.description}</td>
                 <td>{book.price}</td>
                 <td>{new Date(book.createdAt).toLocaleDateString()}</td>
@@ -269,13 +270,13 @@ const AdminBookManagement = () => {
               <label>Select Category</label>
               <select
                 name="category"
-                value={newBook.category}
-                onChange={handleChange}
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
               >
                 <option value="">-- Select Category --</option>
                 {Categories?.length > 0 ? (
                   Categories.map((cat) => (
-                    <option key={cat._id} value={cat.category}>
+                    <option key={cat.id} value={cat.id}>
                       {cat.category}
                     </option>
                   ))

@@ -90,6 +90,8 @@ exports.editCategory = async (req: any, res: any) => {
     const { category, id } = req.body;
 
     if (!category || !id) {
+      console.log(category, id);
+
       return res?.json({
         status: false,
         message: "missing arguments",

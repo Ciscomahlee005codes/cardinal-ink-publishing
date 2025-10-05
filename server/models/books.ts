@@ -1,20 +1,8 @@
 const dB = require("../config/db/db.ts");
+const { DataTypes } = require("sequelize");
 
-const { Model, DataTypes } = require("sequelize");
-
-class Book extends Model<any, any> {
-  public id!: number;
-  public title!: string;
-  public author!: string;
-  public description!: string;
-  public price!: string;
-  public cover_url!: string;
-  public content_url!: string;
-  public createdAt!: string;
-  public updatedAt!: string;
-}
-
-Book.init(
+const books = dB.define(
+  "books",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -35,11 +23,11 @@ Book.init(
       allowNull: false,
     },
     category_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     price: {
-      type: DataTypes.DECIMAL(0, 2),
+      type: DataTypes.DECIMAL(10, 2), // ✅ allows large prices like 5000.00
       allowNull: false,
     },
     cover_url: {
@@ -61,8 +49,8 @@ Book.init(
   },
   {
     tableName: "books",
-    sequelize: dB,
     modelName: "books",
   }
 );
-module.exports = Book;
+
+module.exports = books;

@@ -1,16 +1,15 @@
-const { books } = require("../../models/indexs");
+const { books, categories } = require("../../models/indexs");
 const upload = require("../middleware/uploads");
 const fs = require("fs");
 
 exports.createNewBook = [
   upload.array("fileContent", 2),
   async (req: any, res: any) => {
-    console.log(req.body, req.files);
-
     try {
       const { title, author, description, price, category_id } = req?.body;
       const file = req?.files;
 
+      console.log(req.body);
       if (!Array.isArray(file)) {
         return res?.json({
           status: false,
@@ -30,8 +29,8 @@ exports.createNewBook = [
         title,
         author,
         description,
-        price,
-        category_id,
+        price: Number(price).toFixed(2),
+        category_id: Number(category_id),
         cover_url: file[0].path,
         content_url: file[1].path,
       });
@@ -56,7 +55,14 @@ exports.createNewBook = [
 
 exports.allBooks = async (req: any, res: any) => {
   try {
-    const getAllBooks = await books.findAll({ include: "categorys" });
+    const getAllBooks = await books.findAll({
+      include: {
+        model: categories,
+        as: "category",
+        attributes: ["id", "category"],
+      },
+    });
+    console.log(getAllBooks);
 
     return res?.json({
       status: true,

@@ -1,12 +1,17 @@
+import url = require("url");
+
 const envs = require("dotenv");
 envs.config();
 require("./config/db/db");
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const routers = require("./src/routes/routers");
 
 async function startServer() {
   const server = express();
+
+  server.use("/storage", express.static(path.join(__dirname, "./storage")));
 
   server.use(
     cors({

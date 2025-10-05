@@ -3,15 +3,16 @@ import "./BookCategory.css";
 import endPoint from "../../../API/Interface";
 import { toast, ToastContainer } from "react-toastify";
 import useCategory from "../../../Hooks/useCategory";
-import useGetCategoryId from "../../../Hooks/useGetCategoryId";
 
 const BookCategory = () => {
   const [newCategory, setNewCategory] = useState({ name: "", description: "" });
   const [editModal, setEditModal] = useState(false);
-  const [editData, setEditData] = useState({ id: "", name: "", description: "" });
+  const [editData, setEditData] = useState({
+    id: "",
+    name: "",
+  });
 
   const { Categories } = useCategory();
-  const { CategoryById } = useGetCategoryId();
 
   // ✅ Add new category
   const handleAdd = async () => {
@@ -40,13 +41,6 @@ const BookCategory = () => {
       toast.error("❌ Failed to create category");
     }
   };
-
-  // ✅ Open Edit Modal
-  const openEditModal = (cat) => {
-    setEditData({ id: cat._id, name: cat.category, description: cat.description || "" });
-    setEditModal(true);
-  };
-
   // ✅ Save Edited Category
   const handleSaveEdit = async () => {
     if (!editData.name.trim()) {
@@ -62,12 +56,11 @@ const BookCategory = () => {
         "/edit/category",
         {
           id: editData.id,
-          name: editData.name,
-          description: editData.description,
+          category: editData.name,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            authorization: `Bearer ${token}`,
           },
         }
       );
@@ -75,6 +68,9 @@ const BookCategory = () => {
       if (res.data.status) {
         toast.success("✅ Category updated successfully");
         setEditModal(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       } else {
         toast.error(res.data.message || "❌ Failed to update category");
       }
@@ -86,7 +82,8 @@ const BookCategory = () => {
 
   // ✅ Delete category
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this category?")) return;
+    if (!window.confirm("Are you sure you want to delete this category?"))
+      return;
 
     const token =
       localStorage.getItem("adminAuthToken") || localStorage.getItem("token");
@@ -146,7 +143,13 @@ const BookCategory = () => {
                 <td>
                   <button
                     className="edit-btn"
-                    onClick={() => openEditModal(cat)}
+                    onClick={() => {
+                      setEditData({
+                        id: cat.id,
+                        name: cat.category,
+                      });
+                      setEditModal(true);
+                    }}
                   >
                     Edit
                   </button>
@@ -179,14 +182,10 @@ const BookCategory = () => {
               placeholder="Category Name"
               value={editData.name}
               onChange={(e) =>
-                setEditData({ ...editData, name: e.target.value })
-              }
-            />
-            <textarea
-              placeholder="Description (optional)"
-              value={editData.description}
-              onChange={(e) =>
-                setEditData({ ...editData, description: e.target.value })
+                setEditData({
+                  ...editData,
+                  name: e.target.value,
+                })
               }
             />
             <div className="modal-actions">
