@@ -15,7 +15,7 @@ const StoreContextProvider = (props) => {
       try {
         const response = await endPoint.get("/books");
         const data = response.data;
-        setBookCollection(data.books || []);
+        setBookCollection(Array.isArray(data) ? data : data.books || []);
       } catch (err) {
         setError("Failed to load books");
         console.error("Error fetching books:", err);
