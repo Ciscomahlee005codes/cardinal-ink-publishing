@@ -1,8 +1,9 @@
 import { createContext, useState } from "react";
-import { books_store } from "../../library_list";
+import useBooks from "../Hooks/useBooks";
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
+   const {bookCollection} = useBooks()
    const [cartItems, setCartItems] = useState({});
 
    const addToCart = (itemId) => {
@@ -21,7 +22,7 @@ const StoreContextProvider = (props) => {
   let totalAmount = 0;
   for (const item in cartItems) {
     if (cartItems[item] > 0) {
-      let itemInfo = books_store.find(
+      let itemInfo = bookCollection.find(
         (product) => product.id === Number(item)
       );
       if (itemInfo) {
@@ -34,7 +35,7 @@ const StoreContextProvider = (props) => {
 
 
     const contextValue = {
-    books_store,
+    bookCollection,
     cartItems,
     setCartItems,
     addToCart,
