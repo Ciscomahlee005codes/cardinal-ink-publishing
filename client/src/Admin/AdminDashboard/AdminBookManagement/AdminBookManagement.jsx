@@ -15,7 +15,7 @@ import useBooks from "../../../Hooks/useBooks";
 import useCategory from "../../../Hooks/useCategory";
 
 const AdminBookManagement = () => {
-  const { bookCollection, refetchBooks } = useBooks();
+  const { bookCollection } = useBooks();
   const { Categories } = useCategory();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [search, setSearch] = useState("");
@@ -74,8 +74,7 @@ const AdminBookManagement = () => {
       });
 
       if (res.data.status === true) {
-        toast.success("✅ Book added successfully");
-        refetchBooks();
+        toast.success(res.data.message);
         setShowModal(false);
         setNewBook({
           title: "",
@@ -87,6 +86,10 @@ const AdminBookManagement = () => {
           pdf: null,
           coverPreview: null,
         });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1700);
+        return;
       } else {
         toast.error(res.data.message || "Failed to add book ❌");
       }
@@ -159,8 +162,11 @@ const AdminBookManagement = () => {
         }
       );
       if (res.data.status === true) {
-        toast.success("✅ Book deleted successfully");
+        toast.success(res.data.message);
         setDeleteModal(null);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1700);
         return;
       } else {
         toast.error(res.data.message);
@@ -528,14 +534,14 @@ const AdminBookManagement = () => {
             </div>
 
             {/* ✅ PDF Viewer Section */}
-            {viewModal.pdf_url ? (
+            {viewModal.content_url ? (
               <div className="pdf-section">
                 <h3>📘 Book PDF Preview</h3>
 
                 {/* Embed PDF in an iframe for smooth inline preview */}
                 <iframe
                   key={viewModal._id} // ensures re-render when you switch books
-                  src={`http://localhost:3000/${viewModal.pdf_url}#toolbar=0&navpanes=0&scrollbar=1`}
+                  src={`http://localhost:3000/${viewModal.content_url}#toolbar=0&navpanes=0&scrollbar=1`}
                   title="Book PDF Preview"
                   className="pdf-viewer"
                   frameBorder="0"
@@ -543,14 +549,14 @@ const AdminBookManagement = () => {
                 ></iframe>
 
                 {/* PDF Download Button */}
-                <a
+                {/* <a
                   href={`http://localhost:3000/${viewModal.pdf_url}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="download-link"
                 >
                   📥 Download PDF
-                </a>
+                </a> */}
               </div>
             ) : (
               <p className="no-pdf">❌ No PDF available for this book.</p>
