@@ -512,3 +512,30 @@ exports.getUserById = async (req: any, res: any) => {
     res?.json({ status: false, message: "internal server error" });
   }
 };
+
+exports.getUserDetails = async (req: any, res: any) => {
+  try {
+    const user = req.user;
+    const getAUser = await Users.findOne({
+      where: { id: user.id },
+      attributes: { exclude: ["password", "otp", "otpExpiry"] },
+    });
+
+    if (!getAUser) {
+      return res.json({
+        status: false,
+        message: "Unable to complete your request",
+      });
+    }
+
+    console.log(getAUser);
+
+    return res.json({
+      status: true,
+      user: getAUser,
+    });
+  } catch (error) {
+    console.error(error);
+    res.json({ status: false, message: "Internal server error" });
+  }
+};
