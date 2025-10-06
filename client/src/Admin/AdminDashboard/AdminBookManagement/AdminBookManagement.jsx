@@ -97,25 +97,41 @@ const AdminBookManagement = () => {
   };
 
   // ✅ Edit Book Modal
-  const handleEditSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await endPoint.put("/book/edit", {
-        id: editModal._id,
-        title: editModal.title,
-      });
-      if (res.data.status) {
-        toast.success("✅ Book updated successfully");
-        refetchBooks();
-        setEditModal(null);
-      } else {
-        toast.error(res.data.message || "Failed to update ❌");
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to update ❌");
+   const handleEditSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const formData = new FormData();
+    formData.append("id", editModal._id);
+    formData.append("title", editModal.title);
+    formData.append("author", editModal.author);
+    formData.append("description", editModal.description);
+    formData.append("price", editModal.price);
+    formData.append("category_id", editModal.category?.id);
+
+    if (editModal.cover) {
+      formData.append("fileContent", editModal.cover);
     }
-  };
+
+    const res = await endPoint.put("/book/edit", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        authorization: `Bearer ${localStorage.getItem("adminAuthToken")}`,
+      },
+    });
+
+    if (res.data.status) {
+      toast.success("✅ Book updated successfully");
+      refetchBooks();
+      setEditModal(null);
+    } else {
+      toast.error(res.data.message || "Failed to update ❌");
+    }
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to update ❌");
+  }
+};
+
 
   // ✅ Delete Book Modal
   const confirmDelete = async () => {
@@ -313,34 +329,113 @@ const AdminBookManagement = () => {
       )}
 
       {/* Edit Modal */}
-      {editModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>Edit Book</h2>
-            <form onSubmit={handleEditSubmit}>
-              <input
-                type="text"
-                value={editModal.title}
-                onChange={(e) =>
-                  setEditModal({ ...editModal, title: e.target.value })
-                }
-              />
-              <div className="modal-actions">
-                <button type="submit" className="save-btn">
-                  Update
-                </button>
-                <button
-                  type="button"
-                  className="cancel-btn"
-                  onClick={() => setEditModal(null)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
+      
+{editModal && (
+  <div className="modal-overlay">
+    <div className="modal">
+      <h2>Edit Book</h2>
+      <form onSubmit={handleEditSubmit}>
+        <label>Book Title</label>
+        <input
+          type="text"
+          value={editModal.title}
+          onChange={(e) =>
+            setEditModal({ ...editModal, title: e.target.value })
+          }
+          placeholder="Enter book title"
+        />
+
+        <label>Author</label>
+        <input
+          type="text"
+          value={editModal.author}
+          onChange={(e) =>
+            setEditModal({ ...editModal, author: e.target.value })
+          }
+          placeholder="Enter author name"
+        />
+
+        <label>Description</label>
+        <textarea
+          value={editModal.description}
+          onChange={(e) =>
+            setEditModal({ ...editModal, description: e.target.value })
+          }
+          placeholder="Enter book description"
+        ></textarea>
+
+        <label>Price</label>
+        <input
+          type="number"
+          step="0.01"
+          value={editModal.price}
+          onChange={(e) =>
+            setEditModal({ ...editModal, price: e.target.value })
+          }
+          placeholder="Enter price"
+        />
+
+        <label>Category</label>
+        <select
+          value={editModal.category?.id || ""}
+          onChange={(e) =>
+            setEditModal({
+              ...editModal,
+              category: { id: e.target.value, category: e.target.selectedOptions[0].text },
+            })
+          }
+        >
+          <option value="">-- Select Category --</option>
+          {Categories?.map((cat) => (
+            <option key={cat.id} value={cat.id}>
+              {cat.category}
+            </option>
+          ))}
+        </select>
+
+        <label>Book Cover</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) =>
+            setEditModal({
+              ...editModal,
+              cover: e.target.files[0],
+              coverPreview: URL.createObjectURL(e.target.files[0]),
+            })
+          }
+        />
+
+        {editModal.coverPreview ? (
+          <div className="cover-preview">
+            <img src={editModal.coverPreview} alt="Preview" />
           </div>
+        ) : (
+          <div className="cover-preview">
+            <img
+              src={`http://localhost:3000/${editModal.cover_url}`}
+              alt={editModal.title}
+            />
+          </div>
+        )}
+
+        <div className="modal-actions">
+          <button type="submit" className="save-btn">
+            Update Book
+          </button>
+          <button
+            type="button"
+            className="cancel-btn"
+            onClick={() => setEditModal(null)}
+          >
+            Cancel
+          </button>
         </div>
-      )}
+      </form>
+    </div>
+  </div>
+)}
+
 
       {/* Delete Modal */}
       {deleteModal && (
