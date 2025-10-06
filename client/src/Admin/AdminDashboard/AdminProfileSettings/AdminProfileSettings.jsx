@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import "./AdminProfileSettings.css";
+import useUserId from "../../../Hooks/useUserId";
 
 const AdminProfileSettings = () => {
+  const data = useUserId();
   const [profile, setProfile] = useState({
-    name: "Admin User",
-    email: "admin@example.com",
-    phone: "+234 813 000 0000",
+    firstname: data?.firstname || "",
+    lastname: data?.lastname || "",
+    email: data?.email || "",
+    phone: data?.phone || "",
   });
 
   const [passwords, setPasswords] = useState({
@@ -71,19 +74,31 @@ const AdminProfileSettings = () => {
               className="avatar"
             />
             <div>
-              <h2>{profile.name}</h2>
-              <p className="text-muted">{profile.email}</p>
+              <h2>
+                {data?.firstname} {data?.lastname}
+              </h2>
+              <p className="text-muted">{data?.email}</p>
             </div>
           </div>
 
           <form className="form" onSubmit={handleProfileUpdate}>
             <label>
-              Name
+              first Name
               <input
                 type="text"
-                value={profile.name}
+                value={data?.firstname}
                 onChange={(e) =>
-                  setProfile({ ...profile, name: e.target.value })
+                  setProfile({ ...profile, firstname: e.target.value })
+                }
+              />
+            </label>
+            <label>
+              Last Name
+              <input
+                type="text"
+                value={data?.lastname}
+                onChange={(e) =>
+                  setProfile({ ...profile, lastname: e.target.value })
                 }
               />
             </label>
@@ -91,7 +106,7 @@ const AdminProfileSettings = () => {
               Email
               <input
                 type="email"
-                value={profile.email}
+                value={data?.email}
                 onChange={(e) =>
                   setProfile({ ...profile, email: e.target.value })
                 }
@@ -101,7 +116,7 @@ const AdminProfileSettings = () => {
               Phone
               <input
                 type="text"
-                value={profile.phone}
+                value={data?.phone}
                 onChange={(e) =>
                   setProfile({ ...profile, phone: e.target.value })
                 }
@@ -124,7 +139,10 @@ const AdminProfileSettings = () => {
                 type="password"
                 value={passwords.currentPassword}
                 onChange={(e) =>
-                  setPasswords({ ...passwords, currentPassword: e.target.value })
+                  setPasswords({
+                    ...passwords,
+                    currentPassword: e.target.value,
+                  })
                 }
               />
             </label>
