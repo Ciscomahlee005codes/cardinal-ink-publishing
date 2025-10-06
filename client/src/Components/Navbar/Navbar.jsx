@@ -146,11 +146,6 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/mylibrary" onClick={() => setMenuOpen(false)}>
-              My Library
-            </NavLink>
-          </li>
-          <li>
             <NavLink to="/blog" onClick={() => setMenuOpen(false)}>
               Blogs
             </NavLink>

@@ -20,9 +20,6 @@ const ContactPage = DelayLoader(() =>
 );
 const AboutPage = DelayLoader(() => import("./Pages/AboutPage/AboutPage"));
 const BlogPage = DelayLoader(() => import("./Pages/BlogPage/BlogPage"));
-const LibraryPage = DelayLoader(() =>
-  import("./Pages/LibraryPage/LibraryPage")
-);
 const BookStorePage = DelayLoader(() =>
   import("./Pages/BookStorePage/BookStorePage")
 );

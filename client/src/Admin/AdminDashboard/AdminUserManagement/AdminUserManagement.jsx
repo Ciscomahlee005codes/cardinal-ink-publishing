@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./AdminUserManagement.css";
-import { FaSearch, FaEdit, FaTrash, FaBan } from "react-icons/fa";
+import { FaSearch, FaTrash, FaBan } from "react-icons/fa";
 import useUsers from "../../../Hooks/useUsers";
 
 const AdminUserManagement = () => {
@@ -60,9 +60,7 @@ const AdminUserManagement = () => {
                 {new Date(user.createdAt).toLocaleDateString()}
               </td>
               <td data-label="Actions" className="actions">
-                <button className="edit">
-                  <FaEdit />
-                </button>
+                {/* Removed Edit Button */}
                 <button className="delete">
                   <FaTrash />
                 </button>

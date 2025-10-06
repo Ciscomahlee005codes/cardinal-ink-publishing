@@ -107,10 +107,13 @@ const AdminBookManagement = () => {
     formData.append("description", editModal.description);
     formData.append("price", editModal.price);
     formData.append("category_id", editModal.category?.id);
-
+  //  Bro Abeg Checkour this line
     if (editModal.cover) {
       formData.append("fileContent", editModal.cover);
     }
+    if (editModal.pdf) {
+  formData.append("fileContent", editModal.pdf);
+}
 
     const res = await endPoint.put("/book/edit", formData, {
       headers: {
@@ -405,6 +408,18 @@ const AdminBookManagement = () => {
             })
           }
         />
+        <label>Upload Book PDF</label>
+<input
+  type="file"
+  accept="application/pdf"
+  onChange={(e) =>
+    setEditModal({
+      ...editModal,
+      pdf: e.target.files[0],
+    })
+  }
+/>
+
 
         {editModal.coverPreview ? (
           <div className="cover-preview">
