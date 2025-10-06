@@ -101,34 +101,46 @@ const AdminBookManagement = () => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append("id", editModal._id);
+      formData.append("id", editModal.id);
       formData.append("title", editModal.title);
       formData.append("author", editModal.author);
       formData.append("description", editModal.description);
       formData.append("price", editModal.price);
       formData.append("category_id", editModal.category?.id);
+      formData.append("cover_url", editModal.cover_url);
+      formData.append("content_url", editModal.content_url);
       //  Bro Abeg Checkour this line
       if (editModal.cover) {
         formData.append("fileContent", editModal.cover);
+      } else {
+        formData.append("fileContent", null);
       }
       if (editModal.pdf) {
         formData.append("fileContent", editModal.pdf);
-      }
-
-      const res = await endPoint.put("/book/edit", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          authorization: `Bearer ${localStorage.getItem("adminAuthToken")}`,
-        },
-      });
-
-      if (res.data.status) {
-        toast.success("✅ Book updated successfully");
-        refetchBooks();
-        setEditModal(null);
       } else {
-        toast.error(res.data.message || "Failed to update ❌");
+        formData.append("fileContent", null);
       }
+
+      const res = await endPoint.put(
+        `/book/edit?bookid=${editModal.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            authorization: `Bearer ${localStorage.getItem("adminAuthToken")}`,
+          },
+        }
+      );
+
+      if (res.data.status === true) {
+        toast.success(res.data.message);
+        setEditModal(null);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1700);
+        return;
+      }
+      toast.error(res.data.message);
     } catch (err) {
       console.error(err);
       toast.error("Failed to update ❌");
@@ -138,13 +150,20 @@ const AdminBookManagement = () => {
   // ✅ Delete Book Modal
   const confirmDelete = async () => {
     try {
-      const res = await endPoint.put("/book/delete", { id: deleteModal._id });
-      if (res.data.status) {
+      const res = await endPoint.delete(
+        `/book/delete?bookid=${deleteModal.id}`,
+        {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("adminAuthToken")}`,
+          },
+        }
+      );
+      if (res.data.status === true) {
         toast.success("✅ Book deleted successfully");
-        refetchBooks();
         setDeleteModal(null);
+        return;
       } else {
-        toast.error(res.data.message || "Failed to delete ❌");
+        toast.error(res.data.message);
       }
     } catch (err) {
       console.error(err);
@@ -477,65 +496,75 @@ const AdminBookManagement = () => {
 
       {/* View Modal */}
       {viewModal && (
-  <div className="modal-overlay">
-    <div className="modal large-modal">
-      <h2>{viewModal.title}</h2>
+        <div className="modal-overlay">
+          <div className="modal large-modal">
+            <h2>{viewModal.title}</h2>
 
-      {/* Cover Image */}
-      <img
-        src={`http://localhost:3000/${viewModal.cover_url}`}
-        alt={viewModal.title}
-        className="book-cover-large"
-      />
+            {/* Cover Image */}
+            <img
+              src={`http://localhost:3000/${viewModal.cover_url}`}
+              alt={viewModal.title}
+              className="book-cover-large"
+            />
 
-      {/* Book Details */}
-      <div className="book-details">
-        <p><b>Author:</b> {viewModal.author}</p>
-        <p><b>Category:</b> {viewModal.category?.category}</p>
-        <p><b>Description:</b> {viewModal.description}</p>
-        <p><b>Price:</b> ${viewModal.price}</p>
-        <p><b>Added On:</b> {new Date(viewModal.createdAt).toLocaleDateString()}</p>
-      </div>
+            {/* Book Details */}
+            <div className="book-details">
+              <p>
+                <b>Author:</b> {viewModal.author}
+              </p>
+              <p>
+                <b>Category:</b> {viewModal.category?.category}
+              </p>
+              <p>
+                <b>Description:</b> {viewModal.description}
+              </p>
+              <p>
+                <b>Price:</b> ${viewModal.price}
+              </p>
+              <p>
+                <b>Added On:</b>{" "}
+                {new Date(viewModal.createdAt).toLocaleDateString()}
+              </p>
+            </div>
 
-      {/* ✅ PDF Viewer Section */}
-      {viewModal.pdf_url ? (
-        <div className="pdf-section">
-          <h3>📘 Book PDF Preview</h3>
+            {/* ✅ PDF Viewer Section */}
+            {viewModal.pdf_url ? (
+              <div className="pdf-section">
+                <h3>📘 Book PDF Preview</h3>
 
-          {/* Embed PDF in an iframe for smooth inline preview */}
-          <iframe
-            key={viewModal._id} // ensures re-render when you switch books
-            src={`http://localhost:3000/${viewModal.pdf_url}#toolbar=0&navpanes=0&scrollbar=1`}
-            title="Book PDF Preview"
-            className="pdf-viewer"
-            frameBorder="0"
-            allowFullScreen
-          ></iframe>
+                {/* Embed PDF in an iframe for smooth inline preview */}
+                <iframe
+                  key={viewModal._id} // ensures re-render when you switch books
+                  src={`http://localhost:3000/${viewModal.pdf_url}#toolbar=0&navpanes=0&scrollbar=1`}
+                  title="Book PDF Preview"
+                  className="pdf-viewer"
+                  frameBorder="0"
+                  allowFullScreen
+                ></iframe>
 
-          {/* PDF Download Button */}
-          <a
-            href={`http://localhost:3000/${viewModal.pdf_url}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="download-link"
-          >
-            📥 Download PDF
-          </a>
+                {/* PDF Download Button */}
+                <a
+                  href={`http://localhost:3000/${viewModal.pdf_url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="download-link"
+                >
+                  📥 Download PDF
+                </a>
+              </div>
+            ) : (
+              <p className="no-pdf">❌ No PDF available for this book.</p>
+            )}
+
+            {/* Modal Close Button */}
+            <div className="modal-actions">
+              <button className="cancel-btn" onClick={() => setViewModal(null)}>
+                Close
+              </button>
+            </div>
+          </div>
         </div>
-      ) : (
-        <p className="no-pdf">❌ No PDF available for this book.</p>
       )}
-
-      {/* Modal Close Button */}
-      <div className="modal-actions">
-        <button className="cancel-btn" onClick={() => setViewModal(null)}>
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
 
       <ToastContainer position="top-right" autoClose={3000} />
     </div>

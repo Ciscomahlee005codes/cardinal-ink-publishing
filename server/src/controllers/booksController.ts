@@ -110,6 +110,8 @@ exports.editBook = [
       } = req?.body;
       const file = req?.files;
 
+      console.log(req.body, req.query, req.files);
+
       if (!bookid) {
         return res?.json({ status: false, message: "missing arguments" });
       }
@@ -148,42 +150,21 @@ exports.editBook = [
         const cover = file[0];
         const content = file[1];
 
-        if (cover !== null && content === null) {
+        if (cover !== null) {
           const getCoverUrl = checkIfExists.cover_url;
           if (getCoverUrl !== "") {
-            const deletefile = deleteFile(getCoverUrl);
-            if (deletefile === false) {
-              return res?.json({
-                status: false,
-                message:
-                  "something happened while trying to complete your request",
-              });
-            }
+            deleteFile(getCoverUrl);
           }
-        } else if (content !== null && cover === null) {
+        } else if (content !== null) {
           const getContentUrl = checkIfExists.content_url;
           if (getContentUrl !== "") {
-            const deletefile = deleteFile(getContentUrl);
-            if (deletefile === false) {
-              return res?.json({
-                status: false,
-                message:
-                  "something happened while trying to complete your request",
-              });
-            }
+            deleteFile(getContentUrl);
           }
         } else if (cover !== null && content !== null) {
           const urls = [checkIfExists.cover_url, checkIfExists.content_url];
 
           for (const urlPath of urls) {
-            const deletefile = await deleteFile(urlPath);
-            if (!deletefile) {
-              return res.json({
-                status: false,
-                message:
-                  "Something happened while trying to complete your request",
-              });
-            }
+            await deleteFile(urlPath);
           }
         }
       }
@@ -195,8 +176,8 @@ exports.editBook = [
           description,
           price,
           category_id,
-          cover_url: file[0] !== null ? file[0].path : cover_url,
-          content_url: file[1] !== null ? file[1].path : content_url,
+          cover_url: file?.[0]?.path ?? cover_url,
+          content_url: file?.[1]?.path ?? content_url,
         },
         {
           where: {
@@ -218,6 +199,7 @@ exports.editBook = [
 
 exports.deleteBook = async (req: any, res: any) => {
   const { bookid } = req.query;
+  console.log(req.query);
 
   try {
     if (!bookid) {
@@ -242,13 +224,7 @@ exports.deleteBook = async (req: any, res: any) => {
       //     });
       //   }
       // });
-      const deletefile = deleteFile(path);
-      if (deletefile === false) {
-        return res?.json({
-          status: false,
-          message: "request could not be completed. something went wrong",
-        });
-      }
+      deleteFile(path);
     });
 
     const deleteBook = await books.destroy({ where: { id: bookid } });

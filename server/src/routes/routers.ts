@@ -77,8 +77,12 @@ routes.post(
 );
 routes.get("/books", allBooks);
 routes.get("/books/:id", Books);
-routes.put("/book/edit", editBook);
-routes.put("/book/delete", deleteBook);
+routes.put("/book/edit", [authTokenValidator, adminMiddleware], editBook);
+routes.delete(
+  "/book/delete",
+  [authTokenValidator, adminMiddleware],
+  deleteBook
+);
 
 //auth routes
 routes.post("/signup/users", createNewUser);
