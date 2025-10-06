@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 async function DeleteFile(filePath: string) {
-  fs.unlink(`../../${filePath}`, (err: any) => {
+  fs.unlink(`${filePath}`, (err: any) => {
     if (err) {
       console.log(err);
       return false;
