@@ -156,9 +156,8 @@ function App() {
             element={<UserNotificationPage />}
           />
           <Route path="/userdashboard/helpsupport" element={<UserHelpPage />} />
-
-          <Route path="/user/OTP" element={<UserOTP />} />
         </Route>
+        <Route path="/user/OTP" element={<UserOTP />} />
 
         {/* Admin Dashboard Routes */}
         {/* <Route path="/admin/authentication" element={<AdminAuth />} /> */}
