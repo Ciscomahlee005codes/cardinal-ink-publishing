@@ -62,9 +62,6 @@ const AdminUserManagement = () => {
                 {new Date(user.createdAt).toLocaleDateString()}
               </td>
               <td data-label="Actions" className="actions">
-                <button className="edit">
-                  <FaEdit />
-                </button>
                 <button className="delete">
                   <FaTrash />
                 </button>

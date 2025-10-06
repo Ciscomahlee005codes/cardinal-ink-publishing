@@ -476,64 +476,68 @@ const AdminBookManagement = () => {
       )}
 
       {/* View Modal */}
-      {viewModal && (
-        <div className="modal-overlay">
-          <div className="modal large-modal">
-            <h2>{viewModal.title}</h2>
-            <img
-              src={`http://localhost:3000/${viewModal.cover_url}`}
-              alt={viewModal.title}
-              className="book-cover-large"
-            />
-            <div className="book-details">
-              <p>
-                <b>Author:</b> {viewModal.author}
-              </p>
-              <p>
-                <b>Category:</b> {viewModal.category?.category}
-              </p>
-              <p>
-                <b>Description:</b> {viewModal.description}
-              </p>
-              <p>
-                <b>Price:</b> ${viewModal.price}
-              </p>
-              <p>
-                <b>Added On:</b>{" "}
-                {new Date(viewModal.createdAt).toLocaleDateString()}
-              </p>
-            </div>
+      {/* View Modal */}
+{viewModal && (
+  <div className="modal-overlay">
+    <div className="modal large-modal">
+      <h2>{viewModal.title}</h2>
+      <img
+        src={`http://localhost:3000/${viewModal.cover_url}`}
+        alt={viewModal.title}
+        className="book-cover-large"
+      />
+      <div className="book-details">
+        <p>
+          <b>Author:</b> {viewModal.author}
+        </p>
+        <p>
+          <b>Category:</b> {viewModal.category?.category}
+        </p>
+        <p>
+          <b>Description:</b> {viewModal.description}
+        </p>
+        <p>
+          <b>Price:</b> ${viewModal.price}
+        </p>
+        <p>
+          <b>Added On:</b>{" "}
+          {new Date(viewModal.createdAt).toLocaleDateString()}
+        </p>
+      </div>
 
-            {/* PDF Viewer Section */}
-            {viewModal.content_url ? (
-              <div className="pdf-section">
-                <h3>📘 Book PDF Preview</h3>
-                <iframe
-                  src={`http://localhost:3000/${viewModal.content_url}`}
-                  title="Book PDF"
-                  className="pdf-viewer"
-                ></iframe>
-                <a
-                  href={`http://localhost:3000/${viewModal.pdf_url}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="download-link"
-                >
-                  📥 Download PDF
-                </a>
-              </div>
-            ) : (
-              <p className="no-pdf">❌ No PDF available for this book.</p>
-            )}
-
-            <div className="modal-actions">
-              <button className="cancel-btn" onClick={() => setViewModal(null)}>
-                Close
-              </button>
-            </div>
-          </div>
+      {/* ✅ PDF Viewer Section */}
+      {viewModal.pdf_url ? (
+        <div className="pdf-section">
+          <h3>📘 Book PDF Preview</h3>
+          <iframe
+            src={`http://localhost:3000/${viewModal.pdf_url}#toolbar=1&navpanes=0&scrollbar=1`}
+            title="Book PDF"
+            className="pdf-viewer"
+            frameBorder="0"
+            allowFullScreen
+          ></iframe>
+          <a
+            href={`http://localhost:3000/${viewModal.pdf_url}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="download-link"
+          >
+            📥 Download Full PDF
+          </a>
         </div>
+      ) : (
+        <p className="no-pdf">❌ No PDF available for this book.</p>
       )}
+
+      <div className="modal-actions">
+        <button className="cancel-btn" onClick={() => setViewModal(null)}>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
 
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
