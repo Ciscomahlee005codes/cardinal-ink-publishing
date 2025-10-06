@@ -15,32 +15,58 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import useTransactions from "../../../Hooks/useTransactions";
+import useBooks from "../../../Hooks/useBooks";
 
 const AdminChart = () => {
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   // Example data
-  const salesData = [
-    { month: "Jan", sold: 400 },
-    { month: "Feb", sold: 300 },
-    { month: "Mar", sold: 500 },
-    { month: "Apr", sold: 700 },
-    { month: "May", sold: 600 },
-  ];
+  const { transactions } = useTransactions();
+  const { bookCollection } = useBooks();
 
-  const revenueData = [
-    { month: "Jan", revenue: 2000 },
-    { month: "Feb", revenue: 2500 },
-    { month: "Mar", revenue: 3800 },
-    { month: "Apr", revenue: 4200 },
-    { month: "May", revenue: 5000 },
-  ];
+  const salesData = monthNames.map((month, index) => ({
+    month,
+    sold: transactions.filter(
+      (tx) =>
+        new Date(tx.createdAt).getMonth() === index && tx.status === "success"
+    ).length, // Count how many successful sales happened in that month
+  }));
 
-  const genreData = [
-    { name: "Fiction", value: 400 },
-    { name: "Business", value: 300 },
-    { name: "Sci-Fi", value: 300 },
-    { name: "Romance", value: 200 },
-    { name: "History", value: 100 },
-  ];
+  const revenueData = monthNames.map((month, index) => ({
+    month,
+    revenue: transactions
+      .filter(
+        (tx) =>
+          new Date(tx.createdAt).getMonth() === index && tx.status === "success"
+      )
+      .reduce((sum, tx) => sum + parseFloat(tx.amount), 0),
+  }));
+
+  // Build category data dynamically
+  const categoryCountMap = {};
+
+  bookCollection.forEach((book) => {
+    const categoryName = book.category?.category || "Uncategorized";
+    categoryCountMap[categoryName] = (categoryCountMap[categoryName] || 0) + 1;
+  });
+
+  const genreData = Object.entries(categoryCountMap).map(([name, value]) => ({
+    name,
+    value,
+  }));
 
   const COLORS = ["#4e73df", "#1cc88a", "#36b9cc", "#f6c23e", "#e74a3b"];
 

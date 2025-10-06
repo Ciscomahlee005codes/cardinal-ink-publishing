@@ -26,6 +26,16 @@ transactions.belongsTo(Users, {
   as: "transaction",
 });
 
+transactions.belongsTo(books, {
+  foreignKey: "book_id",
+  as: "book",
+});
+
+Users.hasMany(transactions, {
+  foreignKey: "user_id",
+  as: "transactions", // plural, since one user has many transactions
+});
+
 categories.hasMany(books, {
   foreignKey: "category_id",
   as: "books", // plural, since one category has many books

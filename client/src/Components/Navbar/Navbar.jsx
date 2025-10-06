@@ -162,15 +162,29 @@ const Navbar = () => {
           </li>
 
           {/* Mobile Auth */}
-          <li className="mobile-auth">
-            <NavLink
-              to="/authentication"
-              className="btn-signup"
-              onClick={() => setMenuOpen(false)}
-            >
-              Log In
-            </NavLink>
-          </li>
+          {localStorage.getItem("adminAuthToken") ? (
+            <li className="mobile-auth">
+              <NavLink to="/admindashboard/home" className="btn-signup">
+                Admin
+              </NavLink>
+            </li>
+          ) : localStorage.getItem("userAuthToken") ? (
+            <li className="mobile-auth">
+              <NavLink to="/userdashboard/home" className="btn-signup">
+                Dashbored
+              </NavLink>
+            </li>
+          ) : (
+            <li className="mobile-auth">
+              <NavLink
+                to="/authentication"
+                className="btn-signup"
+                onClick={() => setMenuOpen(false)}
+              >
+                Log In
+              </NavLink>
+            </li>
+          )}
         </ul>
       </nav>
     </header>

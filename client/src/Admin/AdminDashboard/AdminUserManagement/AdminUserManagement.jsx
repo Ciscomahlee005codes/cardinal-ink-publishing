@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./AdminUserManagement.css";
-import { FaSearch, FaTrash, FaBan } from "react-icons/fa";
+import { FaSearch, FaEdit, FaTrash, FaBan } from "react-icons/fa";
 import useUsers from "../../../Hooks/useUsers";
 
 const AdminUserManagement = () => {
@@ -46,7 +46,9 @@ const AdminUserManagement = () => {
           {filteredUsers.map((user, index) => (
             <tr key={user.id}>
               <td data-label="#">{index + 1}</td>
-              <td data-label="Name">{user.name}</td>
+              <td data-label="Name">
+                {user.lastname} {user.firstname}
+              </td>
               <td data-label="Email">{user.email}</td>
               <td data-label="Role">
                 <span className={`role ${user.role.toLowerCase()}`}>
@@ -60,7 +62,9 @@ const AdminUserManagement = () => {
                 {new Date(user.createdAt).toLocaleDateString()}
               </td>
               <td data-label="Actions" className="actions">
-                {/* Removed Edit Button */}
+                <button className="edit">
+                  <FaEdit />
+                </button>
                 <button className="delete">
                   <FaTrash />
                 </button>

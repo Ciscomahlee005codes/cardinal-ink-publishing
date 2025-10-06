@@ -1,6 +1,7 @@
 const { books, categories } = require("../../models/indexs");
 const upload = require("../middleware/uploads");
 const fs = require("fs");
+const deleteFile = require("../utils/fileDelete");
 
 exports.createNewBook = [
   upload.array("fileContent", 2),
@@ -144,18 +145,65 @@ exports.editBook = [
       }
 
       if (file.length > 0) {
-        //don't forget
+        const cover = file[0];
+        const content = file[1];
+
+        if (cover !== null && content === null) {
+          const getCoverUrl = checkIfExists.cover_url;
+          if (getCoverUrl !== "") {
+            const deletefile = deleteFile(getCoverUrl);
+            if (deletefile === false) {
+              return res?.json({
+                status: false,
+                message:
+                  "something happened while trying to complete your request",
+              });
+            }
+          }
+        } else if (content !== null && cover === null) {
+          const getContentUrl = checkIfExists.content_url;
+          if (getContentUrl !== "") {
+            const deletefile = deleteFile(getContentUrl);
+            if (deletefile === false) {
+              return res?.json({
+                status: false,
+                message:
+                  "something happened while trying to complete your request",
+              });
+            }
+          }
+        } else if (cover !== null && content !== null) {
+          const urls = [checkIfExists.cover_url, checkIfExists.content_url];
+
+          for (const urlPath of urls) {
+            const deletefile = await deleteFile(urlPath);
+            if (!deletefile) {
+              return res.json({
+                status: false,
+                message:
+                  "Something happened while trying to complete your request",
+              });
+            }
+          }
+        }
       }
 
-      await books.update({
-        title,
-        author,
-        description,
-        price,
-        category_id,
-        cover_url,
-        content_url,
-      });
+      await books.update(
+        {
+          title,
+          author,
+          description,
+          price,
+          category_id,
+          cover_url: file[0] !== null ? file[0].path : cover_url,
+          content_url: file[1] !== null ? file[1].path : content_url,
+        },
+        {
+          where: {
+            id: bookid,
+          },
+        }
+      );
 
       return res?.json({
         status: true,
@@ -185,15 +233,22 @@ exports.deleteBook = async (req: any, res: any) => {
     const filePath = [checkIfExists.cover_url, checkIfExists.content_url];
 
     filePath.forEach((path: string) => {
-      fs.unlink(path, (err: any) => {
-        if (err) {
-          console.log(err);
-          return res?.json({
-            status: false,
-            message: "request could not be completed. something went wrong",
-          });
-        }
-      });
+      // fs.unlink(path, (err: any) => {
+      //   if (err) {
+      //     console.log(err);
+      //     return res?.json({
+      //       status: false,
+      //       message: "request could not be completed. something went wrong",
+      //     });
+      //   }
+      // });
+      const deletefile = deleteFile(path);
+      if (deletefile === false) {
+        return res?.json({
+          status: false,
+          message: "request could not be completed. something went wrong",
+        });
+      }
     });
 
     const deleteBook = await books.destroy({ where: { id: bookid } });

@@ -33,6 +33,9 @@ const BookCategory = () => {
       if (res.data.status === true) {
         toast.success("✅ Category created successfully");
         setNewCategory({ name: "", description: "" });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       } else {
         toast.error(res.data.message || "❌ Failed to create category");
       }
@@ -85,18 +88,20 @@ const BookCategory = () => {
     if (!window.confirm("Are you sure you want to delete this category?"))
       return;
 
-    const token =
-      localStorage.getItem("adminAuthToken") || localStorage.getItem("token");
+    const token = localStorage.getItem("adminAuthToken");
 
     try {
       const res = await endPoint.delete(`/categories/delete/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          authorization: `Bearer ${token}`,
         },
       });
 
-      if (res.data.status) {
+      if (res.data.status === true) {
         toast.success("✅ Category deleted successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       } else {
         toast.error(res.data.message || "❌ Failed to delete category");
       }
@@ -155,7 +160,7 @@ const BookCategory = () => {
                   </button>
                   <button
                     className="delete-btn"
-                    onClick={() => handleDelete(cat._id)}
+                    onClick={() => handleDelete(cat.id)}
                   >
                     Delete
                   </button>

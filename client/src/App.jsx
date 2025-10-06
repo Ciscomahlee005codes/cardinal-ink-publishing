@@ -122,7 +122,7 @@ function App() {
         <Route path="/contactUs" element={<ContactPage />} />
         <Route path="/aboutUs" element={<AboutPage />} />
         <Route path="/blog" element={<BlogPage />} />
-        <Route path="/mylibrary" element={<LibraryPage />} />
+        {/* <Route path="/mylibrary" element={<LibraryPage />} /> */}
         <Route path="/bookstore" element={<BookStorePage />} />
         <Route path="/authentication" element={<AuthPage />} />
         <Route path="/forgottenpassword" element={<ForgotPassword />} />
@@ -157,39 +157,34 @@ function App() {
           />
           <Route path="/userdashboard/helpsupport" element={<UserHelpPage />} />
 
-        <Route path="/user/OTP" element={<UserOTP />} />
+          <Route path="/user/OTP" element={<UserOTP />} />
         </Route>
 
         {/* Admin Dashboard Routes */}
         {/* <Route path="/admin/authentication" element={<AdminAuth />} /> */}
-        <Route element={<AdminAuthentication />}>
-           
-        </Route>
-         <Route path="/admindashboard/home" element={<AdminHomePage />} />
-          <Route
-            path="/admindashboard/usermanagement"
-            element={<AdminUserPage />}
-          />
-          <Route
-            path="/admindashboard/bookmanagement"
-            element={<AdminBookPage />}
-          />
-          <Route
-            path="/admindashboard/bookcategory"
-            element={<BookCatPage />}
-          />
-          <Route
-            path="/admindashboard/transactionhistory"
-            element={<AdminTransactionPage />}
-          />
-          <Route
-            path="/admindashboard/notification"
-            element={<AdminNotificationPage />}
-          />
-          <Route
-            path="/admindashboard/profilesettings"
-            element={<AdminProfilePage />}
-          />
+        <Route element={<AdminAuthentication />}></Route>
+        <Route path="/admindashboard/home" element={<AdminHomePage />} />
+        <Route
+          path="/admindashboard/usermanagement"
+          element={<AdminUserPage />}
+        />
+        <Route
+          path="/admindashboard/bookmanagement"
+          element={<AdminBookPage />}
+        />
+        <Route path="/admindashboard/bookcategory" element={<BookCatPage />} />
+        <Route
+          path="/admindashboard/transactionhistory"
+          element={<AdminTransactionPage />}
+        />
+        <Route
+          path="/admindashboard/notification"
+          element={<AdminNotificationPage />}
+        />
+        <Route
+          path="/admindashboard/profilesettings"
+          element={<AdminProfilePage />}
+        />
       </Routes>
 
       {!hideLayout && <Footer />}
