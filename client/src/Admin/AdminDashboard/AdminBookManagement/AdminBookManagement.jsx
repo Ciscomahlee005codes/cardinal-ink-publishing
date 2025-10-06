@@ -97,7 +97,11 @@ const AdminBookManagement = () => {
     }
   };
 
+<<<<<<< HEAD
   // ✅ Edit Book
+=======
+  // ✅ Edit Book Modal
+>>>>>>> 16dfa9f9925cc668f8d75627563f6800d9468368
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -108,9 +112,19 @@ const AdminBookManagement = () => {
       formData.append("description", editModal.description);
       formData.append("price", editModal.price);
       formData.append("category_id", editModal.category?.id);
+<<<<<<< HEAD
 
       if (editModal.cover) formData.append("fileContent", editModal.cover);
       if (editModal.pdf) formData.append("fileContent", editModal.pdf);
+=======
+      //  Bro Abeg Checkour this line
+      if (editModal.cover) {
+        formData.append("fileContent", editModal.cover);
+      }
+      if (editModal.pdf) {
+        formData.append("fileContent", editModal.pdf);
+      }
+>>>>>>> 16dfa9f9925cc668f8d75627563f6800d9468368
 
       const res = await endPoint.put("/book/edit", formData, {
         headers: {
@@ -132,7 +146,11 @@ const AdminBookManagement = () => {
     }
   };
 
+<<<<<<< HEAD
   // ✅ Delete Book
+=======
+  // ✅ Delete Book Modal
+>>>>>>> 16dfa9f9925cc668f8d75627563f6800d9468368
   const confirmDelete = async () => {
     try {
       const res = await endPoint.put("/book/delete", { id: deleteModal._id });
@@ -396,6 +414,7 @@ const AdminBookManagement = () => {
         </div>
       )}
 
+<<<<<<< HEAD
       {/* 🧩 VIEW MODAL */}
       {viewModal && (
         <div className="modal-overlay">
@@ -452,11 +471,135 @@ const AdminBookManagement = () => {
                 Close
               </button>
             </div>
+=======
+      {/* Edit Modal */}
+
+      {editModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Edit Book</h2>
+            <form onSubmit={handleEditSubmit}>
+              <label>Book Title</label>
+              <input
+                type="text"
+                value={editModal.title}
+                onChange={(e) =>
+                  setEditModal({ ...editModal, title: e.target.value })
+                }
+                placeholder="Enter book title"
+              />
+
+              <label>Author</label>
+              <input
+                type="text"
+                value={editModal.author}
+                onChange={(e) =>
+                  setEditModal({ ...editModal, author: e.target.value })
+                }
+                placeholder="Enter author name"
+              />
+
+              <label>Description</label>
+              <textarea
+                value={editModal.description}
+                onChange={(e) =>
+                  setEditModal({ ...editModal, description: e.target.value })
+                }
+                placeholder="Enter book description"
+              ></textarea>
+
+              <label>Price</label>
+              <input
+                type="number"
+                step="0.01"
+                value={editModal.price}
+                onChange={(e) =>
+                  setEditModal({ ...editModal, price: e.target.value })
+                }
+                placeholder="Enter price"
+              />
+
+              <label>Category</label>
+              <select
+                value={editModal.category?.id || ""}
+                onChange={(e) =>
+                  setEditModal({
+                    ...editModal,
+                    category: {
+                      id: e.target.value,
+                      category: e.target.selectedOptions[0].text,
+                    },
+                  })
+                }
+              >
+                <option value="">-- Select Category --</option>
+                {Categories?.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.category}
+                  </option>
+                ))}
+              </select>
+
+              <label>Book Cover</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) =>
+                  setEditModal({
+                    ...editModal,
+                    cover: e.target.files[0],
+                    coverPreview: URL.createObjectURL(e.target.files[0]),
+                  })
+                }
+              />
+              <label>Upload Book PDF</label>
+              <input
+                type="file"
+                accept="application/pdf"
+                onChange={(e) =>
+                  setEditModal({
+                    ...editModal,
+                    pdf: e.target.files[0],
+                  })
+                }
+              />
+
+              {editModal.coverPreview ? (
+                <div className="cover-preview">
+                  <img src={editModal.coverPreview} alt="Preview" />
+                </div>
+              ) : (
+                <div className="cover-preview">
+                  <img
+                    src={`http://localhost:3000/${editModal.cover_url}`}
+                    alt={editModal.title}
+                  />
+                </div>
+              )}
+
+              <div className="modal-actions">
+                <button type="submit" className="save-btn">
+                  Update Book
+                </button>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => setEditModal(null)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+>>>>>>> 16dfa9f9925cc668f8d75627563f6800d9468368
           </div>
         </div>
       )}
 
+<<<<<<< HEAD
       {/* 🗑 Delete Modal */}
+=======
+      {/* Delete Modal */}
+>>>>>>> 16dfa9f9925cc668f8d75627563f6800d9468368
       {deleteModal && (
         <div className="modal-overlay">
           <div className="modal delete-modal">
@@ -479,6 +622,72 @@ const AdminBookManagement = () => {
         </div>
       )}
 
+<<<<<<< HEAD
+=======
+      {/* View Modal */}
+      {/* View Modal */}
+      {viewModal && (
+        <div className="modal-overlay">
+          <div className="modal large-modal">
+            <h2>{viewModal.title}</h2>
+            <img
+              src={`http://localhost:3000/${viewModal.cover_url}`}
+              alt={viewModal.title}
+              className="book-cover-large"
+            />
+            <div className="book-details">
+              <p>
+                <b>Author:</b> {viewModal.author}
+              </p>
+              <p>
+                <b>Category:</b> {viewModal.category?.category}
+              </p>
+              <p>
+                <b>Description:</b> {viewModal.description}
+              </p>
+              <p>
+                <b>Price:</b> ${viewModal.price}
+              </p>
+              <p>
+                <b>Added On:</b>{" "}
+                {new Date(viewModal.createdAt).toLocaleDateString()}
+              </p>
+            </div>
+
+            {/* ✅ PDF Viewer Section */}
+            {viewModal.pdf_url ? (
+              <div className="pdf-section">
+                <h3>📘 Book PDF Preview</h3>
+                <iframe
+                  src={`http://localhost:3000/${viewModal.pdf_url}#toolbar=1&navpanes=0&scrollbar=1`}
+                  title="Book PDF"
+                  className="pdf-viewer"
+                  frameBorder="0"
+                  allowFullScreen
+                ></iframe>
+                <a
+                  href={`http://localhost:3000/${viewModal.pdf_url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="download-link"
+                >
+                  📥 Download Full PDF
+                </a>
+              </div>
+            ) : (
+              <p className="no-pdf">❌ No PDF available for this book.</p>
+            )}
+
+            <div className="modal-actions">
+              <button className="cancel-btn" onClick={() => setViewModal(null)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+>>>>>>> 16dfa9f9925cc668f8d75627563f6800d9468368
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );

@@ -19,6 +19,7 @@ const {
   resetPassword,
   allUsers,
   getUserById,
+  getUserDetails,
 } = require("../controllers/usersControllers");
 
 const {
@@ -87,7 +88,8 @@ routes.post("/verify/otp", verifyOtp);
 routes.post("/forgottenpassword", forgottonPassword);
 routes.put("/passwordReset", authTokenValidator, resetPassword);
 routes.get("/all/users", [authTokenValidator, adminMiddleware], allUsers);
-routes.get("/user/:id", authTokenValidator, getUserById);
+routes.get("/user/details", authTokenValidator, getUserDetails);
+routes.get("/user/:id", [authTokenValidator, adminMiddleware], getUserById);
 
 routes.post(
   "/create/category",
