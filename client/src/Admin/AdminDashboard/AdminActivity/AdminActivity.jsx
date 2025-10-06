@@ -9,10 +9,12 @@ import { FaBook, FaHeart, FaBookReader, FaDollarSign } from "react-icons/fa";
 import "./AdminActivity.css";
 import useBooks from "../../../Hooks/useBooks";
 import useUsers from "../../../Hooks/useUsers";
+import useTransactions from "../../../Hooks/useTransactions";
 
 const AdminActivity = () => {
   const { bookCollection } = useBooks();
   const { users } = useUsers();
+  const { transactions } = useTransactions();
 
   const activities = [
     {
@@ -25,7 +27,8 @@ const AdminActivity = () => {
     {
       id: 2,
       title: "Total Sales",
-      count: 54,
+      count: transactions.filter((tx) => tx.status.toLowerCase() === "success")
+        .length,
       icon: <FaDollarSign />,
       color: "#1cc88a",
     },
@@ -39,7 +42,8 @@ const AdminActivity = () => {
     {
       id: 4,
       title: "Pending Requests",
-      count: 9,
+      count: transactions.filter((tx) => tx.status.toLowerCase() === "pending")
+        .length,
       icon: <FaHourglassHalf />,
       color: "#e74a3b",
     },

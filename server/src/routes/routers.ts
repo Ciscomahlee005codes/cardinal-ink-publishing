@@ -35,10 +35,11 @@ const {
   deleteNotification,
 } = require("../controllers/notificationController");
 
-/*const {
+const {
   createOrder,
   completePayment,
-} = require("../controllers/transactionController");*/
+  getAllTransaction,
+} = require("../controllers/transactionController");
 
 const {
   userPurchasedBooks,
@@ -100,7 +101,11 @@ routes.put(
   [authTokenValidator, adminMiddleware],
   editCategory
 );
-routes.delete("/categories/delete/:id", deleteCategory);
+routes.delete(
+  "/categories/delete/:id",
+  [authTokenValidator, adminMiddleware],
+  deleteCategory
+);
 
 routes.get(
   "/user/notification",
@@ -125,6 +130,11 @@ routes.delete(
   completePayment
 );
 */
+routes.get(
+  "/transactions",
+  [authTokenValidator, adminMiddleware],
+  getAllTransaction
+);
 routes.get("/purchased/books", userMiddleware, userPurchasedBooks);
 
 module.exports = routes;

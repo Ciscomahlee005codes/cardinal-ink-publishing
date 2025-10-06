@@ -136,9 +136,9 @@ exports.deleteCategory = async (req: any, res: any) => {
       });
     }
 
-    const createCategory = await categories.destory({ where: { id: id } });
+    const deleteCategory = await categories.destroy({ where: { id: id } });
 
-    if (!createCategory) {
+    if (!deleteCategory) {
       return res?.json({
         status: false,
         message: "unable to complete request. try again",
