@@ -17,7 +17,6 @@ import useCategory from "../../../Hooks/useCategory";
 const AdminBookManagement = () => {
   const { bookCollection, refetchBooks } = useBooks();
   const { Categories } = useCategory();
-
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -37,7 +36,7 @@ const AdminBookManagement = () => {
   const [deleteModal, setDeleteModal] = useState(null);
   const [viewModal, setViewModal] = useState(null);
 
-  // ✅ Handle Input Changes
+  // ✅ Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewBook({ ...newBook, [name]: value });
@@ -48,7 +47,7 @@ const AdminBookManagement = () => {
     setNewBook({ ...newBook, [name]: files[0] });
   };
 
-  // ✅ Add Book
+  // ✅ Add new book
   const handleAddBook = async (e) => {
     e.preventDefault();
     if (!newBook.title || !newBook.author || !newBook.price) {
@@ -97,11 +96,7 @@ const AdminBookManagement = () => {
     }
   };
 
-<<<<<<< HEAD
-  // ✅ Edit Book
-=======
   // ✅ Edit Book Modal
->>>>>>> 16dfa9f9925cc668f8d75627563f6800d9468368
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -112,11 +107,6 @@ const AdminBookManagement = () => {
       formData.append("description", editModal.description);
       formData.append("price", editModal.price);
       formData.append("category_id", editModal.category?.id);
-<<<<<<< HEAD
-
-      if (editModal.cover) formData.append("fileContent", editModal.cover);
-      if (editModal.pdf) formData.append("fileContent", editModal.pdf);
-=======
       //  Bro Abeg Checkour this line
       if (editModal.cover) {
         formData.append("fileContent", editModal.cover);
@@ -124,7 +114,6 @@ const AdminBookManagement = () => {
       if (editModal.pdf) {
         formData.append("fileContent", editModal.pdf);
       }
->>>>>>> 16dfa9f9925cc668f8d75627563f6800d9468368
 
       const res = await endPoint.put("/book/edit", formData, {
         headers: {
@@ -146,11 +135,7 @@ const AdminBookManagement = () => {
     }
   };
 
-<<<<<<< HEAD
-  // ✅ Delete Book
-=======
   // ✅ Delete Book Modal
->>>>>>> 16dfa9f9925cc668f8d75627563f6800d9468368
   const confirmDelete = async () => {
     try {
       const res = await endPoint.put("/book/delete", { id: deleteModal._id });
@@ -179,7 +164,7 @@ const AdminBookManagement = () => {
     <div className="book-management">
       <h1>Book Management</h1>
 
-      {/* 🔍 Search Bar */}
+      {/* Search Bar */}
       <div className="search-bar">
         <FaSearch className="search-icon" />
         <input
@@ -190,14 +175,14 @@ const AdminBookManagement = () => {
         />
       </div>
 
-      {/* ➕ Add New Book */}
+      {/* Add Book */}
       <div className="add-btn-container">
         <button className="add-btn" onClick={() => setShowModal(true)}>
           <FaPlus /> Add New Book
         </button>
       </div>
 
-      {/* 📚 Table */}
+      {/* Table */}
       <table>
         <thead>
           <tr>
@@ -270,59 +255,43 @@ const AdminBookManagement = () => {
         </tbody>
       </table>
 
-      {/* 🧩 EDIT MODAL with PDF PREVIEW */}
-      {editModal && (
+      {/* Add Book Modal */}
+      {showModal && (
         <div className="modal-overlay">
-          <div className="modal large-modal">
-            <h2>Edit Book</h2>
-            <form onSubmit={handleEditSubmit}>
-              <label>Book Title</label>
+          <div className="modal">
+            <h2>Add New Book</h2>
+            <form onSubmit={handleAddBook}>
               <input
                 type="text"
-                value={editModal.title}
-                onChange={(e) =>
-                  setEditModal({ ...editModal, title: e.target.value })
-                }
+                name="title"
+                placeholder="Book Title"
+                value={newBook.title}
+                onChange={handleChange}
               />
-
-              <label>Author</label>
               <input
                 type="text"
-                value={editModal.author}
-                onChange={(e) =>
-                  setEditModal({ ...editModal, author: e.target.value })
-                }
+                name="author"
+                placeholder="Author"
+                value={newBook.author}
+                onChange={handleChange}
               />
-
-              <label>Description</label>
               <textarea
-                value={editModal.description}
-                onChange={(e) =>
-                  setEditModal({ ...editModal, description: e.target.value })
-                }
+                name="description"
+                placeholder="Description"
+                value={newBook.description}
+                onChange={handleChange}
               ></textarea>
-
-              <label>Price</label>
               <input
-                type="number"
-                value={editModal.price}
-                onChange={(e) =>
-                  setEditModal({ ...editModal, price: e.target.value })
-                }
+                type="text"
+                name="price"
+                placeholder="Price (e.g. $15)"
+                value={newBook.price}
+                onChange={handleChange}
               />
-
-              <label>Category</label>
+              <label>Select Category</label>
               <select
-                value={editModal.category?.id || ""}
-                onChange={(e) =>
-                  setEditModal({
-                    ...editModal,
-                    category: {
-                      id: e.target.value,
-                      category: e.target.selectedOptions[0].text,
-                    },
-                  })
-                }
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
               >
                 <option value="">-- Select Category --</option>
                 {Categories?.map((cat) => (
@@ -331,80 +300,27 @@ const AdminBookManagement = () => {
                   </option>
                 ))}
               </select>
-
-              <label>Book Cover</label>
+              <label>Upload Cover Image</label>
               <input
                 type="file"
+                name="cover"
                 accept="image/*"
-                onChange={(e) =>
-                  setEditModal({
-                    ...editModal,
-                    cover: e.target.files[0],
-                    coverPreview: URL.createObjectURL(e.target.files[0]),
-                  })
-                }
+                onChange={handleFileChange}
               />
-              <div className="cover-preview">
-                <img
-                  src={
-                    editModal.coverPreview
-                      ? editModal.coverPreview
-                      : `http://localhost:3000/${editModal.cover_url}`
-                  }
-                  alt="Book Cover"
-                />
-              </div>
-
-              {/* ✅ PDF Upload + Preview */}
               <label>Upload Book PDF</label>
               <input
                 type="file"
+                name="pdf"
                 accept="application/pdf"
-                onChange={(e) =>
-                  setEditModal({
-                    ...editModal,
-                    pdf: e.target.files[0],
-                    pdfPreview: URL.createObjectURL(e.target.files[0]),
-                  })
-                }
+                onChange={handleFileChange}
               />
-
-              {editModal.pdfPreview ? (
-                <div className="pdf-section">
-                  <h3>📘 New PDF Preview</h3>
-                  <iframe
-                    src={editModal.pdfPreview}
-                    title="New PDF Preview"
-                    className="pdf-viewer"
-                  ></iframe>
-                </div>
-              ) : editModal.pdf_url ? (
-                <div className="pdf-section">
-                  <h3>📘 Current PDF Preview</h3>
-                  <iframe
-                    src={`http://localhost:3000/${editModal.pdf_url}`}
-                    title="Book PDF"
-                    className="pdf-viewer"
-                  ></iframe>
-                  <a
-                    href={`http://localhost:3000/${editModal.pdf_url}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="download-link"
-                  >
-                    📥 Download Current PDF
-                  </a>
-                </div>
-              ) : null}
-
               <div className="modal-actions">
                 <button type="submit" className="save-btn">
-                  Update Book
+                  Save
                 </button>
                 <button
-                  type="button"
                   className="cancel-btn"
-                  onClick={() => setEditModal(null)}
+                  onClick={() => setShowModal(false)}
                 >
                   Cancel
                 </button>
@@ -414,64 +330,6 @@ const AdminBookManagement = () => {
         </div>
       )}
 
-<<<<<<< HEAD
-      {/* 🧩 VIEW MODAL */}
-      {viewModal && (
-        <div className="modal-overlay">
-          <div className="modal large-modal">
-            <h2>{viewModal.title}</h2>
-            <img
-              src={`http://localhost:3000/${viewModal.cover_url}`}
-              alt={viewModal.title}
-              className="book-cover-large"
-            />
-            <div className="book-details">
-              <p>
-                <b>Author:</b> {viewModal.author}
-              </p>
-              <p>
-                <b>Category:</b> {viewModal.category?.category}
-              </p>
-              <p>
-                <b>Description:</b> {viewModal.description}
-              </p>
-              <p>
-                <b>Price:</b> ${viewModal.price}
-              </p>
-              <p>
-                <b>Added On:</b>{" "}
-                {new Date(viewModal.createdAt).toLocaleDateString()}
-              </p>
-            </div>
-
-            {viewModal.pdf_url ? (
-              <div className="pdf-section">
-                <h3>📘 Book PDF Preview</h3>
-                <iframe
-                  src={`http://localhost:3000/${viewModal.pdf_url}#toolbar=1`}
-                  title="Book PDF"
-                  className="pdf-viewer"
-                  frameBorder="0"
-                ></iframe>
-                <a
-                  href={`http://localhost:3000/${viewModal.pdf_url}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="download-link"
-                >
-                  📥 Download Full PDF
-                </a>
-              </div>
-            ) : (
-              <p className="no-pdf">❌ No PDF available for this book.</p>
-            )}
-
-            <div className="modal-actions">
-              <button className="cancel-btn" onClick={() => setViewModal(null)}>
-                Close
-              </button>
-            </div>
-=======
       {/* Edit Modal */}
 
       {editModal && (
@@ -590,16 +448,11 @@ const AdminBookManagement = () => {
                 </button>
               </div>
             </form>
->>>>>>> 16dfa9f9925cc668f8d75627563f6800d9468368
           </div>
         </div>
       )}
 
-<<<<<<< HEAD
-      {/* 🗑 Delete Modal */}
-=======
       {/* Delete Modal */}
->>>>>>> 16dfa9f9925cc668f8d75627563f6800d9468368
       {deleteModal && (
         <div className="modal-overlay">
           <div className="modal delete-modal">
@@ -622,72 +475,68 @@ const AdminBookManagement = () => {
         </div>
       )}
 
-<<<<<<< HEAD
-=======
-      {/* View Modal */}
       {/* View Modal */}
       {viewModal && (
-        <div className="modal-overlay">
-          <div className="modal large-modal">
-            <h2>{viewModal.title}</h2>
-            <img
-              src={`http://localhost:3000/${viewModal.cover_url}`}
-              alt={viewModal.title}
-              className="book-cover-large"
-            />
-            <div className="book-details">
-              <p>
-                <b>Author:</b> {viewModal.author}
-              </p>
-              <p>
-                <b>Category:</b> {viewModal.category?.category}
-              </p>
-              <p>
-                <b>Description:</b> {viewModal.description}
-              </p>
-              <p>
-                <b>Price:</b> ${viewModal.price}
-              </p>
-              <p>
-                <b>Added On:</b>{" "}
-                {new Date(viewModal.createdAt).toLocaleDateString()}
-              </p>
-            </div>
+  <div className="modal-overlay">
+    <div className="modal large-modal">
+      <h2>{viewModal.title}</h2>
 
-            {/* ✅ PDF Viewer Section */}
-            {viewModal.pdf_url ? (
-              <div className="pdf-section">
-                <h3>📘 Book PDF Preview</h3>
-                <iframe
-                  src={`http://localhost:3000/${viewModal.pdf_url}#toolbar=1&navpanes=0&scrollbar=1`}
-                  title="Book PDF"
-                  className="pdf-viewer"
-                  frameBorder="0"
-                  allowFullScreen
-                ></iframe>
-                <a
-                  href={`http://localhost:3000/${viewModal.pdf_url}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="download-link"
-                >
-                  📥 Download Full PDF
-                </a>
-              </div>
-            ) : (
-              <p className="no-pdf">❌ No PDF available for this book.</p>
-            )}
+      {/* Cover Image */}
+      <img
+        src={`http://localhost:3000/${viewModal.cover_url}`}
+        alt={viewModal.title}
+        className="book-cover-large"
+      />
 
-            <div className="modal-actions">
-              <button className="cancel-btn" onClick={() => setViewModal(null)}>
-                Close
-              </button>
-            </div>
-          </div>
+      {/* Book Details */}
+      <div className="book-details">
+        <p><b>Author:</b> {viewModal.author}</p>
+        <p><b>Category:</b> {viewModal.category?.category}</p>
+        <p><b>Description:</b> {viewModal.description}</p>
+        <p><b>Price:</b> ${viewModal.price}</p>
+        <p><b>Added On:</b> {new Date(viewModal.createdAt).toLocaleDateString()}</p>
+      </div>
+
+      {/* ✅ PDF Viewer Section */}
+      {viewModal.pdf_url ? (
+        <div className="pdf-section">
+          <h3>📘 Book PDF Preview</h3>
+
+          {/* Embed PDF in an iframe for smooth inline preview */}
+          <iframe
+            key={viewModal._id} // ensures re-render when you switch books
+            src={`http://localhost:3000/${viewModal.pdf_url}#toolbar=0&navpanes=0&scrollbar=1`}
+            title="Book PDF Preview"
+            className="pdf-viewer"
+            frameBorder="0"
+            allowFullScreen
+          ></iframe>
+
+          {/* PDF Download Button */}
+          <a
+            href={`http://localhost:3000/${viewModal.pdf_url}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="download-link"
+          >
+            📥 Download PDF
+          </a>
         </div>
+      ) : (
+        <p className="no-pdf">❌ No PDF available for this book.</p>
       )}
 
->>>>>>> 16dfa9f9925cc668f8d75627563f6800d9468368
+      {/* Modal Close Button */}
+      <div className="modal-actions">
+        <button className="cancel-btn" onClick={() => setViewModal(null)}>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
