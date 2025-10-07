@@ -133,7 +133,9 @@ function App() {
 
         {/* User Dashboard Routes */}
         <Route element={<UserAuth allowed="userAuthToken" />}>
-          <Route path="/userdashboard/home" element={<UserHomePage />} />
+          
+        </Route>
+        <Route path="/userdashboard/home" element={<UserHomePage />} />
           <Route
             path="/userdashboard/mylibrary"
             element={<UserLibraryPage />}
@@ -156,7 +158,6 @@ function App() {
             element={<UserNotificationPage />}
           />
           <Route path="/userdashboard/helpsupport" element={<UserHelpPage />} />
-        </Route>
         <Route path="/user/OTP" element={<UserOTP />} />
 
         {/* Admin Dashboard Routes */}

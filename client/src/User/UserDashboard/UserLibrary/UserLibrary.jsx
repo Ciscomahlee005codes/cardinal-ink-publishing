@@ -1,37 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import "./UserLibrary.css";
 import { FaSearch } from "react-icons/fa";
+import useCategory from "../../../Hooks/useCategory"; 
+import useBooks from "../../../Hooks/useBooks";
 
 const UserLibrary = () => {
   const [activeTab, setActiveTab] = useState("available");
-  const [selectedGenre, setSelectedGenre] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [search, setSearch] = useState("");
 
-  const genres = ["All", "Fiction", "Sci-Fi", "History", "Romance", "Business"];
+  // Custom Hooks
+  const { Categories } = useCategory();
+  const { bookCollection, loading, error } = useBooks();
 
-  const allBooks = [
-    { id: 1, title: "Atomic Habits", genre: "Business" },
-    { id: 2, title: "The Great Gatsby", genre: "Fiction" },
-    { id: 3, title: "1984", genre: "Sci-Fi" },
-    { id: 4, title: "Pride and Prejudice", genre: "Romance" },
-    { id: 5, title: "Sapiens", genre: "History" },
-    { id: 6, title: "Rich Dad Poor Dad", genre: "Business" },
-    { id: 7, title: "Deep Work", genre: "Business" },
-    { id: 8, title: "Harry Potter", genre: "Fiction" },
-  ];
-
+  // My Books (static for now)
   const myBooks = {
-    purchased: ["Atomic Habits", "Sapiens", "Deep Work"],
-    favorites: ["The Great Gatsby", "Harry Potter"],
-    read: ["1984"],
+    booksRead: ["Atomic Habits", "Sapiens", "Deep Work"],
+    readDate: ["1984"],
   };
 
-  const filteredBooks = allBooks.filter((book) => {
-    const matchesGenre =
-      selectedGenre === "All" || book.genre === selectedGenre;
-    const matchesSearch = book.title.toLowerCase().includes(search.toLowerCase());
-    return matchesGenre && matchesSearch;
-  });
+  // Filtered Books
+  const filteredBooks = useMemo(() => {
+    if (!bookCollection) return [];
+    return bookCollection.filter((book) => {
+      const matchesCategory =
+        selectedCategory === "All" || book.category === selectedCategory;
+      const matchesSearch = book.title
+        ?.toLowerCase()
+        .includes(search.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [bookCollection, selectedCategory, search]);
 
   return (
     <div className="library">
@@ -69,26 +68,40 @@ const UserLibrary = () => {
             />
           </div>
 
-          {/* Genre filter */}
+          {/* Category filter */}
           <div className="filter-buttons">
-            {genres.map((genre) => (
-              <button
-                key={genre}
-                className={selectedGenre === genre ? "selected" : ""}
-                onClick={() => setSelectedGenre(genre)}
-              >
-                {genre}
-              </button>
-            ))}
+            <button
+              className={selectedCategory === "All" ? "selected" : ""}
+              onClick={() => setSelectedCategory("All")}
+            >
+              All
+            </button>
+            {Categories?.length > 0 ? (
+              Categories.map((cat) => (
+                <button
+                  key={cat.id || cat.name}
+                  className={selectedCategory === cat.name ? "selected" : ""}
+                  onClick={() => setSelectedCategory(cat.name)}
+                >
+                  {cat.name}
+                </button>
+              ))
+            ) : (
+              <p className="no-results">Loading categories...</p>
+            )}
           </div>
 
-          {/* Book cards */}
+          {/* Books Display */}
           <div className="book-grid">
-            {filteredBooks.length > 0 ? (
+            {loading ? (
+              <p>Loading books...</p>
+            ) : error ? (
+              <p className="error-message">No books.</p>
+            ) : filteredBooks.length > 0 ? (
               filteredBooks.map((book) => (
                 <div key={book.id} className="book-card">
                   <h4>{book.title}</h4>
-                  <p>{book.genre}</p>
+                  <p>{book.category}</p>
                 </div>
               ))
             ) : (
@@ -104,25 +117,17 @@ const UserLibrary = () => {
           <h3>My Collection</h3>
           <div className="collection">
             <div>
-              <h4>Purchased</h4>
+              <h4>Books Read</h4>
               <ul>
-                {myBooks.purchased.map((book, i) => (
+                {myBooks.booksRead.map((book, i) => (
                   <li key={i}>{book}</li>
                 ))}
               </ul>
             </div>
             <div>
-              <h4>Favorites</h4>
+              <h4>Date Read</h4>
               <ul>
-                {myBooks.favorites.map((book, i) => (
-                  <li key={i}>{book}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4>Read</h4>
-              <ul>
-                {myBooks.read.map((book, i) => (
+                {myBooks.readDate.map((book, i) => (
                   <li key={i}>{book}</li>
                 ))}
               </ul>
