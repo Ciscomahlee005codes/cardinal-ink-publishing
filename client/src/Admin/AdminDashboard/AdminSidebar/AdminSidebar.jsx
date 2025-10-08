@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { NavLink } from "react-router-dom";
 import {
   FaTachometerAlt,
@@ -17,10 +17,12 @@ import {
 import { BiSolidCategory } from "react-icons/bi";
 import { GrTransaction } from "react-icons/gr";
 import "./AdminSidebar.css";
+import useUserId from "../../../Hooks/useUserId";
 
 const AdminSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const data = useUserId();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -64,8 +66,10 @@ const AdminSidebar = () => {
         <div className="admin-info">
           <FaUserShield className="admin-avatar" />
           <div>
-            <h3 className="admin-name">Paschal Elechi</h3>
-            <p className="admin-role">Administrator</p>
+            <h3 className="admin-name">
+              {data?.firstname} {data?.lastname}
+            </h3>
+            <p className="admin-role">{data?.role}</p>
           </div>
         </div>
 

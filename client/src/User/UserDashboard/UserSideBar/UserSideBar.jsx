@@ -15,10 +15,12 @@ import {
   FaUserCircle,
 } from "react-icons/fa";
 import "./UserSideBar.css";
+import useUserId from "../../../Hooks/useUserId";
 
 const UserSideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const data = useUserId();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -63,8 +65,10 @@ const UserSideBar = () => {
         <div className="user-info">
           <FaUserCircle className="user-avatar" />
           <div>
-            <h3 className="user-name">Anthony Raphael</h3>
-            <p className="user-role">Reader</p>
+            <h3 className="user-name">
+              {data?.firstname} {data?.lastname}
+            </h3>
+            <p className="user-role">{data?.role}</p>
           </div>
         </div>
 

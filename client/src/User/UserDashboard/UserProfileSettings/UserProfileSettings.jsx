@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import { FaUserCircle, FaEnvelope, FaLock, FaMoon, FaBell } from "react-icons/fa";
+import {
+  FaUserCircle,
+  FaEnvelope,
+  FaLock,
+  FaMoon,
+  FaBell,
+} from "react-icons/fa";
 import "./UserProfileSettings.css";
+import useUserId from "../../../Hooks/useUserId";
 
 const UserProfileSettings = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
+  const data = useUserId();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,7 +22,7 @@ const UserProfileSettings = () => {
   return (
     <div className="profile-settings">
       <h2>Profile & Settings</h2>
-      
+
       {/* Profile Picture */}
       <div className="profile-picture">
         <FaUserCircle className="avatar-icon" />
@@ -27,15 +35,23 @@ const UserProfileSettings = () => {
           <label>First Name</label>
           <div className="input-box">
             <FaUserCircle className="input-icon" />
-            <input type="text" placeholder="Enter first name" />
+            <input
+              value={data?.firstname}
+              type="text"
+              placeholder="Enter first name"
+            />
           </div>
         </div>
 
-         <div className="form-group">
+        <div className="form-group">
           <label>Last Name</label>
           <div className="input-box">
             <FaUserCircle className="input-icon" />
-            <input type="text" placeholder="Enter last name" />
+            <input
+              value={data?.lastname}
+              type="text"
+              placeholder="Enter last name"
+            />
           </div>
         </div>
 
@@ -43,7 +59,7 @@ const UserProfileSettings = () => {
           <label>Email Address</label>
           <div className="input-box">
             <FaEnvelope className="input-icon" />
-            <input type="email" placeholder="Enter email" />
+            <input value={data?.email} type="email" placeholder="Enter email" />
           </div>
         </div>
 

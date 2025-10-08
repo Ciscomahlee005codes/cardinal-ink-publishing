@@ -2,13 +2,13 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import endPoint from "../API/Interface";
 
-const UserAuth = ({ allowed }) => {
+const UserAuth = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
     async function checkAuth() {
       try {
-        const userAuthToken = localStorage.getItem(allowed);
+        const userAuthToken = localStorage.getItem("userAuthToken");
         if (!userAuthToken) return navigate("/authentication");
 
         const request = await endPoint.get("/user/verifytoken", {
@@ -25,7 +25,7 @@ const UserAuth = ({ allowed }) => {
       }
     }
     checkAuth();
-  }, [navigate, allowed]);
+  }, [navigate]);
 
   return (
     <>

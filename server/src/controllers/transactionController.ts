@@ -158,3 +158,32 @@ exports.getAllTransaction = async (req: any, res: any) => {
     });
   }
 };
+
+exports.userTransactions = async (req: any, res: any) => {
+  try {
+    const { id } = req.user;
+
+    const userTnx = await transactions.findAll({
+      where: { user_id: id },
+      include: [
+        {
+          model: books,
+          as: "book",
+          attributes: ["id", "title", "author", "cover_image", "price"],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    return res?.json({
+      status: true,
+      transactions: userTnx,
+    });
+  } catch (error) {
+    console.log(error);
+    return res?.json({
+      status: false,
+      message: "internal server error",
+    });
+  }
+};
