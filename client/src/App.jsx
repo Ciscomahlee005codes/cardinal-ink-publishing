@@ -132,32 +132,27 @@ function App() {
         <Route path="*" element={<ErrorPage />} />
 
         {/* User Dashboard Routes */}
-        <Route element={<UserAuth allowed="userAuthToken" />}>
-          
-        </Route>
+        <Route element={<UserAuth />}></Route>
         <Route path="/userdashboard/home" element={<UserHomePage />} />
-          <Route
-            path="/userdashboard/mylibrary"
-            element={<UserLibraryPage />}
-          />
-          <Route
-            path="/userdashboard/trendingbooks"
-            element={<UserTrendPage />}
-          />
-          <Route
-            path="/userdashboard/purchasehistory"
-            element={<UserPurchasePage />}
-          />
-          <Route path="/userdashboard/subscription" element={<UserSubPage />} />
-          <Route
-            path="/userdashboard/profilesettings"
-            element={<UserProfilePage />}
-          />
-          <Route
-            path="/userdashboard/notification"
-            element={<UserNotificationPage />}
-          />
-          <Route path="/userdashboard/helpsupport" element={<UserHelpPage />} />
+        <Route path="/userdashboard/mylibrary" element={<UserLibraryPage />} />
+        <Route
+          path="/userdashboard/trendingbooks"
+          element={<UserTrendPage />}
+        />
+        <Route
+          path="/userdashboard/purchasehistory"
+          element={<UserPurchasePage />}
+        />
+        <Route path="/userdashboard/subscription" element={<UserSubPage />} />
+        <Route
+          path="/userdashboard/profilesettings"
+          element={<UserProfilePage />}
+        />
+        <Route
+          path="/userdashboard/notification"
+          element={<UserNotificationPage />}
+        />
+        <Route path="/userdashboard/helpsupport" element={<UserHelpPage />} />
         <Route path="/user/OTP" element={<UserOTP />} />
 
         {/* Admin Dashboard Routes */}

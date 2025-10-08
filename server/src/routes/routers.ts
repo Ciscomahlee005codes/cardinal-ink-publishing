@@ -40,6 +40,7 @@ const {
   createOrder,
   completePayment,
   getAllTransaction,
+  userTransactions,
 } = require("../controllers/transactionController");
 
 const {
@@ -141,6 +142,15 @@ routes.get(
   [authTokenValidator, adminMiddleware],
   getAllTransaction
 );
-routes.get("/purchased/books", userMiddleware, userPurchasedBooks);
+routes.get(
+  "/user/transactions",
+  [authTokenValidator, userMiddleware],
+  userTransactions
+);
+routes.get(
+  "/purchased/books",
+  [authTokenValidator, userMiddleware],
+  userPurchasedBooks
+);
 
 module.exports = routes;

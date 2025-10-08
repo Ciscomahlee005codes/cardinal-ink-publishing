@@ -1,14 +1,16 @@
-import React from 'react'
-import AdminSidebar from '../../AdminDashboard/AdminSidebar/AdminSidebar'
-import "./AdminHomePage.css"
-import AdminActivity from '../../AdminDashboard/AdminActivity/AdminActivity'
-import AdminDashboardTop from '../../AdminDashboard/AdminDashboardTop/AdminDashboardTop'
-import RecentActivity from '../../../User/UserDashboard/RecentActivity/RecentActivity'
-import AdminChart from '../../AdminDashboard/AdminChart/AdminChart'
+import React from "react";
+import AdminSidebar from "../../AdminDashboard/AdminSidebar/AdminSidebar";
+import "./AdminHomePage.css";
+import AdminActivity from "../../AdminDashboard/AdminActivity/AdminActivity";
+import AdminDashboardTop from "../../AdminDashboard/AdminDashboardTop/AdminDashboardTop";
+import RecentActivity from "../../../User/UserDashboard/RecentActivity/RecentActivity";
+import AdminChart from "../../AdminDashboard/AdminChart/AdminChart";
+import AdminAuthentication from "../../AdminAuth";
 
 const AdminHomePage = () => {
   return (
-    <div className='adminHome-layout'>
+    <div className="adminHome-layout">
+      <AdminAuthentication />
       <AdminSidebar />
       <div className="adminHome-content">
         <AdminDashboardTop />
@@ -17,7 +19,7 @@ const AdminHomePage = () => {
         <RecentActivity />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminHomePage
+export default AdminHomePage;

@@ -5,8 +5,10 @@ import { MdMessage } from "react-icons/md";
 import { FaSliders } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
 import "./AdminDashboardTop.css";
+import useUserId from "../../../Hooks/useUserId";
 
 const AdminDashboardTop = () => {
+  const data = useUserId();
   return (
     <div className="main-top">
       <div className="dashboard-top">
@@ -24,7 +26,9 @@ const AdminDashboardTop = () => {
           <div className="user-data">
             <FaUser className="user-icon" />
             <div className="user-info">
-              <h4>Paschal Elechi</h4>
+              <h4>
+                {data?.firstname} {data?.lastname}
+              </h4>
             </div>
           </div>
         </div>

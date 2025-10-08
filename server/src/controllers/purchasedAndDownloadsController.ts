@@ -1,4 +1,4 @@
-const { purchasesAndDownloads } = require("../../models/indexs");
+const { purchasesAndDownloads, books } = require("../../models/indexs");
 
 exports.userPurchasedBooks = async (req: any, res: any) => {
   try {
@@ -8,7 +8,13 @@ exports.userPurchasedBooks = async (req: any, res: any) => {
       {
         where: { user_id: id },
       },
-      { include: "book" }
+      {
+        include: {
+          model: books,
+          as: "book",
+          attribute: ["title", "author"],
+        },
+      }
     );
 
     return res?.json({

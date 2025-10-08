@@ -1,12 +1,14 @@
-import React from "react";
+import React, { use } from "react";
 import { FiSearch } from "react-icons/fi";
 import { IoMdNotifications } from "react-icons/io";
 import { MdMessage } from "react-icons/md";
 import { FaSliders } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
 import "./UserDashboardTop.css";
+import useUserId from "../../../Hooks/useUserId";
 
 const UserDashboardTop = () => {
+  const data = useUserId();
   return (
     <div className="main-top">
       <div className="dashboard-top">
@@ -24,7 +26,9 @@ const UserDashboardTop = () => {
           <div className="user-data">
             <FaUser className="user-icon" />
             <div className="user-info">
-              <h4>Anthony Raphael</h4>
+              <h4>
+                {data?.firstname} {data?.lastname}
+              </h4>
             </div>
           </div>
         </div>

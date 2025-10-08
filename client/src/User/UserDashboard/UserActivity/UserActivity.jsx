@@ -1,40 +1,70 @@
-import React from "react";
-import { FaHome, FaUsers, FaCheckCircle, FaHourglassHalf } from "react-icons/fa";
+import React, { useEffect } from "react";
+import {
+  FaHome,
+  FaUsers,
+  FaCheckCircle,
+  FaHourglassHalf,
+} from "react-icons/fa";
 import { FaBook, FaHeart, FaBookReader } from "react-icons/fa";
 import "./UserActivity.css";
+import { toast } from "react-toastify";
+import endPoint from "../../../API/Interface";
 
 const UserActivity = () => {
-  
-   const activities = [
-  {
-    id: 1,
-    title: "Purchased Books",
-    count: 128,
-    icon: <FaBook />,
-    color: "#4e73df", 
-  },
-  {
-    id: 2,
-    title: "Favorite Books",
-    count: 54,
-    icon: <FaHeart />,
-    color: "#1cc88a",
-  },
-  {
-    id: 3,
-    title: "Pending Requests",
-    count: 12,
-    icon: <FaHourglassHalf />,
-    color: "#f6c23e", 
-  },
-  {
-    id: 4,
-    title: "Downloaded Books",
-    count: 26,
-    icon: <FaBookReader />,
-    color: "#e74a3b", 
-  },
-];
+  const [purchases, setPurchases] = React.useState([]);
+
+  async function fetchPurchases() {
+    try {
+      const requestOptions = endPoint.get("/user/transactions", {
+        headers: { authorization: localStorage.getItem("userAuthToken") },
+      });
+      const response = await requestOptions;
+
+      if (response.status === true) {
+        setPurchases(response.transactions);
+        return;
+      }
+
+      toast.error(response.message);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchPurchases();
+  }, []);
+
+  const activities = [
+    {
+      id: 1,
+      title: "Purchased Books",
+      count: purchases.map((item) => item.status === "sucsess").length,
+      icon: <FaBook />,
+      color: "#4e73df",
+    },
+    {
+      id: 2,
+      title: "Favorite Books",
+      count: 54,
+      icon: <FaHeart />,
+      color: "#1cc88a",
+    },
+    {
+      id: 3,
+      title: "Pending Requests",
+      count: purchases.map((item) => item.status === "pending").length,
+      icon: <FaHourglassHalf />,
+      color: "#f6c23e",
+    },
+    {
+      id: 4,
+      title: "Downloaded Books",
+      count: purchases.map((item) => item.downloaded === true).length,
+      icon: <FaBookReader />,
+      color: "#e74a3b",
+    },
+  ];
   return (
     <div className="activity">
       <h2>Hi, Agent Tony</h2>

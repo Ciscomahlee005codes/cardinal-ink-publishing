@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import "./UserLibrary.css";
 import { FaSearch } from "react-icons/fa";
-import useCategory from "../../../Hooks/useCategory"; 
+import useCategory from "../../../Hooks/useCategory";
 import useBooks from "../../../Hooks/useBooks";
 
 const UserLibrary = () => {
@@ -79,11 +79,13 @@ const UserLibrary = () => {
             {Categories?.length > 0 ? (
               Categories.map((cat) => (
                 <button
-                  key={cat.id || cat.name}
-                  className={selectedCategory === cat.name ? "selected" : ""}
-                  onClick={() => setSelectedCategory(cat.name)}
+                  key={cat.id}
+                  className={
+                    selectedCategory === cat.category ? "selected" : ""
+                  }
+                  onClick={() => setSelectedCategory(cat.category)}
                 >
-                  {cat.name}
+                  {cat.category}
                 </button>
               ))
             ) : (
