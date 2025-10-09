@@ -3,15 +3,18 @@ import "./UserLibrary.css";
 import { FaSearch } from "react-icons/fa";
 import useCategory from "../../../Hooks/useCategory";
 import useBooks from "../../../Hooks/useBooks";
+import { useNavigate } from "react-router-dom";
 
 const UserLibrary = () => {
   const [activeTab, setActiveTab] = useState("available");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [search, setSearch] = useState("");
+  const [filteredDropdown, setFilteredDropdown] = useState([]);
+  const [notFound, setNotFound] = useState(false);
 
-  // Custom Hooks
   const { Categories } = useCategory();
   const { bookCollection, loading, error } = useBooks();
+  const navigate = useNavigate();
 
   // My Books (static for now)
   const myBooks = {
@@ -19,7 +22,7 @@ const UserLibrary = () => {
     readDate: ["1984"],
   };
 
-  // Filtered Books
+  // Filtered Books for Display Grid
   const filteredBooks = useMemo(() => {
     if (!bookCollection) return [];
     return bookCollection.filter((book) => {
@@ -31,6 +34,23 @@ const UserLibrary = () => {
       return matchesCategory && matchesSearch;
     });
   }, [bookCollection, selectedCategory, search]);
+
+  // Handle dropdown search typing
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+
+    if (value.trim()) {
+      const results = bookCollection.filter((book) =>
+        book.title.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredDropdown(results);
+      setNotFound(results.length === 0);
+    } else {
+      setFilteredDropdown([]);
+      setNotFound(false);
+    }
+  };
 
   return (
     <div className="library">
@@ -57,15 +77,48 @@ const UserLibrary = () => {
         <div className="available-section">
           <h3>Bookstore</h3>
 
-          {/* Search bar */}
-          <div className="search-bar">
-            <FaSearch className="search-icon" />
-            <input
-              type="text"
-              placeholder="Search books by title..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+          {/* Search bar + dropdown */}
+          <div className="search-bar-container">
+            <div className="search-bar">
+              <FaSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search books by title..."
+                value={search}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            {/* ✅ Dropdown Results */}
+            {filteredDropdown.length > 0 && (
+              <ul className="library-search-results">
+                {filteredDropdown.map((book) => (
+                  <li
+                    key={book.id}
+                    onClick={() => {
+                      navigate(`/book/${book.id}`);
+                      setSearch("");
+                      setFilteredDropdown([]);
+                    }}
+                  >
+                    <img src={book.image} alt={book.title} />
+                    <div>
+                      <span className="title">{book.title}</span>
+                      <span className="author">by {book.author}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {/* ✅ “Book Not Found” dropdown */}
+            {notFound && search.trim() && (
+              <ul className="library-search-results no-results-dropdown">
+                <li className="no-results-item">
+                  <p>📚 Book Not Found</p>
+                </li>
+              </ul>
+            )}
           </div>
 
           {/* Category filter */}

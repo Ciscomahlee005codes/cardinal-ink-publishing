@@ -1,29 +1,44 @@
 import React, { useContext, useState } from "react";
-import { MdFavorite } from "react-icons/md";
 import { TiShoppingCart } from "react-icons/ti";
 import { IoSearchOutline } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { NavLink, useNavigate } from "react-router-dom";
-import { books_store } from "../../../library_list";
+import useBooks from "../../Hooks/useBooks";
 import { StoreContext } from "../../Context/StoreContext";
 import "./Navbar.css";
 
 const Navbar = () => {
+  const { bookCollection } = useBooks();
   const { cartItems } = useContext(StoreContext);
 
-  // ✅ Count total items in cart
   const cartCount = Object.values(cartItems).reduce((acc, qty) => acc + qty, 0);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [filtered, setFiltered] = useState([]);
+  const [notFound, setNotFound] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (!query.trim()) return;
-    navigate(`/search?query=${query}`);
+
+    const results = bookCollection.filter((book) =>
+      book.title.toLowerCase().includes(query.toLowerCase())
+    );
+
+    if (results.length > 0) {
+      navigate(`/search?query=${query}`);
+    } else {
+      setNotFound(true);
+      setTimeout(() => {
+        navigate("/404");
+        setNotFound(false);
+      }, 1500);
+    }
+
     setQuery("");
     setFiltered([]);
   };
@@ -33,12 +48,14 @@ const Navbar = () => {
     setQuery(value);
 
     if (value.trim()) {
-      const results = books_store.filter((book) =>
+      const results = bookCollection.filter((book) =>
         book.title.toLowerCase().includes(value.toLowerCase())
       );
       setFiltered(results);
+      setNotFound(results.length === 0);
     } else {
       setFiltered([]);
+      setNotFound(false);
     }
   };
 
@@ -46,7 +63,7 @@ const Navbar = () => {
     <header className="header">
       <div className="nav-row">
         {/* Logo */}
-        <div className="logo">E-Library</div>
+        <div className="logo">Cardinal Ink Publishing</div>
 
         {/* Search */}
         <div className="search-container">
@@ -62,7 +79,7 @@ const Navbar = () => {
             </button>
           </form>
 
-          {/* Dropdown Results */}
+          {/* ✅ Dropdown Results */}
           {filtered.length > 0 && (
             <ul className="search-results">
               {filtered.map((book) => (
@@ -83,24 +100,29 @@ const Navbar = () => {
               ))}
             </ul>
           )}
+
+          {/* ✅ Dropdown “Book Not Found” */}
+          {notFound && query.trim() && (
+            <ul className="search-results no-results-dropdown">
+              <li className="no-results-item">
+                <p>📚 Book Not Found</p>
+              </li>
+            </ul>
+          )}
         </div>
 
         {/* Right Side */}
         <div className="right-side">
           <div className="icons">
-            {/* <NavLink to="/wishlist" title="Wishlist">
-              <MdFavorite />
-            </NavLink> */}
             <div className="navbar-search-icon">
               <NavLink to="/cart" title="Cart">
                 <TiShoppingCart className="cart-icon" />
-                {/* ✅ Show number instead of dot */}
                 {cartCount > 0 && <div className="cart-count">{cartCount}</div>}
               </NavLink>
             </div>
           </div>
 
-          {/* Desktop Auth */}
+          {/* Auth Buttons */}
           {localStorage.getItem("adminAuthToken") ? (
             <div className="auth-buttons desktop-only">
               <NavLink to="/admindashboard/home" className="btn-signup">
@@ -110,7 +132,7 @@ const Navbar = () => {
           ) : localStorage.getItem("userAuthToken") ? (
             <div className="auth-buttons desktop-only">
               <NavLink to="/userdashboard/home" className="btn-signup">
-                Dashbored
+                Dashboard
               </NavLink>
             </div>
           ) : (
@@ -160,31 +182,6 @@ const Navbar = () => {
               Contact
             </NavLink>
           </li>
-
-          {/* Mobile Auth */}
-          {localStorage.getItem("adminAuthToken") ? (
-            <li className="mobile-auth">
-              <NavLink to="/admindashboard/home" className="btn-signup">
-                Admin
-              </NavLink>
-            </li>
-          ) : localStorage.getItem("userAuthToken") ? (
-            <li className="mobile-auth">
-              <NavLink to="/userdashboard/home" className="btn-signup">
-                Dashbored
-              </NavLink>
-            </li>
-          ) : (
-            <li className="mobile-auth">
-              <NavLink
-                to="/authentication"
-                className="btn-signup"
-                onClick={() => setMenuOpen(false)}
-              >
-                Log In
-              </NavLink>
-            </li>
-          )}
         </ul>
       </nav>
     </header>

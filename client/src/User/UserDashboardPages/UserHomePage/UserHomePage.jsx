@@ -4,7 +4,6 @@ import UserSideBar from '../../UserDashboard/UserSideBar/UserSideBar'
 import UserDashboardTop from '../../UserDashboard/UserDashboardTop/UserDashboardTop'
 import UserActivity from '../../UserDashboard/UserActivity/UserActivity'
 import TrendingBooks from '../../UserDashboard/TrendingBooks/TrendingBooks'
-import RecentActivity from '../../UserDashboard/RecentActivity/RecentActivity'
 
 const UserHomePage = () => {
   return (
@@ -14,7 +13,6 @@ const UserHomePage = () => {
         <UserDashboardTop />
         <UserActivity />
         <TrendingBooks />
-        <RecentActivity />
       </div>
     </div>
   )

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 /* Header wrapper */
 .header {
   width: 100%;
@@ -22,6 +23,7 @@
 .logo {
   font-size: 1.5rem;
   font-weight: 700;
+  font-family: "Great Vibes", cursive;
   color: #00bf63;
   cursor: pointer;
   flex-shrink: 0;
