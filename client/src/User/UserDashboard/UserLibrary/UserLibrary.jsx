@@ -156,7 +156,7 @@ const UserLibrary = () => {
               filteredBooks.map((book) => (
                 <div key={book.id} className="book-card">
                   <h4>{book.title}</h4>
-                  <p>{book.category}</p>
+                  <p>{book.category.category}</p>
                 </div>
               ))
             ) : (
