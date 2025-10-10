@@ -44,7 +44,7 @@ const BookStore = () => {
           />
           <h3>{book.title}</h3>
           <p className="author">by {book.author}</p>
-          <p className="price">₦{book.price}</p>
+          <p className="price">${book.price}</p>
 
           <button
             className={`btn-buy ${isInCart ? "disabled" : ""}`}
