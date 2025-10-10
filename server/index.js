@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const url = require("url");
 const envs = require("dotenv");
 envs.config();
 require("./config/db/db");
