@@ -6,5 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
+    allowedHosts: ["earnest-imagination-production-eed6.up.railway.app"],
+    port: 5173,
   },
 });
