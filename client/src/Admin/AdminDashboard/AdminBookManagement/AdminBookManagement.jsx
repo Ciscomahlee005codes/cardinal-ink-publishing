@@ -229,7 +229,7 @@ const AdminBookManagement = () => {
                 <td>{index + 1}</td>
                 <td>
                   <img
-                    src={`http://localhost:3000/${book.cover_url}`}
+                    src={`${import.meta.env.VITE_BASEURL}/${book.cover_url}`}
                     alt={book.title}
                     className="book-cover"
                   />
@@ -454,7 +454,9 @@ const AdminBookManagement = () => {
               ) : (
                 <div className="cover-preview">
                   <img
-                    src={`http://localhost:3000/${editModal.cover_url}`}
+                    src={`${import.meta.env.VITE_BASEURL}/${
+                      editModal.cover_url
+                    }`}
                     alt={editModal.title}
                   />
                 </div>
@@ -508,7 +510,7 @@ const AdminBookManagement = () => {
 
             {/* Cover Image */}
             <img
-              src={`http://localhost:3000/${viewModal.cover_url}`}
+              src={`${import.meta.env.VITE_BASEURL}/${viewModal.cover_url}`}
               alt={viewModal.title}
               className="book-cover-large"
             />
@@ -541,7 +543,9 @@ const AdminBookManagement = () => {
                 {/* Embed PDF in an iframe for smooth inline preview */}
                 <iframe
                   key={viewModal._id} // ensures re-render when you switch books
-                  src={`http://localhost:3000/${viewModal.content_url}#toolbar=0&navpanes=0&scrollbar=1`}
+                  src={`${import.meta.env.VITE_BASEURL}/${
+                    viewModal.content_url
+                  }#toolbar=0&navpanes=0&scrollbar=1`}
                   title="Book PDF Preview"
                   className="pdf-viewer"
                   frameBorder="0"
