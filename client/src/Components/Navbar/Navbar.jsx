@@ -155,35 +155,65 @@ const Navbar = () => {
       </div>
 
       {/* Bottom Nav */}
-      <nav className={`bottom-nav ${menuOpen ? "open" : ""}`}>
-        <ul>
-          <li>
-            <NavLink to="/" onClick={() => setMenuOpen(false)}>
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/bookstore" onClick={() => setMenuOpen(false)}>
-              Book Store
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/blog" onClick={() => setMenuOpen(false)}>
-              Blogs
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/aboutUs" onClick={() => setMenuOpen(false)}>
-              About
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/contactUs" onClick={() => setMenuOpen(false)}>
-              Contact
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
+       <nav className={`bottom-nav ${menuOpen ? "open" : ""}`}>
+  <ul>
+    <li>
+      <NavLink to="/" onClick={() => setMenuOpen(false)}>
+        Home
+      </NavLink>
+    </li>
+    <li>
+      <NavLink to="/bookstore" onClick={() => setMenuOpen(false)}>
+        Book Store
+      </NavLink>
+    </li>
+    <li>
+      <NavLink to="/blog" onClick={() => setMenuOpen(false)}>
+        Blogs
+      </NavLink>
+    </li>
+    <li>
+      <NavLink to="/aboutUs" onClick={() => setMenuOpen(false)}>
+        About
+      </NavLink>
+    </li>
+    <li>
+      <NavLink to="/contactUs" onClick={() => setMenuOpen(false)}>
+        Contact
+      </NavLink>
+    </li>
+  </ul>
+
+  {/* ✅ Mobile Auth Buttons */}
+  <div className="mobile-auth">
+    {localStorage.getItem("adminAuthToken") ? (
+      <NavLink
+        to="/admindashboard/home"
+        className="btn-signup"
+        onClick={() => setMenuOpen(false)}
+      >
+        Admin
+      </NavLink>
+    ) : localStorage.getItem("userAuthToken") ? (
+      <NavLink
+        to="/userdashboard/home"
+        className="btn-signup"
+        onClick={() => setMenuOpen(false)}
+      >
+        Dashboard
+      </NavLink>
+    ) : (
+      <NavLink
+        to="/authentication"
+        className="btn-signup"
+        onClick={() => setMenuOpen(false)}
+      >
+        Log In
+      </NavLink>
+    )}
+  </div>
+</nav>
+
     </header>
   );
 };

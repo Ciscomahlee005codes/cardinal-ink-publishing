@@ -1,28 +1,30 @@
 import React, { useContext, useState } from "react";
 import "./BookStore.css";
 import useBooks from "../../Hooks/useBooks";
+import useCategory from "../../Hooks/useCategory"; // ✅ Import useCategory
 import { StoreContext } from "../../Context/StoreContext";
 
 const BookStore = () => {
   const { bookCollection, loading, error } = useBooks();
+  const { Categories } = useCategory(); // ✅ Destructure Categories from useCategory
   const { cartItems, addToCart } = useContext(StoreContext);
-  const [selectedGenre, setSelectedGenre] = useState("All");
+
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [addedBooks, setAddedBooks] = useState({});
 
   if (loading) return <div className="loading">Loading books...</div>;
   if (error) return <div className="error">{error}</div>;
 
-  // Get unique genres
-  const genres = [
-    "All",
-    ...new Set(bookCollection.map((book) => book.genre || "Unknown")),
-  ];
+  // ✅ Add "All" as default and spread the fetched categories
+  const categoryList = ["All", ...Categories.map((cat) => cat.name)];
 
-  // Filter by genre
+  // ✅ Fix filtering logic (use correct property name and casing)
   const filteredBooks =
-    selectedGenre === "All"
+    selectedCategory === "All"
       ? bookCollection
-      : bookCollection.filter((book) => book.genre === selectedGenre);
+      : bookCollection.filter(
+          (book) => book.category === selectedCategory
+        );
 
   const handleAddToCart = (bookId) => {
     addToCart(bookId);
@@ -66,17 +68,18 @@ const BookStore = () => {
       <div className="container">
         <h2>📖 Book Store</h2>
         <p className="subtitle">
-          Browse all your favorite books across genres and collections.
+          Browse all your favorite books across category and collections.
         </p>
 
+        {/* ✅ Render filter buttons using fetched categories */}
         <div className="filters">
-          {genres.map((genre) => (
+          {categoryList.map((category) => (
             <button
-              key={genre}
-              className={selectedGenre === genre ? "active" : ""}
-              onClick={() => setSelectedGenre(genre)}
+              key={category}
+              className={selectedCategory === category ? "active" : ""}
+              onClick={() => setSelectedCategory(category)}
             >
-              {genre}
+              {category}
             </button>
           ))}
         </div>
