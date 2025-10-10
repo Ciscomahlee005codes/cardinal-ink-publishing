@@ -1,5 +1,3 @@
-import url = require("url");
-
 const envs = require("dotenv");
 envs.config();
 require("./config/db/db");
