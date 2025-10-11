@@ -12,6 +12,8 @@ import ForgotPassword from "./Components/Auth/ForgotPassword";
 import ResetPassword from "./Components/Auth/ResetPassword";
 import UserAuth from "./User/UserAuth";
 import AdminAuthentication from "./Admin/AdminAuth";
+import FAQ from "./Components/FAQ/FAQ";
+import Testimonials from "./Components/Testimonials/Testimonials";
 
 // Lazy-loaded Pages
 const Home = DelayLoader(() => import("./Pages/Home/Home"));
@@ -130,6 +132,10 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/getbook" element={<GetBook />} />
         <Route path="*" element={<ErrorPage />} />
+
+        {/* Public Routes for Footer  */}
+        <Route path="/faqS" element={<FAQ />} />
+         <Route path="/testimonials" element={<Testimonials />} />
 
         {/* User Dashboard Routes */}
         <Route element={<UserAuth />}></Route>

@@ -191,9 +191,6 @@ border-color: #009f53;
     }
 }
 @media (max-width: 884px) {
-  .testimonial-section {
-    display: none;
-  }
 
   /* Show only if it's a standalone TestimonialPage */
   .testimonial-section.standalone {

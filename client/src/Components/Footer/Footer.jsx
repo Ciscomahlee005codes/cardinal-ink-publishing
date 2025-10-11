@@ -1,6 +1,7 @@
 import React from "react";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPinterestP } from "react-icons/fa";
 import { MdEmail, MdPhone } from "react-icons/md";
+import { NavLink } from "react-router-dom";
 import "./Footer.css";
 
 const Footer = () => {
@@ -10,7 +11,7 @@ const Footer = () => {
 
         {/* Logo + Tagline */}
         <div className="footer-col brand-col">
-          <h2 className="footer-logo">📚 E-Lib</h2>
+          <h2 className="footer-logo">📚 Cardinal Ink Publishing</h2>
           <p className="footer-tagline">
             Your trusted online bookstore for knowledge, imagination, and growth.
           </p>
@@ -20,11 +21,10 @@ const Footer = () => {
         <div className="footer-col">
           <h3>Quick Links</h3>
           <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/featured">Book Store</a></li>
-            <li><a href="/arrivals">My Library</a></li>
-            <li><a href="/reviews">About Us</a></li>
-            <li><a href="/blogs">Blogs</a></li>
+            <li><NavLink to="/">Home</NavLink></li>
+            <li><NavLink to="/bookstore">Book Store</NavLink></li>
+            <li><NavLink to="/aboutUs">About Us</NavLink></li>
+            <li><NavLink to="/blog">Blogs</NavLink></li>
           </ul>
         </div>
 
@@ -32,8 +32,8 @@ const Footer = () => {
         <div className="footer-col">
           <h3>Customer Service</h3>
           <ul>
-            <li><a href="/account">FAQs</a></li>
-            <li><a href="/orders">Ordered Items</a></li>
+            <li><NavLink to="/faqS">FAQs</NavLink></li>
+            <li><NavLink to="/testimonials">Testimonials</NavLink></li>
             <li><a href="/privacy">Privacy Policy</a></li>
             <li><a href="/payment">Payment Method</a></li>
             <li><a href="/services">Help Center</a></li>
@@ -63,7 +63,7 @@ const Footer = () => {
       {/* Copyright */}
       <div className="footer-bottom">
         <p>
-          Copyright <span>E-Lib</span> | All Rights Reserved © {new Date().getFullYear()}
+          Copyright <span>Cardinal Ink Publishing</span> | All Rights Reserved © {new Date().getFullYear()}
         </p>
       </div>
     </footer>
