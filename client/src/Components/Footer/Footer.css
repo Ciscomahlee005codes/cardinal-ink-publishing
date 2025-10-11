@@ -100,4 +100,10 @@
   .footer {
     padding: 40px 5% 20px;
   }
+  .footer-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00bf63;
+  margin-bottom: 10px;
+}
 }

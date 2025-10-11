@@ -199,6 +199,10 @@ border-color: #009f53;
   }
 }
 @media (max-width: 430px) {
+    .over-head{
+    text-align: center;
+    font-size: 1.6rem;
+}
     .test-text{
     color: rgb(34, 33, 33);
     font-size: 1.15em;

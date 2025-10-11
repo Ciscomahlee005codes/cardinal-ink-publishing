@@ -21,12 +21,12 @@ const Hero = () => {
         </div>
 
         {/* Right Side */}
-        {/* <div className="hero-image">
+        <div className="hero-image">
           <img 
             src="https://dummyimage.com/400x450/00bf63/ffffff&text=Book+Cover" 
             alt="Books banner" 
           />
-        </div> */}
+        </div>
       </div>
     </section>
   );
