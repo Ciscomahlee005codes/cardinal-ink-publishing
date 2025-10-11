@@ -238,7 +238,7 @@ const AdminBookManagement = () => {
                 <td data-label="Author">{book.author}</td>
                 <td data-label="Category">{book.category.category}</td>
                 <td data-label="Description">{book.description}</td>
-                <td data-label="Price">{book.price}</td>
+                <td data-label="Price">${book.price}</td>
                 <td data-label="Date Added">{new Date(book.createdAt).toLocaleDateString()}</td>
                 <td data-label="Actions" className="actions">
                   <button

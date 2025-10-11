@@ -143,9 +143,9 @@ const BookCategory = () => {
           {Categories.length > 0 ? (
             Categories.map((cat, index) => (
               <tr key={cat._id}>
-                <td>{index + 1}</td>
-                <td>{cat.category}</td>
-                <td>
+                <td data-label="#">{index + 1}</td>
+                <td data-label="Category">{cat.category}</td>
+                <td data-label="Actions">
                   <button
                     className="edit-btn"
                     onClick={() => {
