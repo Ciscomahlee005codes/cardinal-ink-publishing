@@ -28,3 +28,11 @@
   font-size: 1.2rem;
   color: #4e73df;
 }
+@media (max-width: 430px) {
+  .dashboard-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+}
