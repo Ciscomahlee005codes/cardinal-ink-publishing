@@ -226,21 +226,21 @@ const AdminBookManagement = () => {
           {filteredBooks.length > 0 ? (
             filteredBooks.map((book, index) => (
               <tr key={book._id || index}>
-                <td>{index + 1}</td>
-                <td>
+                <td data-label="#">{index + 1}</td>
+                <td data-label="Cover">
                   <img
                     src={`${import.meta.env.VITE_BASEURL}/${book.cover_url}`}
                     alt={book.title}
                     className="book-cover"
                   />
                 </td>
-                <td>{book.title}</td>
-                <td>{book.author}</td>
-                <td>{book.category.category}</td>
-                <td>{book.description}</td>
-                <td>{book.price}</td>
-                <td>{new Date(book.createdAt).toLocaleDateString()}</td>
-                <td className="actions">
+                <td data-label="Title">{book.title}</td>
+                <td data-label="Author">{book.author}</td>
+                <td data-label="Category">{book.category.category}</td>
+                <td data-label="Description">{book.description}</td>
+                <td data-label="Price">{book.price}</td>
+                <td data-label="Date Added">{new Date(book.createdAt).toLocaleDateString()}</td>
+                <td data-label="Actions" className="actions">
                   <button
                     className="action-btn edit"
                     onClick={() => setEditModal(book)}

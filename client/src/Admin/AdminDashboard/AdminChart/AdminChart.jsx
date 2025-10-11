@@ -72,7 +72,7 @@ const AdminChart = () => {
 
   return (
     <div className="charts-container">
-      <h2 className="dashboard-title">📊 Admin Dashboard Overview</h2>
+      <h2 className="dashboard-title">📊 Admin Overview</h2>
 
       {/* Sales Bar Chart */}
       <div className="chart-card">
