@@ -36,7 +36,7 @@ const AdminSidebar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("adminAuthToken");
-    window.location.href = "/#/authentication";
+    window.location.href = "/";
   };
 
   return (
