@@ -7,10 +7,9 @@ function mailer(
   message: string
 ): void {
   const transporter = nodemailer.createTransport({
-    //service: "gmail",
     host: "smpt.gmail.com",
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false,
     auth: {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD,
