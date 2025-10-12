@@ -8,7 +8,7 @@ function mailer(
 ): void {
   const transporter = nodemailer.createTransport({
     //service: "gmail",
-    host: `smpt.gmail.com`,
+    host: "smpt.gmail.com",
     port: 465,
     secure: true,
     auth: {
