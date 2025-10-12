@@ -5,7 +5,6 @@ import {
   FaBook,
   FaHistory,
   FaFire,
-  FaClipboardList,
   FaUserCog,
   FaBell,
   FaQuestionCircle,
@@ -20,6 +19,7 @@ import useUserId from "../../../Hooks/useUserId";
 const UserSideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const data = useUserId();
 
   const toggleSidebar = () => {
@@ -30,13 +30,18 @@ const UserSideBar = () => {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 830);
-      if (window.innerWidth > 830) setIsOpen(true); // keep sidebar open on desktop
+      if (window.innerWidth > 830) setIsOpen(true);
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // handle logout confirmation
+  const handleLogout = () => {
+    localStorage.removeItem("userAuthToken");
+    window.location.href = "/";
+  };
 
   return (
     <>
@@ -46,22 +51,16 @@ const UserSideBar = () => {
         </button>
       )}
 
-      {/* Overlay when sidebar is open on mobile */}
-      {isMobile && isOpen && (
-        <div className="overlay" onClick={toggleSidebar}></div>
-      )}
+      {isMobile && isOpen && <div className="overlay" onClick={toggleSidebar}></div>}
 
-      <div
-        className={`sidebar ${isMobile ? (isOpen ? "open" : "") : "desktop"}`}
-      >
-        {/* Close button inside sidebar (only on mobile) */}
+      <div className={`sidebar ${isMobile ? (isOpen ? "open" : "") : "desktop"}`}>
         {isMobile && (
           <button className="close-btn" onClick={toggleSidebar}>
             <FaTimes />
           </button>
         )}
 
-        {/* User Info */}
+        {/* USER INFO */}
         <div className="user-info">
           <FaUserCircle className="user-avatar" />
           <div>
@@ -72,7 +71,7 @@ const UserSideBar = () => {
           </div>
         </div>
 
-        {/* Navigation Links */}
+        {/* NAV LINKS */}
         <ul>
           <li>
             <NavLink to="/userdashboard/home" className="link">
@@ -111,18 +110,30 @@ const UserSideBar = () => {
           </li>
         </ul>
 
-        {/* Logout */}
+        {/* LOGOUT */}
         <div className="logout">
-          <button
-            onClick={() => {
-              localStorage.removeItem("userAuthToken");
-              window.location.href = "/#/authentication";
-            }}
-          >
+          <button onClick={() => setShowLogoutConfirm(true)}>
             <FaSignOutAlt /> Logout
           </button>
         </div>
       </div>
+
+      {/* CONFIRMATION MODAL */}
+      {showLogoutConfirm && (
+        <div className="logout-confirm-overlay">
+          <div className="logout-confirm-box">
+            <h3>Are you sure you want to log out from your dashboard?</h3>
+            <div className="logout-buttons">
+              <button className="confirm-btn" onClick={handleLogout}>
+                Yes, Logout
+              </button>
+              <button className="cancel-btn" onClick={() => setShowLogoutConfirm(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
