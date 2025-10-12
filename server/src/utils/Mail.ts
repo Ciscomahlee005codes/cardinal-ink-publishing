@@ -9,11 +9,14 @@ function mailer(
   const transporter = nodemailer.createTransport({
     service: "gmail",
     host: process.env.EMAIL_HOST,
-    port: 587,
+    port: 465,
     secure: true,
     auth: {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD,
+    },
+    tls: {
+      rejectUnauthorized: false, // helps bypass some proxy restrictions
     },
   });
 
@@ -232,6 +235,7 @@ function mailer(
       console.log(error);
       return false;
     } else {
+      console.log(info);
       return false;
     }
   });
