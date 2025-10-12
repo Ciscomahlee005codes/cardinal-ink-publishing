@@ -1,18 +1,15 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import {
   FaTachometerAlt,
   FaBook,
-  FaClipboardList,
   FaUsers,
-  FaUserCog,
   FaBell,
   FaCogs,
   FaSignOutAlt,
   FaTimes,
   FaBars,
   FaUserShield,
-  FaShoppingCart,
 } from "react-icons/fa";
 import { BiSolidCategory } from "react-icons/bi";
 import { GrTransaction } from "react-icons/gr";
@@ -22,25 +19,29 @@ import useUserId from "../../../Hooks/useUserId";
 const AdminSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const data = useUserId();
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleSidebar = () => setIsOpen(!isOpen);
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 830);
       if (window.innerWidth > 830) setIsOpen(true);
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("adminAuthToken");
+    window.location.href = "/#/authentication";
+  };
+
   return (
     <>
+      {/* Mobile hamburger */}
       {isMobile && !isOpen && (
         <button className="admin-hamburger" onClick={toggleSidebar}>
           <FaBars />
@@ -52,9 +53,7 @@ const AdminSidebar = () => {
       )}
 
       <div
-        className={`admin-sidebar ${
-          isMobile ? (isOpen ? "open" : "") : "desktop"
-        }`}
+        className={`admin-sidebar ${isMobile ? (isOpen ? "open" : "") : "desktop"}`}
       >
         {isMobile && (
           <button className="admin-close-btn" onClick={toggleSidebar}>
@@ -73,7 +72,7 @@ const AdminSidebar = () => {
           </div>
         </div>
 
-        {/* Admin NavLinks */}
+        {/* NavLinks */}
         <ul>
           <li>
             <NavLink to="/admindashboard/home" className="admin-link">
@@ -113,24 +112,38 @@ const AdminSidebar = () => {
               to="/admindashboard/profilesettings"
               className="admin-link"
             >
-              <FaCogs />
-              Profile Settings
+              <FaCogs /> Profile Settings
             </NavLink>
           </li>
         </ul>
 
         {/* Logout */}
         <div className="admin-logout">
-          <button
-            onClick={() => {
-              localStorage.removeItem("adminAuthToken");
-              window.location.href = "/#/authentication";
-            }}
-          >
+          <button onClick={() => setShowLogoutConfirm(true)}>
             <FaSignOutAlt /> Logout
           </button>
         </div>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutConfirm && (
+        <div className="logout-modal-overlay">
+          <div className="logout-modal">
+            <h3>Are you sure you want to log out from your dashboard?</h3>
+            <div className="logout-buttons">
+              <button className="confirm-btn" onClick={handleLogout}>
+                Yes, Log Out
+              </button>
+              <button
+                className="cancel-btn"
+                onClick={() => setShowLogoutConfirm(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
