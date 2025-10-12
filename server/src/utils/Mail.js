@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer = require("nodemailer");
 function mailer(name, email, subject, message) {
     const transporter = nodemailer.createTransport({
-        host: "smpt.gmail.com",
+        host: "smtp.gmail.com",
         port: 587,
         secure: false,
         auth: {
