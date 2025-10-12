@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
+    host: `${process.env.EMAIL_HOST}`,
+    port: 465,
+    secure: true,
     auth: {
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD,
@@ -13,12 +13,12 @@ const transporter = nodemailer.createTransport({
         rejectUnauthorized: false, // helps bypass some proxy restrictions
     },
     connectionTimeout: 60 * 1000, // ⏳ 60 seconds
-    greetingTimeout: 30 * 1000, // ⏳ 30 seconds
+    greetingTimeout: 60 * 1000, // ⏳ 30 seconds
     socketTimeout: 60 * 1000,
 });
-function mailer(name, email, subject, message) {
+async function mailer(name, email, subject, message) {
     const mailOptions = {
-        from: "Cardinal ink",
+        from: `${process.env.EMAIL_USERNAME}`,
         to: email,
         subject: subject,
         html: `<!doctype html>
@@ -226,16 +226,24 @@ function mailer(name, email, subject, message) {
 </html>
 `,
     };
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-            return false;
+    try {
+        const verify = await transporter.verify();
+        if (!verify) {
+            console.log(verify);
+            return;
         }
-        else {
+        await transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+                return false;
+            }
             console.log(info);
-            return false;
-        }
-    });
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return;
+    }
 }
 module.exports = mailer;
 //# sourceMappingURL=Mail.js.map
