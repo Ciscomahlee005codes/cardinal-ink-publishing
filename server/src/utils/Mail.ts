@@ -1,16 +1,13 @@
 const nodemailer = require("nodemailer");
 
-function mailer(
+async function mailer(
   name: string,
   email: string,
   subject: string,
   message: string
-): void {
+) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
-    host: process.env.EMAIL_HOST,
-    port: 465,
-    secure: true,
     auth: {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD,
@@ -230,7 +227,9 @@ function mailer(
 `,
   };
 
-  transporter.sendMail(mailOptions, function (error: any, info: any) {
+  await transporter.verify();
+
+  await transporter.sendMail(mailOptions, function (error: any, info: any) {
     if (error) {
       console.log(error);
       return false;
