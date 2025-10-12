@@ -1,24 +1,27 @@
 const nodemailer = require("nodemailer");
 
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+  tls: {
+    rejectUnauthorized: false, // helps bypass some proxy restrictions
+  },
+  connectionTimeout: 60 * 1000, // ⏳ 60 seconds
+  greetingTimeout: 30 * 1000, // ⏳ 30 seconds
+  socketTimeout: 60 * 1000,
+});
+
 function mailer(
   name: string,
   email: string,
   subject: string,
   message: string
 ): void {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-    tls: {
-      rejectUnauthorized: false, // helps bypass some proxy restrictions
-    },
-  });
-
   const mailOptions = {
     from: "Cardinal ink",
     to: email,
