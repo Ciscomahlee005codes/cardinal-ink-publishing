@@ -1,9 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer = require("nodemailer");
-async function mailer(name, email, subject, message) {
+function mailer(name, email, subject, message) {
     const transporter = nodemailer.createTransport({
-        service: "gmail",
+        //service: "gmail",
+        host: process.env.EMAIL_HOST,
+        port: 465,
+        secure: true,
         auth: {
             user: process.env.EMAIL_USERNAME,
             pass: process.env.EMAIL_PASSWORD,
@@ -221,8 +224,7 @@ async function mailer(name, email, subject, message) {
 </html>
 `,
     };
-    await transporter.verify();
-    await transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
             return false;
