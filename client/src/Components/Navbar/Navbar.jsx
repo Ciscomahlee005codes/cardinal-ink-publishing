@@ -63,7 +63,7 @@ const Navbar = () => {
     <header className="header">
       <div className="nav-row">
         {/* Logo */}
-        <div className="logo">Cardinal Ink Publishing</div>
+        <div className="logo">Cardinal Inks Publishing</div>
 
         {/* Search */}
         <div className="search-container">

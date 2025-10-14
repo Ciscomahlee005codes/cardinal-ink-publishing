@@ -35,7 +35,6 @@ const Footer = () => {
             <li><NavLink to="/faqS">FAQs</NavLink></li>
             <li><NavLink to="/testimonials">Testimonials</NavLink></li>
             <li><NavLink to="/privacyPolicy">Privacy Policy</NavLink></li>
-            <li><a href="/payment">Payment Method</a></li>
             <li><NavLink to="/helpCenter">Help Center</NavLink></li>
           </ul>
         </div>
@@ -44,9 +43,8 @@ const Footer = () => {
         <div className="footer-col">
           <h3>Contact Info</h3>
           <ul>
-            <li><MdPhone /> +123-456-7890</li>
-            <li><MdPhone /> +111-222-3333</li>
-            <li><MdEmail /> support@elibrary.com</li>
+            <li><MdPhone /> <a href="tel:+19313564926">+19313564926</a></li>
+            <li><MdEmail /> <a href="mailto:cardinalinkspublishing@gmail.com"></a></li>
           </ul>
         </div>
       </div>
