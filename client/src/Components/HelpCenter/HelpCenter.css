@@ -1,0 +1,129 @@
+.help-center {
+  background-color: #fafafa;
+  padding: 60px 20px;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+.help-container {
+  max-width: 1000px;
+  background: #fff;
+  padding: 50px 60px;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.help-container h1 {
+  font-size: 2.3rem;
+  color: green;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.intro-text {
+  text-align: center;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 50px;
+}
+
+/* Categories */
+.support-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.category-card {
+  background-color: #fff5f5;
+  border: 1px solid #ffe0e0;
+  border-radius: 12px;
+  padding: 25px 20px;
+  width: 280px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.category-card:hover {
+  background-color: green;
+  color: #fff;
+  transform: translateY(-5px);
+}
+
+.cat-icon {
+  font-size: 2.2rem;
+  color: green;
+  margin-bottom: 10px;
+}
+
+.category-card:hover .cat-icon {
+  color: #fff;
+}
+
+/* Contact Section */
+.contact-section {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.contact-section h2 {
+  color: green;
+  margin-bottom: 10px;
+}
+
+.contact-options {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #fff5f5;
+  padding: 15px 25px;
+  border-radius: 10px;
+  border: 1px solid #ffe0e0;
+  transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+  background-color: green;
+  color: #fff;
+}
+
+.contact-icon {
+  font-size: 1.5rem;
+  color: green;
+}
+
+.contact-card:hover .contact-icon {
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .help-container {
+    padding: 30px 20px;
+  }
+
+  .support-categories {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .category-card {
+    width: 90%;
+  }
+
+  .contact-options {
+    flex-direction: column;
+  }
+}

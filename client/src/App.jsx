@@ -14,6 +14,8 @@ import UserAuth from "./User/UserAuth";
 import AdminAuthentication from "./Admin/AdminAuth";
 import FAQ from "./Components/FAQ/FAQ";
 import Testimonials from "./Components/Testimonials/Testimonials";
+import PrivacyPolicy from "./Components/PrivacyPolicy/PrivacyPolicy";
+import HelpCenter from "./Components/HelpCenter/HelpCenter";
 
 // Lazy-loaded Pages
 const Home = DelayLoader(() => import("./Pages/Home/Home"));
@@ -124,7 +126,6 @@ function App() {
         <Route path="/contactUs" element={<ContactPage />} />
         <Route path="/aboutUs" element={<AboutPage />} />
         <Route path="/blog" element={<BlogPage />} />
-        {/* <Route path="/mylibrary" element={<LibraryPage />} /> */}
         <Route path="/bookstore" element={<BookStorePage />} />
         <Route path="/authentication" element={<AuthPage />} />
         <Route path="/forgottenpassword" element={<ForgotPassword />} />
@@ -132,6 +133,9 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/getbook" element={<GetBook />} />
         <Route path="*" element={<ErrorPage />} />
+        <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+         <Route path="/helpCenter" element={<HelpCenter />} />
+
 
         {/* Public Routes for Footer  */}
         <Route path="/faqS" element={<FAQ />} />

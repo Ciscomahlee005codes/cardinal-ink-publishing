@@ -5,17 +5,24 @@ const useCategory = () => {
   const [Categories, setCategories] = useState([]);
 
   useEffect(() => {
-    const cotegoryRequest = async () => {
+    const fetchCategories = async () => {
       try {
-        const requestAllBooks = await endPoint.get("/categories");
-        const res = requestAllBooks.data;
-        setCategories(res.data);
+        const response = await endPoint.get("/categories");
+        const res = response.data;
+
+        // 🧠 Check if your data is nested or not
+        const data =
+          Array.isArray(res.data) ? res.data : res.data?.categories || [];
+
+        setCategories(data);
       } catch (error) {
-        console.error("Error", error);
+        console.error("Error fetching categories:", error);
       }
     };
-    cotegoryRequest();
+
+    fetchCategories();
   }, []);
+
   return { Categories };
 };
 
