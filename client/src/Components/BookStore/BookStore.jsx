@@ -6,24 +6,27 @@ import { StoreContext } from "../../Context/StoreContext";
 
 const BookStore = () => {
   const { bookCollection, loading, error } = useBooks();
-  const { Categories } = useCategory(); // ✅ Destructure Categories from useCategory
+  const { Categories } = useCategory();
   const { cartItems, addToCart } = useContext(StoreContext);
 
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [addedBooks, setAddedBooks] = useState({});
 
+  console.log("BOOK DATA:", bookCollection); // 👈🏽 debug this to confirm structure
+
   if (loading) return <div className="loading">Loading books...</div>;
   if (error) return <div className="error">{error}</div>;
 
-  // ✅ Use `.category` instead of `.name`
-  const categoryList = ["All", ...(Categories?.map(cat => cat.category) || [])];
+  const categoryList = ["All", ...(Categories?.map((cat) => cat.category) || [])];
 
-  // ✅ Fix filtering logic
+  // ✅ Fixed filtering logic
   const filteredBooks =
     selectedCategory === "All"
       ? bookCollection
       : bookCollection.filter(
-          (book) => book.category === selectedCategory
+          (book) =>
+            book.category?.category?.toLowerCase() ===
+            selectedCategory.toLowerCase()
         );
 
   const handleAddToCart = (bookId) => {
@@ -71,7 +74,6 @@ const BookStore = () => {
           Browse all your favorite books across category and collections.
         </p>
 
-        {/* ✅ Render filter buttons using fetched categories */}
         <div className="filters">
           {categoryList.map((category) => (
             <button
