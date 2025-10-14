@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import "./BookStore.css";
 import useBooks from "../../Hooks/useBooks";
-import useCategory from "../../Hooks/useCategory"; 
+import useCategory from "../../Hooks/useCategory";
 import { StoreContext } from "../../Context/StoreContext";
 
 const BookStore = () => {
@@ -15,11 +15,10 @@ const BookStore = () => {
   if (loading) return <div className="loading">Loading books...</div>;
   if (error) return <div className="error">{error}</div>;
 
-  // ✅ Add "All" as default and spread the fetched categories
-   const categoryList = ["All", ...(Categories?.map(cat => cat.name) || [])];
+  // ✅ Use `.category` instead of `.name`
+  const categoryList = ["All", ...(Categories?.map(cat => cat.category) || [])];
 
-
-  // ✅ Fix filtering logic (use correct property name and casing)
+  // ✅ Fix filtering logic
   const filteredBooks =
     selectedCategory === "All"
       ? bookCollection
