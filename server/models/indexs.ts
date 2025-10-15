@@ -1,7 +1,7 @@
-const Users = require("./users.ts");
-const purchasesAndDownloads = require("./purchasesAndDownloads.ts");
-const transactions = require("./transactions.ts");
-const books = require("./books.ts");
+const Users = require("./users");
+const purchasesAndDownloads = require("./purchasesAndDownloads");
+const transactions = require("./transactions");
+const books = require("./books");
 const categories = require("./categories");
 const notification = require("./notification");
 
