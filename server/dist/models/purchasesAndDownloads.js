@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const dB = require("../config/db/db.ts");
+const dB = require("../config/db/db");
 const { DataTypes } = require("sequelize");
 const PurchasesAndDownloads = dB.define("users_purchases_and_downloads", {
     id: {

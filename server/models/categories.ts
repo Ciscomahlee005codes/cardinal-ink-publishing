@@ -1,4 +1,4 @@
-const dB = require("../config/db/db.ts");
+const dB = require("../config/db/db");
 const { DataTypes } = require("sequelize");
 
 const categories = dB.define(
