@@ -97,20 +97,27 @@ exports.loginUser = async (req, res) => {
         }
         const generateOtpToken = generateOtp(6);
         const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
+        console.log("reached");
         await Users.update({
             otp: generateOtpToken,
             otpExpiry: otpExpiry,
         }, {
             where: { id: checkIfEmailExists.id },
         });
+        console.log("passed");
         //logic to send otp to email
-        mailer(`${checkIfEmailExists.firstname} ${checkIfEmailExists.lastname}`, email, "authentication Verification", ` <div class="lead">
-        Use the verification code below to complete your action. This code is valid for <strong>5 minutes</strong>.
-      </div>
-      <div class="otp-box">
-        <div class="otp-code">${generateOtpToken}</div>
-        <div class="otp-note">If you didn't request this, please ignore this email.</div>
-      </div> `);
+        // mailer(
+        //   `${checkIfEmailExists.firstname} ${checkIfEmailExists.lastname}`,
+        //   email,
+        //   "authentication Verification",
+        //   ` <div class="lead">
+        //     Use the verification code below to complete your action. This code is valid for <strong>5 minutes</strong>.
+        //   </div>
+        //   <div class="otp-box">
+        //     <div class="otp-code">${generateOtpToken}</div>
+        //     <div class="otp-note">If you didn't request this, please ignore this email.</div>
+        //   </div> `
+        // );
         return res?.json({
             status: true,
             message: "authentication successful. OTP sent to your email",
