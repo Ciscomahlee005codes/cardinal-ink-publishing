@@ -2,18 +2,12 @@ const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
   host: `${process.env.EMAIL_HOST}`,
-  port: 465,
-  secure: true,
+  port: Number(process.env.EMAIL_PORT),
+  secure: Boolean(process.env.EMAIL_SECURED),
   auth: {
     user: process.env.EMAIL_USERNAME,
     pass: process.env.EMAIL_PASSWORD,
   },
-  tls: {
-    rejectUnauthorized: false, // helps bypass some proxy restrictions
-  },
-  connectionTimeout: 60 * 1000, // ⏳ 60 seconds
-  greetingTimeout: 60 * 1000, // ⏳ 30 seconds
-  socketTimeout: 60 * 1000,
 });
 
 async function mailer(
