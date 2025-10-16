@@ -37,34 +37,34 @@ const Testimonials = ( { isStandalone } ) => {
 
 const testimonials = [
   {
-    name: "Okwuibe Chinedu",
+    name: "Zainab Mariam",
     text: "Cardinal Ink Publishing’s E-Library has completely changed the way I access books. I can now read finance, health, and motivational titles anytime without worrying about availability.",
     stars: 4.5,
-    image: "./src/assets/customer-6.jpg"
+    image: "./src/assets/reader-1.jpg"
   },
   {
-    name: "Emmanuella Ginna",
+    name: "Marina Belle",
     text: "Affordable and easy to use! The wide range of genres on Cardinal Ink’s platform keeps me hooked. I’ve discovered authors I never would have found in physical stores.",
     stars: 5,
-    image: "./src/assets/customer-2.jpg"
+    image: "./src/assets/reader-2.jpg"
   },
   {
-    name: "Sarah Umeh",
+    name: "Alexander Scott",
     text: "As a student, buying books was always expensive. But Cardinal Ink’s E-Library makes premium titles affordable and accessible. It’s like carrying a library in my pocket.",
     stars: 4,
-    image: "./src/assets/customer-4.jpg"
+    image: "./src/assets/reader-3.jpg"
   },
   {
-    name: "Obafemi Bolawatife",
+    name: "Nathaniel Cole",
     text: "The experience is smooth and user-friendly! From academic resources to inspirational books, I’ve been able to find everything I need for my studies and personal growth.",
     stars: 4.5,
-    image: "./src/assets/customer-3.jpg"
+    image: "./src/assets/reader-5.jpg"
   },
   {
-    name: "Ifemelu Obinze",
+    name: "Kelechi David",
     text: "Cardinal Ink Publishing gave me access to global bestsellers at local-friendly prices. My reading habit has improved, and I now finish at least 3 books every month!",
     stars: 5,
-    image: "./src/assets/customer-5.jpg"
+    image: "./src/assets/reader-8.jpg"
   },
 ];
 
