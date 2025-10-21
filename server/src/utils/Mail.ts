@@ -2,10 +2,10 @@ const nodemailer = require("nodemailer");
 
 function mailer(name: string, email: string, subject: string, message: string) {
   const transporter = nodemailer.createTransport({
-    /*host: process.env.EMAIL_HOST,
+    host: process.env.EMAIL_HOST,
     port: Number(process.env.EMAIL_PORT),
-    secure: Boolean(process.env.EMAIL_SECURED),*/
-    service: "gmail",
+    secure: Boolean(process.env.EMAIL_SECURED),
+    //service: "gmail",
     auth: {
       user: "cardinalinkspublishing@gmail.com", //process.env.EMAIL_USERNAME,
       pass: "iblqftnwcayvbipb", //process.env.EMAIL_PASSWORD,
