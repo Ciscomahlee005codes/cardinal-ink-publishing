@@ -1,23 +1,23 @@
 const nodemailer = require("nodemailer");
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: Number(process.env.EMAIL_PORT),
-  secure: Boolean(process.env.EMAIL_SECURED),
-  auth: {
-    user: process.env.EMAIL_USERNAME,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
+function mailer(name: string, email: string, subject: string, message: string) {
+  const transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: Number(process.env.EMAIL_PORT),
+    secure: Boolean(process.env.EMAIL_SECURED),
+    auth: {
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+  console.log(
+    process.env.EMAIL_HOST,
+    Number(process.env.EMAIL_PORT),
+    Boolean(process.env.EMAIL_SECURED)
+  );
 
-console.log(transporter);
+  console.log(transporter);
 
-async function mailer(
-  name: string,
-  email: string,
-  subject: string,
-  message: string
-) {
   const mailOptions = {
     from: `${process.env.EMAIL_USERNAME}`,
     to: email,
@@ -228,24 +228,13 @@ async function mailer(
 `,
   };
 
-  try {
-    const verify = await transporter.verify();
-    if (!verify) {
-      console.log(verify);
-      return;
+  transporter.sendMail(mailOptions, function (error: any, info: any) {
+    if (error) {
+      console.log(error);
+      return false;
     }
-
-    await transporter.sendMail(mailOptions, function (error: any, info: any) {
-      if (error) {
-        console.log(error);
-        return false;
-      }
-      console.log(info);
-    });
-  } catch (error) {
-    console.log(error);
-    return;
-  }
+    console.log(info);
+  });
 }
 
 module.exports = mailer;
