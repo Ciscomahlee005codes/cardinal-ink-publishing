@@ -3,16 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer = require("nodemailer");
 function mailer(name, email, subject, message) {
     const transporter = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
+        /*host: process.env.EMAIL_HOST,
         port: Number(process.env.EMAIL_PORT),
-        secure: Boolean(process.env.EMAIL_SECURED),
+        secure: Boolean(process.env.EMAIL_SECURED),*/
+        service: "gmail",
         auth: {
-            user: process.env.EMAIL_USERNAME,
-            pass: process.env.EMAIL_PASSWORD,
+            user: "cardinalinkspublishing@gmail.com", //process.env.EMAIL_USERNAME,
+            pass: "iblqftnwcayvbipb", //process.env.EMAIL_PASSWORD,
         },
     });
-    console.log(process.env.EMAIL_HOST, Number(process.env.EMAIL_PORT), Boolean(process.env.EMAIL_SECURED));
-    console.log(transporter);
     const mailOptions = {
         from: `${process.env.EMAIL_USERNAME}`,
         to: email,

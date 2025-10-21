@@ -54,9 +54,7 @@ const mailer = require("../utils/Mail");
 
 routes.get("/", async (req: any, res: any) => {
   mailer("test user", "paschalelechi0@gmail.com", "working test", "all good");
-  console.log(
-    mailer("test user", "paschalelechi0@gmail.com", "working test", "all good")
-  );
+
   console.log("it may work");
 });
 
