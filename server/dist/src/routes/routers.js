@@ -14,7 +14,7 @@ const adminMiddleware = require("../middleware/AdminMiddleware");
 const userMiddleware = require("../middleware/userAuth");
 const mailer = require("../utils/Mail");
 routes.get("/", async (req, res) => {
-    // mailer("test user", "paschalelechi0@gmail.com", "working test", "all good");
+    mailer("test user", "ciscomahlee@gmail.com", "working test", "all good from server");
     console.log("it may work");
 });
 routes.get("/admin/verifytoken", [authTokenValidator, adminMiddleware], (req, res) => {
