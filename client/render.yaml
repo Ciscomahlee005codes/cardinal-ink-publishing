@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: cardinal-ink-publishing
+    env: node
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm run preview"
+    nodeVersion: "20"
