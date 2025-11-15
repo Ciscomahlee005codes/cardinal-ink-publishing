@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
 async function DeleteFile(filePath) {
     fs.unlink(`${filePath}`, (err) => {
@@ -11,4 +9,5 @@ async function DeleteFile(filePath) {
     });
 }
 module.exports = DeleteFile;
+export {};
 //# sourceMappingURL=fileDelete.js.map

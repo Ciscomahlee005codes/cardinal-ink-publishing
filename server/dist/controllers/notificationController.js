@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const { notification } = require("../../models/indexs");
 exports.getAllNotificationsByUserId = async (req, res) => {
     try {
@@ -102,4 +100,5 @@ exports.deleteNotification = async (req, res) => {
         });
     }
 };
+export {};
 //# sourceMappingURL=notificationController.js.map

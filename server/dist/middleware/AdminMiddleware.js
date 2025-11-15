@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const { Users } = require("../../models/indexs");
 const adminRoleBasedAcess = async (req, res, next) => {
     try {
@@ -30,4 +28,5 @@ const adminRoleBasedAcess = async (req, res, next) => {
     }
 };
 module.exports = adminRoleBasedAcess;
+export {};
 //# sourceMappingURL=AdminMiddleware.js.map

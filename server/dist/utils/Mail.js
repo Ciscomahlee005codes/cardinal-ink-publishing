@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer = require("nodemailer");
 function mailer(name, email, subject, message) {
     const transporter = nodemailer.createTransport({
@@ -230,4 +228,5 @@ function mailer(name, email, subject, message) {
     });
 }
 module.exports = mailer;
+export {};
 //# sourceMappingURL=Mail.js.map

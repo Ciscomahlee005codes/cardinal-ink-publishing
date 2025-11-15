@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const { books, categories } = require("../../models/indexs");
 const upload = require("../middleware/uploads");
 const fs = require("fs");
@@ -207,4 +205,5 @@ exports.deleteBook = async (req, res) => {
         return res?.json({ status: false, message: "internal server error" });
     }
 };
+export {};
 //# sourceMappingURL=booksController.js.map

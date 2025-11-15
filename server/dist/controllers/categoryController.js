@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const categories = require("../../models/categories");
 exports.createCategory = async (req, res) => {
     try {
@@ -139,4 +137,5 @@ exports.deleteCategory = async (req, res) => {
         });
     }
 };
+export {};
 //# sourceMappingURL=categoryController.js.map

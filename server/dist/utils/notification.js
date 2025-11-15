@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const { notification } = require("../../models/indexs");
 module.exports = async function pushNotification(user_id, message, viewed, callbackurl) {
     try {
@@ -14,4 +12,5 @@ module.exports = async function pushNotification(user_id, message, viewed, callb
         console.log(error);
     }
 };
+export {};
 //# sourceMappingURL=notification.js.map

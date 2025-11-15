@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const jwt = require("jsonwebtoken");
 const authTokenValidator = async (req, res, next) => {
     try {
@@ -32,4 +30,5 @@ const authTokenValidator = async (req, res, next) => {
     }
 };
 module.exports = authTokenValidator;
+export {};
 //# sourceMappingURL=authTokenValidator.js.map

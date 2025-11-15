@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const { transactions, purchasesAndDownloads, Users, books, } = require("../../models/indexs");
 // const paypal = require("@paypal/paypal-server-sdk");
 // const payPalEnvironment = new paypal.core.SandboxEnvitonment(
@@ -163,4 +161,5 @@ exports.userTransactions = async (req, res) => {
         });
     }
 };
+export {};
 //# sourceMappingURL=transactionController.js.map

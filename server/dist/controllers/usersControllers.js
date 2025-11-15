@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const { Users } = require("../../models/indexs");
 const bcrypt = require("bcrypt");
 const mailer = require("../utils/Mail");
@@ -424,4 +422,5 @@ exports.getUserDetails = async (req, res) => {
         res.json({ status: false, message: "Internal server error" });
     }
 };
+export {};
 //# sourceMappingURL=usersControllers.js.map

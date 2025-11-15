@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const multer = require("multer");
 const path = require("path");
 // Define storage
@@ -17,4 +15,5 @@ const storage = multer.diskStorage({
 // Multer upload middleware
 const upload = multer({ storage });
 module.exports = upload;
+export {};
 //# sourceMappingURL=uploads.js.map

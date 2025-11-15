@@ -1,6 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const console = require("console");
+import { createRequire as _createRequire } from "module";
+const __require = _createRequire(import.meta.url);
+const console = __require("console");
 const express = require("express");
 const routes = express.Router();
 const { createNewBook, allBooks, Books, editBook, deleteBook, } = require("../controllers/booksController");

@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const { purchasesAndDownloads, books } = require("../../models/indexs");
 exports.userPurchasedBooks = async (req, res) => {
     try {
@@ -26,4 +24,5 @@ exports.userPurchasedBooks = async (req, res) => {
         });
     }
 };
+export {};
 //# sourceMappingURL=purchasedAndDownloadsController.js.map

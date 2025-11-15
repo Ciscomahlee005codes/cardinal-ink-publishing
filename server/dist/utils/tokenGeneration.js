@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 function generateOtp(length) {
     const characters = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
     let result = "";
@@ -10,4 +8,5 @@ function generateOtp(length) {
     return result;
 }
 module.exports = generateOtp;
+export {};
 //# sourceMappingURL=tokenGeneration.js.map
